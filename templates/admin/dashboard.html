@@ -2,47 +2,52 @@
 
 {% block extra_css %}
 <style>
-    /* Estilos Premium para Tarjetas KPI del Dashboard (Gold Glow & Shimmer) */
+    /* Estilos Premium para Tarjetas KPI del Dashboard (Glam Pink Glow & Shimmer) */
     .kpi-card {
         position: relative;
         overflow: hidden;
-        background: linear-gradient(150deg, #FFFFFF 0%, #FAFAFC 60%, #FFFDF6 100%);
-        border: 1.5px solid rgba(229, 231, 235, 0.95);
+        background: #FFFFFF !important;
+        border: 1px solid #FCE7F3 !important;
         border-radius: 20px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.035);
+        box-shadow: 0 4px 16px rgba(255, 20, 147, 0.05);
         transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    .kpi-card-gold {
-        border-color: rgba(212, 175, 55, 0.38) !important;
-        background: linear-gradient(150deg, #FFFFFF 0%, #FFFEFA 50%, #FFF9E9 100%) !important;
+    .kpi-card-gold, .kpi-card-pink {
+        border-color: #FCE7F3 !important;
+        background: #FFFFFF !important;
     }
     
-    /* Destello de luz ambiental en la esquina */
-    .kpi-card-gold::before {
+    /* Destello de luz ambiental en la esquina Rosa Neón Glam (100% libre de dorado) */
+    .kpi-card::before, .kpi-card-gold::before, .kpi-card-pink::before {
         content: '';
         position: absolute;
-        top: -40px;
-        right: -40px;
-        width: 130px;
-        height: 130px;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, rgba(243, 208, 121, 0.08) 50%, transparent 75%);
+        top: -45px;
+        right: -45px;
+        width: 145px;
+        height: 145px;
+        background: radial-gradient(circle, rgba(255, 20, 147, 0.28) 0%, rgba(244, 114, 182, 0.10) 50%, transparent 75%);
         border-radius: 50%;
         pointer-events: none;
         z-index: 1;
+        transition: all 0.3s ease;
+    }
+    .kpi-card:hover::before {
+        transform: scale(1.15);
+        background: radial-gradient(circle, rgba(255, 20, 147, 0.38) 0%, rgba(244, 114, 182, 0.16) 55%, transparent 80%);
     }
 
-    /* Animación de Destello Shimmer Dorado */
+    /* Animación de Destello Shimmer Rosa Neón Glam */
     .kpi-shimmer::after {
         content: '';
         position: absolute;
         top: 0;
         left: -150%;
-        width: 80%;
+        width: 85%;
         height: 100%;
-        background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.15) 50%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 20, 147, 0.26) 50%, transparent 100%);
         transform: skewX(-25deg);
-        animation: kpiShimmerMove 6s infinite ease-in-out;
+        animation: kpiShimmerMove 5s infinite ease-in-out;
         pointer-events: none;
         z-index: 2;
     }
@@ -55,8 +60,8 @@
 
     .kpi-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 28px -4px rgba(212, 175, 55, 0.22), 0 4px 14px rgba(0, 0, 0, 0.05);
-        border-color: #D4AF37 !important;
+        box-shadow: 0 12px 28px -4px rgba(255, 20, 147, 0.25), 0 4px 14px rgba(255, 20, 147, 0.08);
+        border-color: #FF1493 !important;
     }
 
     /* Cajas de Iconos Superiores */
@@ -77,15 +82,16 @@
         transform: scale(1.1);
     }
     
-    .kpi-icon-gold {
-        background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
-        color: #111827;
-        box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+    .kpi-icon-gold, .kpi-icon-pink {
+        background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%);
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 14px rgba(255, 20, 147, 0.38);
     }
     .kpi-icon-dark {
-        background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
-        color: #D4AF37;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        background: #FFF1F7;
+        color: #FF1493;
+        border: 1px solid #FCE7F3;
+        box-shadow: 0 4px 12px rgba(255, 20, 147, 0.12);
     }
     .kpi-icon-danger {
         background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
@@ -99,27 +105,28 @@
     }
 
     /* Badges de Periodo */
-    .kpi-badge-gold {
-        background: rgba(212, 175, 55, 0.12);
-        color: #926C09;
-        border: 1px solid rgba(212, 175, 55, 0.35);
+    .kpi-badge-gold, .kpi-badge-pink {
+        background: #FFF1F7;
+        color: #FF1493;
+        border: 1px solid #FCE7F3;
         font-weight: 700;
         font-size: 0.72rem;
         letter-spacing: 0.5px;
     }
     .kpi-badge-dark {
-        background: #1F2937;
-        color: #F9FAFB;
+        background: #FFF1F7;
+        color: #FF1493;
+        border: 1px solid #FCE7F3;
         font-weight: 700;
         font-size: 0.72rem;
     }
 
     /* Contenedor de detalles secundarios */
     .kpi-details-box {
-        background: rgba(248, 250, 252, 0.85);
+        background: #FFFFFF;
         border-radius: 10px;
         padding: 0.45rem 0.65rem;
-        border: 1px solid #EEF2F6;
+        border: 1px solid #FCE7F3;
     }
 
     /* Cifras Grandes */
@@ -259,27 +266,27 @@
   </div>
 </div>
 
-<!-- FILA 1: Métricas Principales Dinámicas del Periodo (4 Tarjetas con Destello Dorado) -->
+<!-- FILA 1: Métricas Principales Dinámicas del Periodo (4 Tarjetas con Destello Rosa Neón) -->
 <div class="row g-3 mb-4">
-    <!-- 1. Tarjeta: Ingresos Totales del Periodo (Destello Shimmer Dorado) -->
+    <!-- 1. Tarjeta: Ingresos Totales del Periodo (Destello Shimmer Rosa Neón) -->
     <div class="col-md-3">
-        <div class="kpi-card kpi-card-gold kpi-shimmer h-100 p-4 d-flex flex-column">
+        <div class="kpi-card kpi-card-pink kpi-shimmer h-100 p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
-                <div class="kpi-icon-box kpi-icon-gold">
+                <div class="kpi-icon-box kpi-icon-pink">
                     <i class="fa-solid fa-sack-dollar"></i>
                 </div>
-                <span class="badge kpi-badge-gold rounded-pill px-3 py-1">
-                    <i class="fa-solid fa-sparkles me-1 text-warning"></i>{{ badge_periodo }}
+                <span class="badge kpi-badge-pink rounded-pill px-3 py-1">
+                    <i class="fa-solid fa-sparkles me-1" style="color: #FF1493;"></i>{{ badge_periodo }}
                 </span>
             </div>
             
             <h6 class="text-muted fw-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Ingresos ({{ tipo_periodo_nombre }})</h6>
             <h2 class="kpi-main-number mb-1 text-dark">${{ (total_ventas)|cop }}</h2>
-            <p class="text-muted small mb-3"><i class="fa-solid fa-receipt me-1 text-primary"></i> <strong>{{ conteo_ventas }}</strong> ventas realizadas</p>
+            <p class="text-muted small mb-3"><i class="fa-solid fa-receipt me-1" style="color: #FF1493;"></i> <strong>{{ conteo_ventas }}</strong> ventas realizadas</p>
             
             <div class="kpi-details-box d-flex justify-content-between text-muted small mb-3">
                 <span title="Efectivo en caja"><i class="fa-solid fa-money-bill-wave text-success me-1"></i><strong>${{ (ventas_efectivo)|cop }}</strong></span>
-                <span title="Canales digitales (Nequi, Bancolombia, etc.)"><i class="fa-solid fa-network-wired text-primary me-1"></i><strong>${{ (ventas_transferencia)|cop }}</strong></span>
+                <span title="Canales digitales (Nequi, Bancolombia, etc.)"><i class="fa-solid fa-network-wired me-1" style="color: #FF1493;"></i><strong>${{ (ventas_transferencia)|cop }}</strong></span>
             </div>
 
             <div class="mt-auto">
@@ -291,26 +298,26 @@
         </div>
     </div>
 
-    <!-- 2. Tarjeta: Unidades Vendidas en el Periodo -->
+    <!-- 2. Tarjeta: Unidades Vendidas en el Periodo (Destello Shimmer Rosa Neón) -->
     <div class="col-md-3">
-        <div class="kpi-card kpi-card-gold h-100 p-4 d-flex flex-column">
+        <div class="kpi-card kpi-card-pink kpi-shimmer h-100 p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
-                <div class="kpi-icon-box kpi-icon-dark">
+                <div class="kpi-icon-box kpi-icon-pink">
                     <i class="fa-solid fa-cubes"></i>
                 </div>
-                <span class="badge kpi-badge-dark rounded-pill px-3 py-1">{{ badge_periodo }}</span>
+                <span class="badge kpi-badge-pink rounded-pill px-3 py-1">{{ badge_periodo }}</span>
             </div>
             
             <h6 class="text-muted fw-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Mercancía Vendida</h6>
             <h2 class="kpi-main-number mb-1 text-dark">{{ unidades_vendidas }} <span class="fs-5 fw-bold text-muted">uds.</span></h2>
-            <p class="text-muted small mb-3"><i class="fa-solid fa-tag me-1 text-warning"></i> <strong>{{ referencias_vendidas }}</strong> referencias vendidas</p>
+            <p class="text-muted small mb-3"><i class="fa-solid fa-tag me-1" style="color: #FF1493;"></i> <strong>{{ referencias_vendidas }}</strong> referencias vendidas</p>
 
             <div class="kpi-details-box text-muted small mb-3">
-                <i class="fa-solid fa-boxes-stacked text-primary me-1"></i> Total en catálogo: <strong>{{ total_productos }}</strong> referencias
+                <i class="fa-solid fa-boxes-stacked me-1" style="color: #FF1493;"></i> Total en catálogo: <strong>{{ total_productos }}</strong> referencias
             </div>
 
             <div class="mt-auto">
-                <a href="/inventory/" class="btn btn-dark-graphite w-100 rounded-pill py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+                <a href="/inventory/" class="btn btn-pink w-100 rounded-pill py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-sliders"></i>
                     <span>Gestionar Inventario</span>
                 </a>
@@ -346,14 +353,14 @@
         </div>
     </div>
 
-    <!-- 4. Tarjeta: Utilidad Estimada del Periodo (Destello Shimmer Dorado/Verde) -->
+    <!-- 4. Tarjeta: Utilidad Estimada del Periodo (Destello Shimmer Rosa Neón) -->
     <div class="col-md-3">
-        <div class="kpi-card {% if utilidad_neta >= 0 %}kpi-card-gold kpi-shimmer{% endif %} h-100 p-4 d-flex flex-column">
+        <div class="kpi-card {% if utilidad_neta >= 0 %}kpi-card-pink kpi-shimmer{% endif %} h-100 p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
                 <div class="kpi-icon-box {% if utilidad_neta >= 0 %}kpi-icon-success{% else %}kpi-icon-danger{% endif %}">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <span class="badge {% if utilidad_neta >= 0 %}kpi-badge-gold{% else %}bg-danger bg-opacity-10 text-danger{% endif %} rounded-pill px-3 py-1">
+                <span class="badge {% if utilidad_neta >= 0 %}kpi-badge-pink{% else %}bg-danger bg-opacity-10 text-danger{% endif %} rounded-pill px-3 py-1">
                     {{ badge_periodo }}
                 </span>
             </div>
@@ -402,7 +409,7 @@
             </div>
 
             <div class="mt-auto">
-                <a href="/inventory/" class="btn btn-dark-graphite w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
+                <a href="/inventory/" class="btn btn-outline-pink w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-eye"></i>
                     <span>Revisar Urgencias</span>
                 </a>
@@ -412,26 +419,26 @@
 
     <!-- 6. Tarjeta: Gestión de Proveedores -->
     <div class="col-lg-4 col-md-6">
-        <div class="kpi-card h-100 p-4 d-flex flex-column">
+        <div class="kpi-card kpi-card-pink kpi-shimmer h-100 p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
-                <div class="kpi-icon-box" style="background: rgba(139, 92, 246, 0.14); color: #7C3AED;">
+                <div class="kpi-icon-box" style="background: rgba(255, 20, 147, 0.12); color: #FF1493;">
                     <i class="fa-solid fa-truck-field"></i>
                 </div>
-                <span class="badge kpi-badge-dark rounded-pill px-3 py-1">{{ badge_periodo }}</span>
+                <span class="badge kpi-badge-pink rounded-pill px-3 py-1">{{ badge_periodo }}</span>
             </div>
             
             <h6 class="text-muted fw-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Abonos a Proveedores</h6>
             <h2 class="kpi-main-number mb-1 text-dark">${{ (pagos_proveedores_periodo)|cop }}</h2>
             <p class="text-muted small mb-3">
-                <i class="fa-solid fa-receipt me-1 text-purple" style="color: #7C3AED;"></i> <strong>{{ conteo_pagos_prov }}</strong> abonos pagados en el periodo
+                <i class="fa-solid fa-receipt me-1" style="color: #FF1493;"></i> <strong>{{ conteo_pagos_prov }}</strong> abonos pagados en el periodo
             </p>
 
             <div class="kpi-details-box text-muted small mb-3">
-                <i class="fa-solid fa-folder-open me-1 text-purple" style="color: #7C3AED;"></i> Cuentas por pagar, compras y abonos
+                <i class="fa-solid fa-folder-open me-1" style="color: #FF1493;"></i> Cuentas por pagar, compras y abonos
             </div>
 
             <div class="mt-auto">
-                <a href="/proveedores" class="btn btn-dark-graphite w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
+                <a href="/proveedores" class="btn btn-outline-pink w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-folder-open"></i>
                     <span>Abrir Proveedores</span>
                 </a>
@@ -441,12 +448,12 @@
 
     <!-- 7. Tarjeta: Historial de Aprobaciones de Precios -->
     <div class="col-lg-4 col-md-6">
-        <div class="kpi-card h-100 p-4 d-flex flex-column">
+        <div class="kpi-card kpi-card-pink kpi-shimmer h-100 p-4 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
-                <div class="kpi-icon-box" style="background: rgba(236, 72, 153, 0.14); color: #DB2777;">
+                <div class="kpi-icon-box" style="background: rgba(255, 20, 147, 0.12); color: #FF1493;">
                     <i class="fa-solid fa-stamp"></i>
                 </div>
-                <span class="badge kpi-badge-dark rounded-pill px-3 py-1">{{ badge_periodo }}</span>
+                <span class="badge kpi-badge-pink rounded-pill px-3 py-1">{{ badge_periodo }}</span>
             </div>
             
             <h6 class="text-muted fw-bold mb-1" style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px;">Aprobaciones de Precios</h6>
@@ -460,7 +467,7 @@
             </div>
 
             <div class="mt-auto">
-                <a href="{{ url_for('admin_bp.aprobaciones') }}" class="btn btn-dark-graphite w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
+                <a href="{{ url_for('admin_bp.aprobaciones') }}" class="btn btn-outline-pink w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Ver Historial</span>
                 </a>

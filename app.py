@@ -264,6 +264,8 @@ def create_app():
         from flask import send_from_directory, make_response
         resp = make_response(send_from_directory('static', 'sw.js', mimetype='application/javascript'))
         resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        resp.headers['Service-Worker-Allowed'] = '/'
+        resp.headers['Content-Type'] = 'application/javascript; charset=utf-8'
         return resp
 
     @app.route('/manifest.json')
@@ -271,6 +273,7 @@ def create_app():
         from flask import send_from_directory, make_response
         resp = make_response(send_from_directory('static', 'manifest.json', mimetype='application/manifest+json'))
         resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
 
     @app.route('/offline')

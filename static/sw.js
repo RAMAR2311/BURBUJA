@@ -1,8 +1,8 @@
-const CACHE_NAME = 'mycase-pwa-v1';
+const CACHE_NAME = 'mycase-pwa-v2';
 
 const PRECACHE_ASSETS = [
-    '/',
     '/offline',
+    '/manifest.json',
     '/static/manifest.json',
     '/static/favicon.ico',
     '/static/img/icons/icon-192x192.png',
@@ -13,14 +13,18 @@ const PRECACHE_ASSETS = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
 ];
 
-// Instalación: Precarga de recursos clave
+// Instalación: Precarga resiliente de recursos clave
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then((cache) => {
-                return cache.addAll(PRECACHE_ASSETS).catch((err) => {
-                    console.warn('[SW] Aviso: Algunos recursos precacheados fallaron (continuando):', err);
-                });
+            .then(async (cache) => {
+                for (const asset of PRECACHE_ASSETS) {
+                    try {
+                        await cache.add(asset);
+                    } catch (e) {
+                        console.warn('[SW] Aviso: recurso precache ignorado:', asset, e);
+                    }
+                }
             })
             .then(() => self.skipWaiting())
     );

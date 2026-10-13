@@ -10,7 +10,24 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=mycase_v1">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=mycase_v1">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1">
-    <link rel="manifest" href="/manifest.json?v=mycase_v1">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        // Captura anticipada del evento de instalación nativa PWA
+        window.deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredPrompt = e;
+            console.log('[PWA] beforeinstallprompt listo.');
+            const showElements = () => {
+                document.querySelectorAll('.pwa-install-trigger').forEach(el => el.classList.remove('d-none'));
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', showElements);
+            } else {
+                showElements();
+            }
+        });
+    </script>
     
     <!-- Meta tags PWA para Android, iOS y Navegadores Modernos -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -466,6 +483,17 @@
             box-shadow: var(--brand-neon-glow);
         }
 
+        /* Pestañas Modal PWA Glam */
+        #pwaTab .nav-link {
+            color: #71717A;
+            transition: all 0.2s ease;
+        }
+        #pwaTab .nav-link.active {
+            background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%) !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3) !important;
+        }
+
         /* Botón Salir Elegante */
         .btn-sidebar-logout {
             background: #FFF5F7;
@@ -546,8 +574,17 @@
                 </a>
             </div>
 
-            <!-- Columna Derecha: Badge Notificaciones y Servidor Zenic -->
+            <!-- Columna Derecha: Descargar App, Badge Notificaciones y Servidor Zenic -->
             <div class="d-flex align-items-center justify-content-end gap-1 gap-md-2" style="min-width: 44px;">
+                <!-- Botón Navbar Descargar App PWA -->
+                <button type="button" 
+                        class="btn btn-sm px-2 px-md-3 py-1 rounded-pill fw-bold d-flex align-items-center gap-1 shadow-sm text-nowrap pwa-install-trigger"
+                        style="background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%); color: #FFFFFF; border: none; font-size: 0.78rem; box-shadow: 0 2px 10px rgba(255, 20, 147, 0.25) !important;"
+                        onclick="triggerPWAInstall()"
+                        title="Descargar / Instalar aplicación My Case">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span class="d-none d-md-inline">Descargar App</span>
+                </button>
                 {% if current_user.is_authenticated and current_user.rol == 'admin' %}
                     <div id="admin_approval_badge_btn" style="display: none;" class="me-1">
                         <span class="badge rounded-pill px-2 py-1 shadow-sm d-flex align-items-center gap-1" style="font-size: 0.78rem; background: var(--brand-gradient); color: #FFFFFF;">
@@ -744,12 +781,13 @@
                 {% endif %}
             </div>
             
-            <!-- Botón Instalar App PWA (Visible en dispositivos compatibles) -->
-            <div class="pt-3 pb-2 d-none" id="pwa-install-container">
-                <button class="btn btn-sidebar-pwa w-100 d-flex align-items-center justify-content-center gap-2" 
-                        onclick="triggerPWAInstall()">
-                    <i class="fa-solid fa-mobile-screen-button fs-5"></i> 
-                    <span>Instalar App PWA</span>
+            <!-- Botón Descargar App My Case (PWA) -->
+            <div class="pt-3 pb-2" id="pwa-install-container">
+                <button class="btn btn-sidebar-pwa w-100 d-flex align-items-center justify-content-center gap-2 pwa-install-trigger" 
+                        onclick="triggerPWAInstall()"
+                        title="Descargar / Instalar My Case">
+                    <i class="fa-solid fa-cloud-arrow-down fs-5"></i> 
+                    <span>Descargar App My Case</span>
                 </button>
             </div>
 
@@ -1194,6 +1232,97 @@
     {% endif %}
 
 
+    <!-- Modal Instrucciones de Instalación / Descarga PWA My Case -->
+    <div class="modal fade" id="modalInstalarPwa" tabindex="-1" aria-labelledby="modalInstalarPwaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #FFFFFF; border: 1px solid #FCE7F3 !important;">
+                <div class="modal-header border-0 py-3" style="background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%); color: #FFFFFF;">
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="/static/img/icons/icon-192x192.png" alt="My Case Logo" class="rounded-circle shadow-sm" style="width: 38px; height: 38px; object-fit: contain; border: 2px solid #FFFFFF; background: #FFFFFF;">
+                        <div>
+                            <h5 class="modal-title fw-bold m-0" id="modalInstalarPwaLabel" style="font-family: var(--font-heading); font-size: 1.15rem;">Descargar App My Case</h5>
+                            <span style="font-size: 0.72rem; opacity: 0.95;">Instalación rápida en tu celular o computador</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                
+                <div class="modal-body p-4" style="background-color: #FFFFFF;">
+                    <!-- Navegación de Pestañas por Dispositivo -->
+                    <ul class="nav nav-pills nav-fill mb-3 p-1 rounded-pill" style="background: #FFF1F7; border: 1px solid #FCE7F3;" id="pwaTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rounded-pill fw-bold py-1 px-2" style="font-size: 0.8rem;" id="pwa-android-tab" data-bs-toggle="pill" data-bs-target="#pwa-android" type="button" role="tab">
+                                <i class="fa-brands fa-android me-1 text-success"></i> Android
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-bold py-1 px-2" style="font-size: 0.8rem;" id="pwa-apple-tab" data-bs-toggle="pill" data-bs-target="#pwa-apple" type="button" role="tab">
+                                <i class="fa-brands fa-apple me-1 text-dark"></i> iPhone/iPad
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-bold py-1 px-2" style="font-size: 0.8rem;" id="pwa-pc-tab" data-bs-toggle="pill" data-bs-target="#pwa-pc" type="button" role="tab">
+                                <i class="fa-solid fa-desktop me-1" style="color: #FF1493;"></i> PC / Mac
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="pwaTabContent">
+                        <!-- Pestaña Android -->
+                        <div class="tab-pane fade show active" id="pwa-android" role="tabpanel">
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-solid fa-mobile-screen-button me-2"></i>Instalación en Android (Chrome / Edge):</h6>
+                                <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
+                                    <li>Toca el menú de tu navegador (los <strong>tres puntos ⋮</strong> arriba a la derecha).</li>
+                                    <li>Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
+                                    <li>Toca <strong>"Instalar"</strong>. My Case quedará instalada como App nativa.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Pestaña Apple iOS -->
+                        <div class="tab-pane fade" id="pwa-apple" role="tabpanel">
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-brands fa-apple me-2"></i>Instalación en iPhone / iPad (Safari):</h6>
+                                <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
+                                    <li>Abre esta página en el navegador <strong>Safari</strong>.</li>
+                                    <li>Pulsa el botón <strong>Compartir</strong> (<i class="fa-solid fa-arrow-up-from-bracket" style="color: #FF1493;"></i> el cuadro con flecha hacia arriba en la barra inferior).</li>
+                                    <li>Deslízate hacia abajo y selecciona <strong>"Agregar a pantalla de inicio"</strong> (<i class="fa-regular fa-square-plus" style="color: #FF1493;"></i>).</li>
+                                    <li>Pulsa <strong>"Agregar"</strong> arriba a la derecha. ¡Listo!</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Pestaña PC / Windows / Mac -->
+                        <div class="tab-pane fade" id="pwa-pc" role="tabpanel">
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-solid fa-laptop me-2"></i>Instalación en PC / Laptop (Chrome / Edge):</h6>
+                                <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
+                                    <li>En la barra de direcciones (junto a la estrella de favoritos), haz clic en el ícono de <strong>Instalar</strong> (<i class="fa-solid fa-laptop-arrow-down" style="color: #FF1493;"></i>).</li>
+                                    <li>O haz clic en los <strong>tres puntos (⋮)</strong> > <strong>"Instalar My Case..."</strong>.</li>
+                                    <li>Haz clic en <strong>Instalar</strong>. Se abrirá como aplicación de escritorio independiente.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-light border d-flex align-items-center gap-2 py-2 px-3 rounded-3 mb-0" style="border-color: #FCE7F3 !important; font-size: 0.78rem;">
+                        <i class="fa-solid fa-bolt-lightning fs-5" style="color: #FF1493;"></i>
+                        <span class="text-muted">La App instalada carga al instante, funciona sin barras del navegador y agiliza las ventas.</span>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0 pt-0 px-4 pb-4 gap-2">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal" style="border: 1px solid #E4E4E7;">Cerrar</button>
+                    <button type="button" class="btn btn-pink rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2" onclick="reintentarInstalacionNativa()">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                        <span>Instalar Automáticamente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Registro del Service Worker para soporte PWA y Offline
         if ('serviceWorker' in navigator) {
@@ -1218,34 +1347,73 @@
         }
 
         // Manejador del evento de instalación nativa PWA (Android / Windows / Chrome)
-        let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
-            deferredPrompt = e;
-            const container = document.getElementById('pwa-install-container');
-            if (container) {
-                container.classList.remove('d-none');
-            }
+            window.deferredPrompt = e;
+            console.log('[PWA] beforeinstallprompt listo para ejecutar prompt nativo');
         });
 
         function triggerPWAInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
+            if (window.deferredPrompt) {
+                window.deferredPrompt.prompt();
+                window.deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         console.log('[PWA] El usuario aceptó la instalación de My Case');
+                        const modalEl = document.getElementById('modalInstalarPwa');
+                        if (modalEl && typeof bootstrap !== 'undefined') {
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            if (modal) modal.hide();
+                        }
+                    } else {
+                        console.log('[PWA] El usuario declinó la instalación');
                     }
-                    deferredPrompt = null;
-                    const container = document.getElementById('pwa-install-container');
-                    if (container) container.classList.add('d-none');
+                    window.deferredPrompt = null;
+                }).catch((err) => {
+                    console.warn('[PWA] Error en userChoice:', err);
+                    abrirModalGuiaPWA();
                 });
+            } else {
+                // Si el navegador no permite el prompt automático inmediato (iOS Safari, navegador de escritorio o permisos guardados)
+                abrirModalGuiaPWA();
+            }
+        }
+
+        function reintentarInstalacionNativa() {
+            if (window.deferredPrompt) {
+                triggerPWAInstall();
+            } else {
+                abrirModalGuiaPWA();
+            }
+        }
+
+        function abrirModalGuiaPWA() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            const modalEl = document.getElementById('modalInstalarPwa');
+            if (modalEl && typeof bootstrap !== 'undefined') {
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.show();
+                setTimeout(() => {
+                    if (isIOS) {
+                        const tabBtn = document.getElementById('pwa-apple-tab');
+                        if (tabBtn) bootstrap.Tab.getOrCreateInstance(tabBtn).show();
+                    } else if (isAndroid) {
+                        const tabBtn = document.getElementById('pwa-android-tab');
+                        if (tabBtn) bootstrap.Tab.getOrCreateInstance(tabBtn).show();
+                    } else {
+                        const tabBtn = document.getElementById('pwa-pc-tab');
+                        if (tabBtn) bootstrap.Tab.getOrCreateInstance(tabBtn).show();
+                    }
+                }, 150);
+            } else {
+                alert("Para instalar My Case:\n• En Android: Menú (⋮) > 'Instalar aplicación'.\n• En iPhone/iPad: Compartir > 'Agregar a pantalla de inicio'.\n• En PC: Clic en el ícono de instalar en la barra de direcciones.");
             }
         }
 
         window.addEventListener('appinstalled', () => {
             console.log('[PWA] My Case fue instalada satisfactoriamente');
-            const container = document.getElementById('pwa-install-container');
-            if (container) container.classList.add('d-none');
+            window.deferredPrompt = null;
         });
     </script>
 

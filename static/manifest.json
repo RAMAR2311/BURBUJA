@@ -3,12 +3,13 @@
     "name": "My Case - Accesorios para tu celular",
     "short_name": "My Case",
     "description": "Sistema integral de gestión de inventario, punto de venta y finanzas My Case - Accesorios para tu celular",
-    "start_url": "/?source=pwa",
+    "start_url": "/",
     "scope": "/",
     "display": "standalone",
     "orientation": "any",
     "background_color": "#FFFFFF",
     "theme_color": "#FF1493",
+    "prefer_related_applications": false,
     "categories": [
         "business",
         "finance",
@@ -16,25 +17,25 @@
     ],
     "icons": [
         {
-            "src": "/static/img/icons/icon-192x192.png?v=mycase_v1",
+            "src": "/static/img/icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/static/img/icons/icon-192x192.png?v=mycase_v1",
+            "src": "/static/img/icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "/static/img/icons/icon-512x512.png?v=mycase_v1",
+            "src": "/static/img/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/static/img/icons/icon-512x512.png?v=mycase_v1",
+            "src": "/static/img/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
@@ -46,14 +47,14 @@
             "short_name": "Caja",
             "description": "Registrar venta en caja",
             "url": "/sales/caja_visual",
-            "icons": [{ "src": "/static/img/icons/icon-192x192.png?v=mycase_v1", "sizes": "192x192" }]
+            "icons": [{ "src": "/static/img/icons/icon-192x192.png", "sizes": "192x192" }]
         },
         {
             "name": "Arqueo de Caja",
             "short_name": "Arqueo",
             "description": "Consultar o realizar arqueo de caja",
             "url": "/arqueo/nuevo",
-            "icons": [{ "src": "/static/img/icons/icon-192x192.png?v=mycase_v1", "sizes": "192x192" }]
+            "icons": [{ "src": "/static/img/icons/icon-192x192.png", "sizes": "192x192" }]
         }
     ]
 }
