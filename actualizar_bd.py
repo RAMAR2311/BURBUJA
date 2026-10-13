@@ -29,6 +29,7 @@ def main():
             ("clientes", "local_numero", "VARCHAR(50)"),
             ("clientes", "notas", "TEXT"),
             ("price_approvals", "sale_id", "INTEGER"),
+            ("provider_payments", "metodo_pago", "VARCHAR(50) DEFAULT 'efectivo'"),
         ]
 
         for tabla, col, tipo in columnas_pg:

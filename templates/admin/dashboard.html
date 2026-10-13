@@ -142,7 +142,10 @@
 <!-- Cabecera y Barra de Filtros -->
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
     <div>
-        <h2 class="fw-bold text-brand-black mb-1">Dashboard Operativo</h2>
+        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+            <h2 class="fw-bold text-brand-black mb-0">Dashboard Operativo</h2>
+            <span class="brand-title-script text-brand-pink" style="font-size: 2.2rem; font-weight: normal; line-height: 1;">My Case</span>
+        </div>
         <p class="text-muted mb-2">¡Bienvenido al panel central, {{ current_user.nombre }}!</p>
         <div class="d-flex align-items-center gap-2">
             <span class="badge bg-white text-secondary border shadow-sm px-3 py-2 rounded-pill">

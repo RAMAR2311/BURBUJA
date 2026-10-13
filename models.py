@@ -459,6 +459,7 @@ class ProviderPayment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     provider_id = db.Column(db.Integer, db.ForeignKey('providers.id'), nullable=False)
     monto_abonado = db.Column(db.Numeric(10, 2), nullable=False)
+    metodo_pago = db.Column(db.String(50), nullable=True, default='efectivo')
     observacion = db.Column(db.String(255), nullable=True)
     fecha_pago = db.Column(db.DateTime, default=obtener_hora_bogota)
 

@@ -272,6 +272,11 @@ def registrar_pago(id):
         monto_abonado = 0.0
         
     observacion = request.form.get('observacion', '').strip()
+    metodo_pago = request.form.get('metodo_pago', 'efectivo').lower().strip()
+    if metodo_pago not in ['efectivo', 'nequi', 'bold', 'bolt']:
+        metodo_pago = 'efectivo'
+    if metodo_pago == 'bolt':
+        metodo_pago = 'bold'
     fecha_pago = parse_fecha(request.form.get('fecha_pago'))
     
     if monto_abonado <= 0:
@@ -281,6 +286,7 @@ def registrar_pago(id):
     nuevo_pago = ProviderPayment(
         provider_id=id,
         monto_abonado=monto_abonado,
+        metodo_pago=metodo_pago,
         observacion=observacion,
         fecha_pago=fecha_pago
     )
@@ -308,9 +314,15 @@ def editar_pago(pago_id):
         return redirect(url_for('providers_bp.detalle', id=provider_id))
 
     observacion = request.form.get('observacion', '').strip()
+    metodo_pago = request.form.get('metodo_pago', pago.metodo_pago or 'efectivo').lower().strip()
+    if metodo_pago not in ['efectivo', 'nequi', 'bold', 'bolt']:
+        metodo_pago = 'efectivo'
+    if metodo_pago == 'bolt':
+        metodo_pago = 'bold'
     fecha_pago = parse_fecha(request.form.get('fecha_pago'))
 
     pago.monto_abonado = monto_abonado
+    pago.metodo_pago = metodo_pago
     pago.observacion = observacion
     pago.fecha_pago = fecha_pago
     db.session.commit()

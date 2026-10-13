@@ -145,17 +145,43 @@
         .text-brand-pink { color: #FF1493 !important; font-weight: 700; }
         .badge-accent { background-color: #F472B6 !important; color: #FFFFFF !important; font-weight: 600; }
 
-        /* Navbar Clean White Glam para My Case */
+        /* Navbar Clean Glam Boutique para My Case */
         .navbar-custom {
-            background-color: #FFFFFF !important;
-            border-bottom: 1px solid var(--brand-border);
+            background: linear-gradient(180deg, #FFF0F6 0%, #FFFFFF 100%) !important;
+            border-bottom: 1.5px solid var(--brand-border) !important;
             padding: 0.75rem 0;
-            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.05);
+            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.08) !important;
+            position: relative;
+        }
+        .navbar-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5px;
+            background: linear-gradient(90deg, #FF1493 0%, #FF66B2 25%, #F472B6 50%, #FF1493 75%, #C71585 100%);
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.35);
         }
         
         .navbar-custom .navbar-brand {
             font-family: var(--font-heading);
             color: #18181B !important;
+        }
+
+        .btn-nav-menu {
+            background: #FFFFFF !important;
+            border: 1.5px solid #FCE7F3 !important;
+            color: #18181B !important;
+            box-shadow: 0 2px 8px rgba(255, 20, 147, 0.08);
+            transition: all 0.2s ease;
+        }
+        .btn-nav-menu:hover {
+            background: #FFF1F7 !important;
+            border-color: #FF1493 !important;
+            color: #FF1493 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.2);
         }
 
         .navbar-custom .nav-link {
@@ -280,21 +306,24 @@
             font-weight: 600;
         }
 
-        /* Sidebar Offcanvas Estilos Glam 100% White Canvas */
-        .offcanvas {
+        /* Sidebar Offcanvas Estilos Glam 100% White Canvas (Lateral Derecha) */
+        .offcanvas, .offcanvas-end {
             background: #FFFFFF !important;
             color: var(--brand-text) !important;
-            border-right: 1px solid var(--brand-border) !important;
-            box-shadow: 10px 0 35px rgba(255, 20, 147, 0.05) !important;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
+            border-left: 1.5px solid var(--brand-border) !important;
+            border-right: none !important;
+            box-shadow: -10px 0 40px rgba(255, 20, 147, 0.08) !important;
+            border-top-left-radius: 24px;
+            border-bottom-left-radius: 24px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
         .sidebar-header-card {
-            background: #FFFFFF !important;
+            background: linear-gradient(180deg, #FFF0F6 0%, #FFFFFF 100%) !important;
             padding: 1.25rem 1.25rem 1rem 1.25rem;
             position: relative;
-            border-bottom: 1px solid var(--brand-border);
-            border-top-right-radius: 20px;
+            border-bottom: 1.5px solid var(--brand-border);
+            border-top-left-radius: 24px;
         }
         .sidebar-avatar-circle {
             width: 44px;
@@ -548,22 +577,22 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navbar MY CASE -->
+    <!-- Navbar MY CASE Boutique -->
     <nav class="navbar navbar-custom mb-4 mb-md-5">
         <div class="container-fluid px-2 px-md-3 d-flex align-items-center justify-content-between">
             
-            <!-- Columna Izquierda: Botón Hamburguesa -->
+            <!-- Columna Izquierda: Botón Menú Lateral / Accesos Rápidos -->
             <div class="d-flex align-items-center" style="min-width: 44px;">
                 {% if current_user.is_authenticated %}
-                <button class="navbar-toggler border-0 shadow-none p-1 p-md-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Menú">
-                    <i class="fa-solid fa-bars fs-3" style="color: #FF1493;"></i>
+                <button class="navbar-toggler btn-nav-menu rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Abrir Menú Lateral">
+                    <i class="fa-solid fa-bars fs-5" style="color: #FF1493;"></i>
                 </button>
                 {% else %}
                 <div style="width: 40px;"></div>
                 {% endif %}
             </div>
 
-            <!-- Columna Centro: Brand Logo (My Case) -->
+            <!-- Columna Centro: Brand Logo Boutique (My Case) -->
             <div class="d-flex justify-content-center flex-grow-1 px-1 px-sm-2 text-center overflow-hidden">
                 <a class="navbar-brand d-inline-flex align-items-center m-0 text-nowrap" href="{{ url_for('index') }}" style="gap: 12px;">
                     <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" alt="My Case Logo" class="rounded-circle" style="width: 42px; height: 42px; object-fit: contain; border: 2px solid #FF1493; box-shadow: 0 0 12px rgba(255, 20, 147, 0.25);">
@@ -574,17 +603,8 @@
                 </a>
             </div>
 
-            <!-- Columna Derecha: Descargar App, Badge Notificaciones y Servidor Zenic -->
+            <!-- Columna Derecha: Badges y Botón Desplegar Menú Lateral Derecho -->
             <div class="d-flex align-items-center justify-content-end gap-1 gap-md-2" style="min-width: 44px;">
-                <!-- Botón Navbar Descargar App PWA -->
-                <button type="button" 
-                        class="btn btn-sm px-2 px-md-3 py-1 rounded-pill fw-bold d-flex align-items-center gap-1 shadow-sm text-nowrap pwa-install-trigger"
-                        style="background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%); color: #FFFFFF; border: none; font-size: 0.78rem; box-shadow: 0 2px 10px rgba(255, 20, 147, 0.25) !important;"
-                        onclick="triggerPWAInstall()"
-                        title="Descargar / Instalar aplicación My Case">
-                    <i class="fa-solid fa-cloud-arrow-down"></i>
-                    <span class="d-none d-md-inline">Descargar App</span>
-                </button>
                 {% if current_user.is_authenticated and current_user.rol == 'admin' %}
                     <div id="admin_approval_badge_btn" style="display: none;" class="me-1">
                         <span class="badge rounded-pill px-2 py-1 shadow-sm d-flex align-items-center gap-1" style="font-size: 0.78rem; background: var(--brand-gradient); color: #FFFFFF;">
@@ -604,8 +624,16 @@
                         <span>Al día</span>
                     </button>
                     {% endif %}
+                {% endif %}
+
+                {% if current_user.is_authenticated %}
+                <!-- Botón Desplegar Barra Lateral Derecha -->
+                <button class="btn btn-sm btn-nav-menu rounded-pill px-3 py-1 fw-bold d-flex align-items-center gap-2 shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Menú de Navegación">
+                    <i class="fa-solid fa-bars-staggered" style="color: #FF1493;"></i>
+                    <span class="d-none d-sm-inline small fw-bold text-brand-black">Menú</span>
+                </button>
                 {% else %}
-                    <div style="width: 40px;"></div>
+                <div style="width: 40px;"></div>
                 {% endif %}
             </div>
         </div>
@@ -613,36 +641,59 @@
 
 
     {% if current_user.is_authenticated %}
-    <!-- Offcanvas Menú Lateral Premium (Sidebar 100% Blanco con Acentos Rosa Neón) -->
-    <div class="offcanvas offcanvas-start border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 300px;">
-        <!-- Header con Avatar y Rol -->
+    <!-- Offcanvas Menú Lateral Derecho (Sidebar 100% Blanco con Acentos Glam) -->
+    <div class="offcanvas offcanvas-end border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 320px;">
+        <!-- Header con Identidad Boutique y Perfil de Usuario -->
         <div class="sidebar-header-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="sidebar-avatar-circle">
-                        {% if current_user.rol == 'admin' %}
-                            <i class="fa-solid fa-crown text-white" style="font-size: 1.1rem;"></i>
-                        {% else %}
-                            <i class="fa-solid fa-user-tie text-white" style="font-size: 1.1rem;"></i>
-                        {% endif %}
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-0 text-truncate" style="max-width: 140px; font-family: var(--font-heading); color: #18181B; letter-spacing: 0.3px;">
-                            {{ current_user.nombre if current_user.nombre else (current_user.rol | capitalize) }}
-                        </h6>
-                        <span class="badge rounded-pill fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: rgba(255, 20, 147, 0.08); color: #FF1493; border: 1px solid #FCE7F3; letter-spacing: 0.5px;">
-                            {{ 'ADMINISTRADOR' if current_user.rol == 'admin' else 'VENDEDOR' }}
-                        </span>
-                    </div>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" alt="Logo" class="rounded-circle" style="width: 34px; height: 34px; border: 1.5px solid #FF1493;">
+                    <span class="brand-title-script text-brand-pink" style="font-size: 1.85rem; line-height: 1;">My Case</span>
                 </div>
                 <button type="button" class="sidebar-close-btn" data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar Menú">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
+            <div class="d-flex align-items-center gap-3 pt-2 border-top" style="border-color: #FCE7F3 !important;">
+                <div class="sidebar-avatar-circle">
+                    {% if current_user.rol == 'admin' %}
+                        <i class="fa-solid fa-crown text-white" style="font-size: 1.1rem;"></i>
+                    {% else %}
+                        <i class="fa-solid fa-user-tie text-white" style="font-size: 1.1rem;"></i>
+                    {% endif %}
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-0 text-truncate" style="max-width: 170px; font-family: var(--font-heading); color: #18181B; letter-spacing: 0.3px;">
+                        {{ current_user.nombre if current_user.nombre else (current_user.rol | capitalize) }}
+                    </h6>
+                    <span class="badge rounded-pill fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: rgba(255, 20, 147, 0.08); color: #FF1493; border: 1px solid #FCE7F3; letter-spacing: 0.5px;">
+                        {{ 'ADMINISTRADOR' if current_user.rol == 'admin' else 'VENDEDOR' }}
+                    </span>
+                </div>
+            </div>
         </div>
 
         <!-- Cuerpo del Menú con Scroll Suave -->
         <div class="offcanvas-body d-flex flex-column px-3 py-3" style="scrollbar-width: thin; scrollbar-color: #E5E7EB transparent;">
+            
+            <!-- Tarjeta VIP Promocional: Descargar App My Case (PWA) -->
+            <div class="p-3 mb-3 rounded-4 text-center pwa-install-trigger shadow-sm" style="background: linear-gradient(135deg, #FFF1F7 0%, #FFFFFF 100%); border: 1.5px dashed #F472B6;">
+                <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+                    <i class="fa-solid fa-mobile-screen-button fs-4" style="color: #FF1493;"></i>
+                    <span class="fw-bold text-brand-black" style="font-family: var(--font-heading); font-size: 0.95rem;">App Móvil My Case</span>
+                </div>
+                <p class="text-muted small mb-2" style="font-size: 0.74rem; line-height: 1.25;">
+                    Instala la app en tu dispositivo para abrir la caja y facturar a toda velocidad.
+                </p>
+                <button type="button" 
+                        class="btn btn-sm btn-pink w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm" 
+                        onclick="triggerPWAInstall()"
+                        title="Descargar e instalar App My Case">
+                    <i class="fa-solid fa-cloud-arrow-down fs-6"></i>
+                    <span>Descargar App My Case</span>
+                </button>
+            </div>
+
             <div class="mb-auto">
                 {% if current_user.rol == 'admin' %}
                     <!-- Categoría: PRINCIPAL -->

@@ -131,13 +131,14 @@
 <!-- Cabecera y Navegador de Mes -->
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
             <h2 class="fw-bolder text-brand-black m-0">Control de Gastos y Salidas</h2>
+            <span class="brand-title-script text-brand-pink" style="font-size: 1.8rem; font-weight: normal;">My Case</span>
             <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle rounded-pill px-3 py-1 fw-bold">
                 <i class="fa-solid fa-arrow-trend-down me-1"></i> Egresos
             </span>
         </div>
-        <p class="text-muted small mb-0 mt-1">Registra salidas de caja menor, compras operativas y costos administrativos al instante.</p>
+        <p class="text-muted small mb-0 mt-1">Registra salidas operativas y pagos a proveedores en Efectivo, Nequi y Bold.</p>
     </div>
 
     <!-- Navegador de Periodo / Mes -->
@@ -376,28 +377,22 @@
                 </label>
                 <input type="hidden" name="metodo_pago" id="inputMetodoPago" value="efectivo">
                 <div class="row g-2" id="contenedorMetodosPago">
-                    <div class="col-6 col-sm-6 col-md-3">
+                    <div class="col-12 col-sm-4">
                         <div class="paymethod-radio-card active" data-metodo="efectivo">
                             <i class="fa-solid fa-money-bill-wave text-success fs-5 d-block mb-1"></i>
                             <span class="small fw-bold text-dark">Efectivo (Caja)</span>
                         </div>
                     </div>
-                    <div class="col-6 col-sm-6 col-md-3">
+                    <div class="col-6 col-sm-4">
                         <div class="paymethod-radio-card" data-metodo="nequi">
-                            <i class="fa-solid fa-mobile-screen text-purple fs-5 d-block mb-1" style="color: #6b21a8;"></i>
+                            <i class="fa-solid fa-mobile-screen fs-5 d-block mb-1" style="color: #6b21a8;"></i>
                             <span class="small fw-bold text-dark">Nequi</span>
                         </div>
                     </div>
-                    <div class="col-6 col-sm-6 col-md-3">
-                        <div class="paymethod-radio-card" data-metodo="bancolombia">
-                            <i class="fa-solid fa-building-columns text-warning fs-5 d-block mb-1" style="color: #d97706;"></i>
-                            <span class="small fw-bold text-dark">Bancolombia</span>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-3">
-                        <div class="paymethod-radio-card" data-metodo="daviplata">
-                            <i class="fa-solid fa-wallet text-danger fs-5 d-block mb-1" style="color: #dc2626;"></i>
-                            <span class="small fw-bold text-dark">Daviplata</span>
+                    <div class="col-6 col-sm-4">
+                        <div class="paymethod-radio-card" data-metodo="bold">
+                            <i class="fa-solid fa-bolt fs-5 d-block mb-1 text-danger"></i>
+                            <span class="small fw-bold text-dark">Bold (Datáfono)</span>
                         </div>
                     </div>
                 </div>
@@ -426,8 +421,7 @@
                         <select name="metodo_pago[]" class="form-select form-select-sm bg-white fw-semibold" disabled>
                             <option value="efectivo" selected>Efectivo (Caja)</option>
                             <option value="nequi">Nequi</option>
-                            <option value="bancolombia">Bancolombia</option>
-                            <option value="daviplata">Daviplata</option>
+                            <option value="bold">Bold (Datáfono)</option>
                         </select>
                     </div>
                     <div class="col-1 text-end">
@@ -564,13 +558,9 @@
                         <span class="badge bg-purple bg-opacity-10 text-purple border px-2 py-1" style="color: #6b21a8; background: rgba(107, 33, 168, 0.08); border-color: #d8b4fe !important;">
                             <i class="fa-solid fa-mobile-screen me-1"></i> Nequi
                         </span>
-                        {% elif mp == 'bancolombia' %}
-                        <span class="badge bg-warning bg-opacity-10 text-dark border px-2 py-1" style="background: rgba(245, 158, 11, 0.1); border-color: #fde68a !important;">
-                            <i class="fa-solid fa-building-columns me-1 text-warning"></i> Bancolombia
-                        </span>
-                        {% elif mp == 'daviplata' %}
+                        {% elif mp in ['bold', 'bolt'] %}
                         <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1">
-                            <i class="fa-solid fa-wallet me-1"></i> Daviplata
+                            <i class="fa-solid fa-bolt me-1"></i> Bold
                         </span>
                         {% else %}
                         <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-2 py-1">
@@ -651,8 +641,7 @@
                             <select name="metodo_pago" id="editMetodoPago" class="form-select bg-light border-0 fw-semibold">
                                 <option value="efectivo">Efectivo (Caja)</option>
                                 <option value="nequi">Nequi</option>
-                                <option value="bancolombia">Bancolombia</option>
-                                <option value="daviplata">Daviplata</option>
+                                <option value="bold">Bold (Datáfono)</option>
                             </select>
                         </div>
                     </div>
@@ -909,8 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <select name="metodo_pago[]" class="form-select form-select-sm bg-white fw-semibold">
                     <option value="efectivo">Efectivo (Caja)</option>
                     <option value="nequi" selected>Nequi</option>
-                    <option value="bancolombia">Bancolombia</option>
-                    <option value="daviplata">Daviplata</option>
+                    <option value="bold">Bold (Datáfono)</option>
                 </select>
             </div>
             <div class="col-1 text-end">
@@ -1031,10 +1019,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return `<span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1"><i class="fa-solid fa-money-bill-wave me-1"></i> Efectivo</span>`;
         } else if (mp === 'nequi') {
             return `<span class="badge bg-purple bg-opacity-10 text-purple border px-2 py-1" style="color: #6b21a8; background: rgba(107, 33, 168, 0.08); border-color: #d8b4fe !important;"><i class="fa-solid fa-mobile-screen me-1"></i> Nequi</span>`;
-        } else if (mp === 'bancolombia') {
-            return `<span class="badge bg-warning bg-opacity-10 text-dark border px-2 py-1" style="background: rgba(245, 158, 11, 0.1); border-color: #fde68a !important;"><i class="fa-solid fa-building-columns me-1 text-warning"></i> Bancolombia</span>`;
-        } else if (mp === 'daviplata') {
-            return `<span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1"><i class="fa-solid fa-wallet me-1"></i> Daviplata</span>`;
+        } else if (mp === 'bold' || mp === 'bolt') {
+            return `<span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-1"><i class="fa-solid fa-bolt me-1"></i> Bold</span>`;
         } else {
             return `<span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-2 py-1"><i class="fa-solid fa-credit-card me-1"></i> ${mp.toUpperCase()}</span>`;
         }

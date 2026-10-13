@@ -202,6 +202,7 @@
                         <thead class="table-light text-secondary" style="font-size: 0.82rem;">
                             <tr>
                                 <th class="ps-4">FECHA</th>
+                                <th>MÉTODO</th>
                                 <th>OBSERVACIÓN / REF</th>
                                 <th class="text-end">MONTO</th>
                                 <th class="text-center pe-4" style="width: 80px;">ACCIONES</th>
@@ -212,6 +213,26 @@
                             <tr>
                                 <td class="ps-4 text-muted">
                                     {{ pay.fecha_pago.strftime('%d/%m/%Y') if pay.fecha_pago else '-' }}
+                                </td>
+                                <td>
+                                    {% set mp = (pay.metodo_pago or 'efectivo')|lower %}
+                                    {% if mp == 'efectivo' %}
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 rounded-pill">
+                                            <i class="fa-solid fa-money-bill-wave me-1"></i>Efectivo
+                                        </span>
+                                    {% elif mp == 'nequi' %}
+                                        <span class="badge px-2 py-1 rounded-pill" style="color: #6b21a8; background: rgba(107, 33, 168, 0.08); border: 1px solid #d8b4fe;">
+                                            <i class="fa-solid fa-mobile-screen me-1"></i>Nequi
+                                        </span>
+                                    {% elif mp in ['bold', 'bolt'] %}
+                                        <span class="badge px-2 py-1 rounded-pill" style="color: #0052FF; background: rgba(0, 82, 255, 0.08); border: 1px solid #bfdbfe;">
+                                            <i class="fa-solid fa-bolt me-1"></i>Bold
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-light text-dark border px-2 py-1 rounded-pill">
+                                            {{ mp|capitalize }}
+                                        </span>
+                                    {% endif %}
                                 </td>
                                 <td class="text-truncate" style="max-width: 140px;" title="{{ pay.observacion or '' }}">
                                     {{ pay.observacion if pay.observacion else '-' }}
@@ -224,7 +245,7 @@
                                         <button type="button" 
                                                 class="btn btn-outline-secondary p-1 border-0" 
                                                 title="Editar abono"
-                                                onclick="abrirModalEditarAbono({{ pay.id }}, {{ pay.monto_abonado }}, '{{ (pay.fecha_pago.strftime('%Y-%m-%d') if pay.fecha_pago else '') }}', '{{ (pay.observacion or '')|replace('\'', '\\\'') }}')">
+                                                onclick="abrirModalEditarAbono({{ pay.id }}, {{ pay.monto_abonado }}, '{{ (pay.fecha_pago.strftime('%Y-%m-%d') if pay.fecha_pago else '') }}', '{{ (pay.observacion or '')|replace('\'', '\\\'') }}', '{{ (pay.metodo_pago or 'efectivo') }}')">
                                             <i class="fa-solid fa-pen-to-square text-success"></i>
                                         </button>
                                         <button type="button" 
@@ -403,9 +424,24 @@
                         </div>
                     </div>
 
+                    <!-- Método de Pago del Abono -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Método de Pago <span class="text-danger">*</span></label>
+                        <div class="btn-group w-100 shadow-sm" role="group" aria-label="Método de pago abono">
+                            <input type="radio" class="btn-check" name="metodo_pago" id="abono_pago_efectivo" value="efectivo" checked>
+                            <label class="btn btn-outline-success fw-bold btn-sm py-2" for="abono_pago_efectivo">💵 Efectivo</label>
+
+                            <input type="radio" class="btn-check" name="metodo_pago" id="abono_pago_nequi" value="nequi">
+                            <label class="btn btn-outline-secondary fw-bold btn-sm py-2" for="abono_pago_nequi" style="color: #6b21a8; border-color: #d8b4fe;">📱 Nequi</label>
+
+                            <input type="radio" class="btn-check" name="metodo_pago" id="abono_pago_bold" value="bold">
+                            <label class="btn btn-outline-primary fw-bold btn-sm py-2" for="abono_pago_bold" style="color: #0052FF; border-color: #bfdbfe;">⚡ Bold</label>
+                        </div>
+                    </div>
+
                     <div class="mb-2">
-                        <label class="form-label fw-bold small">Observaciones o Método de Pago (Opcional)</label>
-                        <input type="text" name="observacion" class="form-control bg-light border-0" placeholder="Ej: Transferencia Bancolombia Ref #12345 o Efectivo">
+                        <label class="form-label fw-bold small">Observaciones o Referencia (Opcional)</label>
+                        <input type="text" name="observacion" class="form-control bg-light border-0" placeholder="Ej: Abono quincenal, Comprobante #1234">
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 bg-light rounded-bottom-4">
@@ -441,6 +477,21 @@
                         <div class="col-md-5">
                             <label class="form-label fw-bold small">Fecha del Pago</label>
                             <input type="date" name="fecha_pago" id="edit_abono_fecha" class="form-control bg-light border-0">
+                        </div>
+                    </div>
+
+                    <!-- Método de Pago del Abono -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Método de Pago <span class="text-danger">*</span></label>
+                        <div class="btn-group w-100 shadow-sm" role="group" aria-label="Método de pago editar abono">
+                            <input type="radio" class="btn-check" name="metodo_pago" id="edit_abono_pago_efectivo" value="efectivo">
+                            <label class="btn btn-outline-success fw-bold btn-sm py-2" for="edit_abono_pago_efectivo">💵 Efectivo</label>
+
+                            <input type="radio" class="btn-check" name="metodo_pago" id="edit_abono_pago_nequi" value="nequi">
+                            <label class="btn btn-outline-secondary fw-bold btn-sm py-2" for="edit_abono_pago_nequi" style="color: #6b21a8; border-color: #d8b4fe;">📱 Nequi</label>
+
+                            <input type="radio" class="btn-check" name="metodo_pago" id="edit_abono_pago_bold" value="bold">
+                            <label class="btn btn-outline-primary fw-bold btn-sm py-2" for="edit_abono_pago_bold" style="color: #0052FF; border-color: #bfdbfe;">⚡ Bold</label>
                         </div>
                     </div>
 
@@ -537,12 +588,21 @@
     }
 
     // Funciones Abono
-    function abrirModalEditarAbono(id, monto, fecha, obs) {
+    function abrirModalEditarAbono(id, monto, fecha, obs, metodo) {
         const form = document.getElementById('formEditarAbono');
         form.action = `/proveedores/pago/${id}/editar`;
         document.getElementById('edit_abono_monto').value = monto;
         document.getElementById('edit_abono_fecha').value = fecha;
         document.getElementById('edit_abono_observacion').value = obs;
+
+        const m = (metodo || 'efectivo').toLowerCase();
+        if (m === 'nequi') {
+            document.getElementById('edit_abono_pago_nequi').checked = true;
+        } else if (m === 'bold' || m === 'bolt') {
+            document.getElementById('edit_abono_pago_bold').checked = true;
+        } else {
+            document.getElementById('edit_abono_pago_efectivo').checked = true;
+        }
 
         new bootstrap.Modal(document.getElementById('modalEditarAbono')).show();
     }
