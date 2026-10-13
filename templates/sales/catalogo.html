@@ -40,7 +40,7 @@
         <a href="{{ url_for('sales_bp.catalogo', q=q, foto='sin_foto') }}" 
            class="btn btn-sm rounded-pill px-3 fw-bold {% if filtro_foto == 'sin_foto' %}btn-warning text-dark{% else %}btn-outline-secondary border-0 bg-light text-dark{% endif %}">
             <i class="fa-solid fa-triangle-exclamation text-warning me-1 {% if filtro_foto == 'sin_foto' %}text-dark{% endif %}"></i> Sin Foto (Pendientes)
-            <span class="badge {% if filtro_foto == 'sin_foto' %}bg-dark text-white{% else %}bg-warning text-dark{% endif %} ms-1 rounded-pill">{{ total_sin_foto }}</span>
+            <span class="badge {% if filtro_foto == 'sin_foto' %}bg-white text-dark{% else %}bg-warning text-dark{% endif %} ms-1 rounded-pill">{{ total_sin_foto }}</span>
         </a>
         {% if q %}
             <a href="{{ url_for('sales_bp.catalogo', foto=filtro_foto) }}" class="btn btn-sm btn-link text-danger text-decoration-none ms-auto align-self-center">

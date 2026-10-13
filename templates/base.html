@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Maripocell - Accesorios & Tecnología{% endblock %}</title>
+    <title>{% block title %}My Case - Accesorios para tu celular{% endblock %}</title>
     <!-- Favicon y PWA Manifest -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=maripocell_v3">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=maripocell_v3">
-    <link rel="manifest" href="/manifest.json?v=maripocell_v3">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=mycase_v1">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1">
+    <link rel="manifest" href="/manifest.json?v=mycase_v1">
     
     <!-- Meta tags PWA para Android, iOS y Navegadores Modernos -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Maripocell">
-    <meta name="application-name" content="Maripocell">
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=maripocell_v3">
-    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=maripocell_v3">
-    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-title" content="My Case">
+    <meta name="application-name" content="My Case">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1">
+    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=mycase_v1">
+    <meta name="theme-color" content="#FF1493">
 
-    <!-- Google Fonts: Montserrat, Poppins, Inter, Roboto -->
+    <!-- Google Fonts: Great Vibes, Allura, Montserrat, Inter, Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Poppins:wght@600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Poppins:wght@600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,53 +33,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* =========================================================
-           MARIPOCELL DESIGN SYSTEM: TECH LIGHT THEME
+           MY CASE DESIGN SYSTEM: GLAM LIGHT THEME (100% WHITE CANVAS)
            Canvas Base: #FFFFFF (Blanco Puro)
-           Cards / Containers: #FBFBFC, Bordes #E5E7EB
-           Color Primario: #D4AF37 / #E5B842 (Oro Metálico Tech)
-           Color Secundario: #1F1F1F (Negro Grafito)
-           Color Acento: #D7A86E (Ámbar Cálido)
-           Texto: Principal #111827, Secundario #4B5563
-           Degradado Corporativo: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%)
+           Cards / Shell / Modales: #FFFFFF
+           Bordes de Delimitación: #FCE7F3
+           Divisores: #FDE2EE
+           Color Primario: #FF1493 (Rosa Neón)
+           Color de Acento: #F472B6 (Rosa Metálico)
+           Texto Principal: #18181B (Negro suave de alto contraste)
+           Texto Secundario: #71717A
+           Totalizadores / Precios Display: #FF1493 en negrita
+           Degradado Corporativo: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%)
            ========================================================= */
         :root {
-            --brand-bg: #FFFFFF;            /* Canvas blanco puro */
+            --brand-bg: #FFFFFF;            /* Canvas 100% blanco puro */
             --brand-white: #FFFFFF;
-            --brand-surface: #FBFBFC;       /* Contenedores y Cards */
-            --brand-surface-card: #FBFBFC;
-            --brand-card-bg: #FBFBFC;
-            --brand-surface-hover: #F3F4F6;
+            --brand-surface: #FFFFFF;       /* Contenedores y Cards blancos */
+            --brand-surface-card: #FFFFFF;
+            --brand-card-bg: #FFFFFF;
+            --brand-surface-hover: #FFF1F7;
 
-            --brand-primary: #D4AF37;       /* Oro Metálico Tech */
-            --brand-primary-btn: #E5B842;   /* Botón primario y focus */
-            --brand-primary-dark: #B89028;  /* Oro Oscuro */
-            --brand-secondary: #1F1F1F;     /* Negro Grafito */
-            --brand-secondary-light: #374151;
-            --brand-accent: #D7A86E;        /* Ámbar Cálido */
-            --brand-pink: #D4AF37;
-            --brand-red: #DC2626;           /* Alertas y faltantes */
-            --brand-cyan: #D4AF37;
-            --brand-blue: #1F1F1F;
+            --brand-primary: #FF1493;       /* Rosa Neón */
+            --brand-primary-btn: #FF1493;   /* Botón primario y CTA */
+            --brand-primary-dark: #C71585;  /* Magenta profundo */
+            --brand-secondary: #F472B6;     /* Rosa Metálico */
+            --brand-secondary-light: #FCE7F3;
+            --brand-accent: #F472B6;        /* Rosa Metálico */
+            --brand-pink: #FF1493;
+            --brand-red: #EF4444;           /* Alertas y faltantes */
+            --brand-cyan: #FF1493;
+            --brand-blue: #FF1493;
 
-            --brand-text: #111827;          /* Negro profundo para legibilidad total */
-            --brand-text-dark: #111827;
-            --brand-black: #111827;
-            --brand-text-muted: #4B5563;    /* Texto secundario */
-            --brand-border: #E5E7EB;        /* Bordes sutiles */
-            --brand-border-dark: #D1D5DB;
+            --brand-text: #18181B;          /* Negro suave de alto contraste */
+            --brand-text-dark: #18181B;
+            --brand-black: #18181B;
+            --brand-text-muted: #71717A;    /* Texto secundario */
+            --brand-border: #FCE7F3;        /* Bordes limpios */
+            --brand-border-dark: #FBCFE8;
+            --brand-divider: #FDE2EE;       /* Divisores */
 
-            --brand-gradient: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
-            --brand-gradient-hover: linear-gradient(135deg, #E5B842 0%, #F8E3A1 100%);
-            --brand-neon-glow: 0 4px 15px rgba(212, 175, 55, 0.35);
-            --brand-neon-glow-sm: 0 2px 8px rgba(212, 175, 55, 0.25);
+            --brand-gradient: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #FF80BF 0%, #FF2E9D 50%, #D81B60 100%);
+            --brand-neon-glow: 0 4px 18px rgba(255, 20, 147, 0.35);
+            --brand-neon-glow-sm: 0 2px 10px rgba(255, 20, 147, 0.22);
+            --brand-shadow: 0 4px 20px rgba(255, 20, 147, 0.05);
 
-            --font-display: 'Montserrat', 'Poppins', sans-serif;
+            --font-brand-display: 'Great Vibes', cursive;
             --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Inter', 'Roboto', -apple-system, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: var(--brand-bg) !important;
+            background-color: #FFFFFF !important;
             color: var(--brand-text) !important;
             font-family: var(--font-body);
             -webkit-font-smoothing: antialiased;
@@ -92,53 +97,52 @@
             font-weight: 700;
         }
 
+        .brand-title-script {
+            font-family: 'Great Vibes', cursive !important;
+            color: #FF1493 !important;
+            line-height: 1.1;
+        }
+
         .section-subtitle {
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.22em;
             color: var(--brand-text-muted);
             font-size: 0.8rem;
         }
 
-        .display-total {
-            font-family: 'Montserrat', 'Poppins', sans-serif;
-            font-weight: 800;
-            color: var(--brand-text);
+        .display-total, .price-display, .precio-destacado, .total-destacado {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800 !important;
+            color: #FF1493 !important;
         }
 
-        /* Clases base con alto contraste */
-        .bg-brand-blue { background-color: var(--brand-secondary) !important; color: #FFFFFF !important; border: 1px solid var(--brand-secondary); }
-        .text-brand-blue { color: var(--brand-primary) !important; font-weight: 700; }
-        .bg-brand-pink { background: var(--brand-gradient) !important; color: #111827 !important; box-shadow: var(--brand-neon-glow-sm); }
+        /* Clases base Glam Light Theme */
+        .bg-brand-blue { background: var(--brand-gradient) !important; color: #FFFFFF !important; border: none; }
+        .text-brand-blue { color: #FF1493 !important; font-weight: 700; }
+        .bg-brand-pink { background: var(--brand-gradient) !important; color: #FFFFFF !important; box-shadow: var(--brand-neon-glow-sm); }
         .bg-brand-white { background-color: #FFFFFF !important; color: var(--brand-text) !important; border: 1px solid var(--brand-border); }
         
         .text-brand-black { color: var(--brand-text) !important; }
-        .text-brand-pink { color: var(--brand-primary) !important; font-weight: 700; }
-        .badge-accent { background-color: var(--brand-accent) !important; color: #FFFFFF !important; font-weight: 600; }
+        .text-brand-pink { color: #FF1493 !important; font-weight: 700; }
+        .badge-accent { background-color: #F472B6 !important; color: #FFFFFF !important; font-weight: 600; }
 
-        /* Navbar Clean White para Maripocell */
+        /* Navbar Clean White Glam para My Case */
         .navbar-custom {
             background-color: #FFFFFF !important;
-            border-bottom: 2px solid var(--brand-border);
-            padding: 0.85rem 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid var(--brand-border);
+            padding: 0.75rem 0;
+            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.05);
         }
         
         .navbar-custom .navbar-brand {
-            font-family: var(--font-display);
-            font-weight: 900;
-            color: #111827 !important;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
-        }
-
-        .navbar-brand-tech {
-            color: var(--brand-primary) !important;
+            font-family: var(--font-heading);
+            color: #18181B !important;
         }
 
         .navbar-custom .nav-link {
-            color: #111827;
+            color: #18181B;
             font-weight: 500;
             margin-left: 1rem;
             transition: color 0.2s;
@@ -149,77 +153,79 @@
             color: var(--brand-primary);
         }
 
-        /* Botones Pro */
+        /* Botones Glam Pro */
         .btn-pink, .btn-primary, .btn-brand {
             background: var(--brand-gradient) !important;
-            color: #111827 !important;
+            color: #FFFFFF !important;
             font-weight: 700;
-            border: 1px solid #D4AF37;
+            border: none !important;
             transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.25);
+            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.3);
             font-family: var(--font-heading);
         }
         .btn-pink:hover, .btn-primary:hover, .btn-brand:hover {
             background: var(--brand-gradient-hover) !important;
-            color: #111827 !important;
+            color: #FFFFFF !important;
             transform: translateY(-2px);
             box-shadow: var(--brand-neon-glow);
         }
 
         .btn-blue, .btn-dark-graphite {
-            background-color: var(--brand-secondary) !important;
-            color: #FFFFFF !important;
+            background-color: #FFFFFF !important;
+            color: #18181B !important;
             font-weight: 600;
-            border: 1px solid var(--brand-secondary);
+            border: 1px solid var(--brand-border) !important;
             transition: all 0.2s ease-in-out;
             font-family: var(--font-heading);
         }
         .btn-blue:hover, .btn-dark-graphite:hover {
-            background-color: #2D2D2D !important;
-            color: #FFFFFF !important;
+            background-color: #FFF1F7 !important;
+            border-color: #F472B6 !important;
+            color: #FF1493 !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.08);
         }
 
         .btn-outline-pink, .btn-outline-brand {
-            background-color: transparent;
-            color: #B89028 !important;
+            background-color: #FFFFFF !important;
+            color: #FF1493 !important;
             font-weight: 600;
-            border: 1.5px solid var(--brand-primary);
+            border: 1.5px solid #FF1493 !important;
             transition: all 0.2s ease-in-out;
             font-family: var(--font-heading);
         }
         .btn-outline-pink:hover, .btn-outline-brand:hover {
             background: var(--brand-gradient) !important;
-            color: #111827 !important;
+            color: #FFFFFF !important;
+            border-color: transparent !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.3);
         }
 
-        /* Superficies y Cards */
+        /* Superficies y Cards 100% Blancas */
         .card-custom, .card {
-            background-color: var(--brand-surface);
-            border: 1px solid var(--brand-border);
+            background-color: #FFFFFF !important;
+            border: 1px solid var(--brand-border) !important;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.04);
             color: var(--brand-text);
         }
 
         /* Tablas */
         .table-custom, .table {
-            background-color: #FFFFFF;
+            background-color: #FFFFFF !important;
             border-radius: 12px;
             color: var(--brand-text);
             border-color: var(--brand-border);
             font-family: var(--font-body);
         }
         .table-custom thead th, .table thead th {
-            background-color: #F9FAFB !important;
-            color: #111827 !important;
-            border-bottom: 2px solid var(--brand-primary) !important;
+            background-color: #FFFFFF !important;
+            color: #71717A !important;
+            border-bottom: 2px solid #FF1493 !important;
             text-transform: uppercase;
             font-size: 0.78rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.22em;
             padding: 1rem;
             font-family: var(--font-heading);
             font-weight: 700;
@@ -227,80 +233,70 @@
         .table-custom tbody td, .table tbody td {
             padding: 1rem;
             vertical-align: middle;
-            border-bottom: 1px solid var(--brand-border);
+            border-bottom: 1px solid var(--brand-divider);
             color: var(--brand-text);
-            background-color: #FFFFFF;
+            background-color: #FFFFFF !important;
             font-family: var(--font-body);
         }
         .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #FBFBFC;
+            background-color: #FFFFFF !important;
         }
 
         /* Inputs y Formularios */
         .form-control, .form-select {
             background-color: #FFFFFF !important;
-            border: 1px solid #E5E7EB !important;
+            border: 1px solid var(--brand-border) !important;
             color: var(--brand-text) !important;
             font-family: var(--font-body);
+            border-radius: 10px;
         }
         .form-control:focus, .form-select:focus {
-            border-color: var(--brand-primary) !important;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
+            border-color: #FF1493 !important;
+            box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.22) !important;
             background-color: #FFFFFF !important;
             color: var(--brand-text) !important;
         }
         .input-group-text {
-            background-color: #F9FAFB !important;
-            border-color: #E5E7EB !important;
+            background-color: #FFF5F9 !important;
+            border-color: var(--brand-border) !important;
             color: var(--brand-text) !important;
             font-weight: 600;
         }
 
-        /* Sidebar Offcanvas Estilos Premium (Maripocell Tech Luxury Theme) */
+        /* Sidebar Offcanvas Estilos Glam 100% White Canvas */
         .offcanvas {
             background: #FFFFFF !important;
             color: var(--brand-text) !important;
-            border-right: 1px solid rgba(229, 231, 235, 0.8) !important;
-            box-shadow: 10px 0 35px rgba(0, 0, 0, 0.08) !important;
+            border-right: 1px solid var(--brand-border) !important;
+            box-shadow: 10px 0 35px rgba(255, 20, 147, 0.05) !important;
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
         }
         .sidebar-header-card {
-            background: linear-gradient(135deg, #111827 0%, #1F2937 100%);
+            background: #FFFFFF !important;
             padding: 1.25rem 1.25rem 1rem 1.25rem;
             position: relative;
-            overflow: hidden;
+            border-bottom: 1px solid var(--brand-border);
             border-top-right-radius: 20px;
-        }
-        .sidebar-header-card::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
         }
         .sidebar-avatar-circle {
             width: 44px;
             height: 44px;
             border-radius: 14px;
-            background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
+            background: linear-gradient(135deg, #FF66B2 0%, #FF1493 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #111827;
+            color: #FFFFFF;
             font-weight: 800;
             font-size: 1.2rem;
-            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.35);
             flex-shrink: 0;
         }
         .sidebar-close-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #F3F4F6;
+            background: #FFFFFF;
+            border: 1px solid var(--brand-border);
+            color: #71717A;
             width: 32px;
             height: 32px;
             border-radius: 10px;
@@ -311,28 +307,30 @@
             transition: all 0.2s ease;
         }
         .sidebar-close-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            color: #FFFFFF;
+            background: rgba(255, 20, 147, 0.08);
+            color: #FF1493;
+            border-color: #FF1493;
             transform: rotate(90deg);
         }
         
         /* Categorías y Títulos de Sección */
         .sidebar-category-label {
             font-size: 0.68rem;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: #9CA3AF;
-            margin: 0.85rem 0.5rem 0.35rem 0.5rem;
+            letter-spacing: 0.22em;
+            color: #71717A;
+            margin: 0.95rem 0.5rem 0.4rem 0.5rem;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Montserrat', sans-serif;
         }
         .sidebar-category-label::after {
             content: '';
             flex-grow: 1;
             height: 1px;
-            background: #F3F4F6;
+            background: var(--brand-divider);
         }
 
         /* Enlaces de Navegación Estilizados como Tarjetas */
@@ -342,31 +340,33 @@
             padding: 0.65rem 0.85rem;
             margin-bottom: 0.35rem;
             border-radius: 12px;
-            color: #1F2937 !important;
+            color: #18181B !important;
             font-weight: 600;
             font-size: 0.9rem;
             text-decoration: none;
-            background: #FFFFFF;
-            border: 1px solid #F1F5F9;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #FFFFFF !important;
+            border: 1px solid var(--brand-border);
+            border-left: 3px solid transparent;
+            box-shadow: 0 2px 5px rgba(255, 20, 147, 0.02);
+            transition: all 0.2s ease;
             position: relative;
         }
         .sidebar-nav-item:hover {
-            background: #FFFFFF !important;
-            border-color: rgba(212, 175, 55, 0.4) !important;
-            color: #111827 !important;
+            background: rgba(255, 20, 147, 0.04) !important;
+            border-color: #F472B6 !important;
+            color: #FF1493 !important;
             transform: translateX(4px);
-            box-shadow: 0 5px 14px rgba(212, 175, 55, 0.12) !important;
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.08) !important;
         }
         .sidebar-nav-item.active {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(243, 208, 121, 0.05) 100%) !important;
-            border-color: #D4AF37 !important;
-            color: #926C09 !important;
+            background: rgba(255, 20, 147, 0.06) !important;
+            border-left: 4px solid #FF1493 !important;
+            border-color: var(--brand-border) !important;
+            color: #FF1493 !important;
             font-weight: 700;
         }
         
-        /* Cajas de Iconos con Colores Vivos */
+        /* Cajas de Iconos */
         .sidebar-icon-box {
             width: 34px;
             height: 34px;
@@ -377,57 +377,62 @@
             font-size: 0.95rem;
             margin-right: 0.75rem;
             flex-shrink: 0;
+            background: rgba(255, 20, 147, 0.08);
+            color: #FF1493;
             transition: transform 0.2s ease;
         }
         .sidebar-nav-item:hover .sidebar-icon-box {
             transform: scale(1.1);
+            background: rgba(255, 20, 147, 0.16);
+            color: #FF1493;
         }
-        .icon-box-gold { background: rgba(212, 175, 55, 0.14); color: #B89028; }
-        .icon-box-indigo { background: rgba(99, 102, 241, 0.14); color: #4F46E5; }
-        .icon-box-emerald { background: rgba(16, 185, 129, 0.14); color: #059669; }
-        .icon-box-amber { background: rgba(245, 158, 11, 0.14); color: #D97706; }
-        .icon-box-sky { background: rgba(14, 165, 233, 0.14); color: #0284C7; }
-        .icon-box-purple { background: rgba(139, 92, 246, 0.14); color: #7C3AED; }
-        .icon-box-rose { background: rgba(244, 63, 94, 0.14); color: #E11D48; }
-        .icon-box-pink { background: rgba(236, 72, 153, 0.14); color: #DB2777; }
-        .icon-box-teal { background: rgba(20, 184, 166, 0.14); color: #0D9488; }
+        .icon-box-gold { background: rgba(255, 20, 147, 0.1); color: #FF1493; }
+        .icon-box-indigo { background: rgba(244, 114, 182, 0.14); color: #C71585; }
+        .icon-box-emerald { background: rgba(16, 185, 129, 0.12); color: #059669; }
+        .icon-box-amber { background: rgba(255, 20, 147, 0.12); color: #FF1493; }
+        .icon-box-sky { background: rgba(244, 114, 182, 0.15); color: #DB2777; }
+        .icon-box-purple { background: rgba(199, 21, 133, 0.12); color: #C71585; }
+        .icon-box-rose { background: rgba(255, 20, 147, 0.14); color: #FF1493; }
+        .icon-box-pink { background: rgba(244, 114, 182, 0.16); color: #FF1493; }
+        .icon-box-teal { background: rgba(244, 114, 182, 0.14); color: #C71585; }
 
         /* Tarjeta Destacada para Arqueo de Caja */
         .sidebar-nav-highlight {
-            background: linear-gradient(135deg, #FFFDF7 0%, #FFF8E6 100%) !important;
-            border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15) !important;
+            background: #FFFFFF !important;
+            border: 1.5px solid #FF1493 !important;
+            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.12) !important;
         }
         .sidebar-nav-highlight:hover {
-            border-color: #D4AF37 !important;
-            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.25) !important;
+            border-color: #FF1493 !important;
+            background: rgba(255, 20, 147, 0.06) !important;
+            box-shadow: 0 6px 18px rgba(255, 20, 147, 0.2) !important;
         }
 
         /* Submenú desplegable estilizado */
         .sidebar-submenu-box {
-            background: #F8FAFC;
+            background: #FFFFFF;
             border-radius: 12px;
             padding: 0.4rem;
             margin-top: 0.25rem;
             margin-bottom: 0.5rem;
-            border: 1px solid #EEF2F6;
+            border: 1px solid var(--brand-border);
         }
         .sidebar-sub-item {
             display: flex;
             align-items: center;
             padding: 0.5rem 0.75rem;
             border-radius: 8px;
-            color: #4B5563;
+            color: #71717A;
             font-size: 0.84rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.18s ease;
         }
         .sidebar-sub-item:hover {
-            background: #FFFFFF;
-            color: #111827;
+            background: rgba(255, 20, 147, 0.05);
+            color: #FF1493;
             transform: translateX(3px);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 6px rgba(255, 20, 147, 0.04);
         }
         .sidebar-sub-item i {
             font-size: 0.8rem;
@@ -440,32 +445,32 @@
         }
         [aria-expanded="true"] .chevron-toggle {
             transform: rotate(180deg);
-            color: #D4AF37;
+            color: #FF1493;
         }
 
-        /* Botón PWA Tech */
+        /* Botón PWA Glam */
         .btn-sidebar-pwa {
-            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-            border: 1.5px solid #F59E0B;
-            color: #B45309;
+            background: #FFFFFF;
+            border: 1.5px solid #FF1493;
+            color: #FF1493;
             font-weight: 700;
             padding: 0.7rem 1rem;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.12);
             transition: all 0.2s ease;
         }
         .btn-sidebar-pwa:hover {
-            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-            color: #92400E;
+            background: var(--brand-gradient);
+            color: #FFFFFF;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+            box-shadow: var(--brand-neon-glow);
         }
 
         /* Botón Salir Elegante */
         .btn-sidebar-logout {
-            background: #FFF5F5;
-            border: 1px solid #FECACA;
-            color: #DC2626;
+            background: #FFF5F7;
+            border: 1px solid #FECDD3;
+            color: #E11D48;
             font-weight: 700;
             padding: 0.65rem 1rem;
             border-radius: 12px;
@@ -476,14 +481,14 @@
             justify-content: center;
         }
         .btn-sidebar-logout:hover {
-            background: #DC2626;
-            border-color: #DC2626;
+            background: #E11D48;
+            border-color: #E11D48;
             color: #FFFFFF;
             transform: translateY(-2px);
-            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
         }
 
-        /* Reglas EXCLUSIVAS para móviles (<768px): el computador permanece 100% intacto */
+        /* Reglas EXCLUSIVAS para móviles (<768px) */
         @media (max-width: 767.98px) {
             html, body {
                 overflow-x: hidden;
@@ -515,7 +520,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navbar MARIPOCELL -->
+    <!-- Navbar MY CASE -->
     <nav class="navbar navbar-custom mb-4 mb-md-5">
         <div class="container-fluid px-2 px-md-3 d-flex align-items-center justify-content-between">
             
@@ -523,27 +528,29 @@
             <div class="d-flex align-items-center" style="min-width: 44px;">
                 {% if current_user.is_authenticated %}
                 <button class="navbar-toggler border-0 shadow-none p-1 p-md-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Menú">
-                    <i class="fa-solid fa-bars fs-3" style="color: #111827;"></i>
+                    <i class="fa-solid fa-bars fs-3" style="color: #FF1493;"></i>
                 </button>
                 {% else %}
                 <div style="width: 40px;"></div>
                 {% endif %}
             </div>
 
-            <!-- Columna Centro: Brand Logo (Maripocell) -->
+            <!-- Columna Centro: Brand Logo (My Case) -->
             <div class="d-flex justify-content-center flex-grow-1 px-1 px-sm-2 text-center overflow-hidden">
-                <a class="navbar-brand d-inline-flex align-items-center fw-bold m-0 text-nowrap" href="{{ url_for('index') }}" style="letter-spacing: 1.5px; font-size: clamp(1.3rem, 4vw, 1.7rem); font-family: var(--font-display);">
-                    <img src="{{ url_for('static', filename='img/Maripocell.png') }}" alt="Maripocell Logo" class="me-2 rounded-2" style="width: 38px; height: 38px; object-fit: contain;">
-                    <span style="color: #111827; font-weight: 900;">Maripocell</span>
-                    <span class="navbar-brand-tech small ms-2 px-2 py-0 rounded" style="color: #926C09; font-size: 0.72rem; font-weight: 700; border: 1px solid rgba(212, 175, 55, 0.4); background-color: rgba(212, 175, 55, 0.08); letter-spacing: 1px;">ACCESORIOS & TECNOLOGÍA</span>
+                <a class="navbar-brand d-inline-flex align-items-center m-0 text-nowrap" href="{{ url_for('index') }}" style="gap: 12px;">
+                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" alt="My Case Logo" class="rounded-circle" style="width: 42px; height: 42px; object-fit: contain; border: 2px solid #FF1493; box-shadow: 0 0 12px rgba(255, 20, 147, 0.25);">
+                    <div class="d-flex flex-column text-start">
+                        <span class="brand-title-script" style="font-size: clamp(1.8rem, 4vw, 2.3rem); font-weight: normal; text-shadow: 0 0 10px rgba(255, 20, 147, 0.18);">My Case</span>
+                        <span class="section-subtitle" style="font-size: 0.65rem; color: #71717A; line-height: 1; margin-top: -2px;">ACCESORIOS PARA TU CELULAR</span>
+                    </div>
                 </a>
             </div>
 
-            <!-- Columna Derecha: Badge Notificaciones y Servidor Zenic (Compacto y responsivo) -->
+            <!-- Columna Derecha: Badge Notificaciones y Servidor Zenic -->
             <div class="d-flex align-items-center justify-content-end gap-1 gap-md-2" style="min-width: 44px;">
                 {% if current_user.is_authenticated and current_user.rol == 'admin' %}
                     <div id="admin_approval_badge_btn" style="display: none;" class="me-1">
-                        <span class="badge bg-danger rounded-pill px-2 py-1 shadow-sm d-flex align-items-center gap-1" style="font-size: 0.78rem;">
+                        <span class="badge rounded-pill px-2 py-1 shadow-sm d-flex align-items-center gap-1" style="font-size: 0.78rem; background: var(--brand-gradient); color: #FFFFFF;">
                             <i class="fa-solid fa-bell fa-shake text-white"></i>
                             <span id="admin_approval_count">0</span>
                             <span class="d-none d-lg-inline">solicitud(es)</span>
@@ -552,10 +559,10 @@
                     {% if pago_servidor.estado == 'pagado' or pago_servidor.estado == 'al_dia' %}
                     <button type="button" 
                             class="btn btn-sm px-2 px-md-3 py-1 rounded-pill fw-bold d-flex align-items-center gap-1 shadow-sm text-nowrap"
-                            style="background-color: #112211; color: #00E676; border: 1.5px solid #00E676; font-size: 0.78rem;"
+                            style="background-color: #FFFFFF; color: #059669; border: 1.5px solid #10B981; font-size: 0.78rem;"
                             data-bs-toggle="modal" 
                             data-bs-target="#modalPagoServidor">
-                        <i class="fa-solid fa-circle-check" style="color: #00E676;"></i>
+                        <i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
                         <span class="d-none d-sm-inline">✓ Zenic: </span>
                         <span>Al día</span>
                     </button>
@@ -569,7 +576,7 @@
 
 
     {% if current_user.is_authenticated %}
-    <!-- Offcanvas Menú Lateral Premium (Sidebar) -->
+    <!-- Offcanvas Menú Lateral Premium (Sidebar 100% Blanco con Acentos Rosa Neón) -->
     <div class="offcanvas offcanvas-start border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 300px;">
         <!-- Header con Avatar y Rol -->
         <div class="sidebar-header-card">
@@ -577,16 +584,16 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="sidebar-avatar-circle">
                         {% if current_user.rol == 'admin' %}
-                            <i class="fa-solid fa-crown text-dark" style="font-size: 1.1rem;"></i>
+                            <i class="fa-solid fa-crown text-white" style="font-size: 1.1rem;"></i>
                         {% else %}
-                            <i class="fa-solid fa-user-tie text-dark" style="font-size: 1.1rem;"></i>
+                            <i class="fa-solid fa-user-tie text-white" style="font-size: 1.1rem;"></i>
                         {% endif %}
                     </div>
                     <div>
-                        <h6 class="text-white fw-bold mb-0 text-truncate" style="max-width: 140px; font-family: var(--font-heading); letter-spacing: 0.3px;">
+                        <h6 class="fw-bold mb-0 text-truncate" style="max-width: 140px; font-family: var(--font-heading); color: #18181B; letter-spacing: 0.3px;">
                             {{ current_user.nombre if current_user.nombre else (current_user.rol | capitalize) }}
                         </h6>
-                        <span class="badge rounded-pill text-dark fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%); letter-spacing: 0.5px;">
+                        <span class="badge rounded-pill fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: rgba(255, 20, 147, 0.08); color: #FF1493; border: 1px solid #FCE7F3; letter-spacing: 0.5px;">
                             {{ 'ADMINISTRADOR' if current_user.rol == 'admin' else 'VENDEDOR' }}
                         </span>
                     </div>
@@ -686,8 +693,8 @@
                             <i class="fa-solid fa-calculator"></i>
                         </div>
                         <div class="d-flex flex-column">
-                            <span class="fw-bold" style="color: #111827;">Arqueo de Caja</span>
-                            <span style="font-size: 0.72rem; color: #926C09; font-weight: 600;">Cuadre y cierre diario</span>
+                            <span class="fw-bold" style="color: #FF1493;">Arqueo de Caja</span>
+                            <span style="font-size: 0.72rem; color: #71717A; font-weight: 600;">Cuadre y cierre diario</span>
                         </div>
                     </a>
 
@@ -730,8 +737,8 @@
                             <i class="fa-solid fa-calculator"></i>
                         </div>
                         <div class="d-flex flex-column">
-                            <span class="fw-bold" style="color: #111827;">Arqueo de Caja</span>
-                            <span style="font-size: 0.72rem; color: #926C09; font-weight: 600;">Cierre de turno</span>
+                            <span class="fw-bold" style="color: #FF1493;">Arqueo de Caja</span>
+                            <span style="font-size: 0.72rem; color: #71717A; font-weight: 600;">Cierre de turno</span>
                         </div>
                     </a>
                 {% endif %}
@@ -1226,7 +1233,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('[PWA] El usuario aceptó la instalación de Maripocell');
+                        console.log('[PWA] El usuario aceptó la instalación de My Case');
                     }
                     deferredPrompt = null;
                     const container = document.getElementById('pwa-install-container');
@@ -1236,7 +1243,7 @@
         }
 
         window.addEventListener('appinstalled', () => {
-            console.log('[PWA] Maripocell fue instalada satisfactoriamente');
+            console.log('[PWA] My Case fue instalada satisfactoriamente');
             const container = document.getElementById('pwa-install-container');
             if (container) container.classList.add('d-none');
         });

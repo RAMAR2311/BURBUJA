@@ -415,22 +415,26 @@
         const toast = document.createElement('div');
         const bgClass = tipo === 'success' ? 'bg-success text-white' :
                         tipo === 'warning' ? 'bg-warning text-dark' :
-                        tipo === 'danger' ? 'bg-danger text-white' : 'bg-dark text-white';
+                        tipo === 'danger' ? 'bg-danger text-white' : 'bg-white text-dark';
         
-        const icon = tipo === 'success' ? 'fa-circle-check' :
-                     tipo === 'warning' ? 'fa-triangle-exclamation' :
-                     tipo === 'danger' ? 'fa-circle-xmark' : 'fa-circle-info';
+        const icon = tipo === 'success' ? 'fa-circle-check text-white' :
+                     tipo === 'warning' ? 'fa-triangle-exclamation text-dark' :
+                     tipo === 'danger' ? 'fa-circle-xmark text-white' : 'fa-circle-info text-primary';
                      
-        toast.className = `toast align-items-center ${bgClass} border-0 shadow-lg show mb-2 rounded-3`;
+        toast.className = `toast align-items-center ${bgClass} shadow-lg show mb-2 rounded-3`;
         toast.setAttribute('role', 'alert');
         toast.style.minWidth = '260px';
+        toast.style.border = '1px solid #FCE7F3';
+        if (tipo === 'info' || tipo === 'default') {
+            toast.style.boxShadow = '0 8px 25px rgba(255, 20, 147, 0.12)';
+        }
         toast.innerHTML = `
             <div class="d-flex p-2">
                 <div class="toast-body d-flex align-items-center py-1">
                     <i class="fa-solid ${icon} me-2 fs-5"></i>
                     <span class="fw-semibold small">${mensaje}</span>
                 </div>
-                <button type="button" class="btn-close ${tipo !== 'warning' ? 'btn-close-white' : ''} me-2 m-auto" onclick="this.closest('.toast').remove()"></button>
+                <button type="button" class="btn-close ${tipo === 'success' || tipo === 'danger' ? 'btn-close-white' : ''} me-2 m-auto" onclick="this.closest('.toast').remove()"></button>
             </div>
         `;
         

@@ -626,12 +626,12 @@
 <!-- MODAL PARA EDITAR GASTO -->
 <div class="modal fade" id="modalEditarGasto" tabindex="-1" aria-labelledby="modalEditarGastoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-            <div class="modal-header bg-dark text-white border-0 py-3">
-                <h5 class="modal-title fw-bold" id="modalEditarGastoLabel">
-                    <i class="fa-solid fa-pen-to-square me-2 text-warning"></i> Editar Salida de Dinero
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background: #FFFFFF; border: 1px solid #FCE7F3 !important;">
+            <div class="modal-header border-0 py-3" style="background: #FFFFFF; border-bottom: 1px solid #FCE7F3 !important;">
+                <h5 class="modal-title fw-bold" id="modalEditarGastoLabel" style="color: #18181B; font-family: 'Montserrat', sans-serif;">
+                    <i class="fa-solid fa-pen-to-square me-2" style="color: #FF1493;"></i> Editar Salida de Dinero
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formEditarGasto" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -739,12 +739,12 @@
 
 <!-- Toast Flotante -->
 <div class="toast-container-custom">
-    <div id="toastApp" class="toast align-items-center text-white bg-dark border-0 shadow-lg rounded-4" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="toastApp" class="toast align-items-center shadow-lg rounded-4" style="background: #FFFFFF !important; color: #18181B !important; border: 1px solid #FCE7F3 !important; box-shadow: 0 10px 30px rgba(255, 20, 147, 0.15) !important;" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex p-2">
-            <div class="toast-body d-flex align-items-center gap-2 fw-semibold" id="toastMsg">
+            <div class="toast-body d-flex align-items-center gap-2 fw-semibold" id="toastMsg" style="color: #18181B;">
                 <i class="fa-solid fa-circle-check text-success fs-5"></i> <span>Mensaje</span>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 </div>

@@ -87,14 +87,14 @@
 </div>
 
 <!-- ENCABEZADO EXCLUSIVO PARA IMPRESIÓN / PDF -->
-<div class="d-none d-print-block mb-4">
-    <h1 class="fw-bold mb-1" style="font-family: var(--font-heading); color: #000000;"><i class="fa-solid fa-chart-line me-2" style="color: var(--brand-primary);"></i> MARIPOCELL</h1>
-    <h4 class="text-muted fw-semibold" style="font-family: var(--font-heading);">REPORTE CONSOLIDADO DE VENTAS</h4>
-    <p class="mb-0 text-secondary" style="font-family: var(--font-body);">
+<div class="d-none d-print-block mb-4 text-center">
+    <div style="font-family: 'Great Vibes', cursive; font-size: 2.75rem; color: #FF1493; line-height: 1;">My Case</div>
+    <div style="font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #18181B; margin-top: 4px;">ACCESORIOS PARA TU CELULAR • REPORTE CONSOLIDADO DE VENTAS</div>
+    <p class="mb-0 text-secondary" style="font-family: var(--font-body); font-size: 0.85rem; margin-top: 6px;">
         Período Analizado: <strong>{{ fecha_inicio if fecha_inicio else 'Inicios' }}</strong> hasta <strong>{{ fecha_fin if fecha_fin else 'Hoy' }}</strong>
     </p>
     {% if current_user.rol != 'admin' %}
-        <p class="mb-0 text-dark fw-bold">Usuario Solicitante: {{ current_user.nombre }}</p>
+        <p class="mb-0 text-dark fw-bold" style="font-size: 0.85rem;">Usuario Solicitante: {{ current_user.nombre }}</p>
     {% endif %}
 </div>
 
@@ -104,25 +104,25 @@
 <div class="row g-3 mb-3">
     <!-- Tarjeta Principal: TOTAL CONSOLIDADO -->
     <div class="col-12 col-md-4">
-        <div class="card card-custom h-100 p-3 border-0 shadow-sm metric-card" style="border-top: 4px solid #E53935 !important; background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F5 100%);">
+        <div class="card card-custom h-100 p-3 shadow-sm metric-card" style="border: 1px solid #FCE7F3 !important; border-top: 4px solid #FF1493 !important; background: #FFFFFF !important; box-shadow: 0 4px 18px rgba(255, 20, 147, 0.06) !important;">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div>
-                    <span class="badge px-2 py-1 rounded-pill fw-bold mb-1" style="background-color: #FFEBEE; color: #E53935; font-size: 0.72rem; letter-spacing: 0.5px; font-family: var(--font-heading);">
+                    <span class="badge px-2 py-1 rounded-pill fw-bold mb-1" style="background-color: #FFF1F7; color: #FF1493; font-size: 0.72rem; letter-spacing: 0.5px; font-family: var(--font-heading); border: 1px solid #FCE7F3;">
                         <i class="fa-solid fa-gem me-1"></i> CONSOLIDADO TOTAL
                     </span>
-                    <h3 class="fw-bolder m-0 text-brand-black mt-1" style="font-family: var(--font-heading);">
+                    <h3 class="fw-bolder m-0 mt-1" style="font-family: var(--font-heading); color: #FF1493;">
                         ${{ (total_general)|cop }}
                     </h3>
                 </div>
-                <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background-color: #FFEBEE; color: #E53935;">
+                <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background-color: #FFF1F7; color: #FF1493; border: 1px solid #FCE7F3;">
                     <i class="fa-solid fa-sack-dollar fs-5"></i>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-auto" style="border-color: #FFCDD2 !important;">
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-auto" style="border-color: #FCE7F3 !important;">
                 <span class="small text-muted" style="font-family: var(--font-body);">
                     <i class="fa-solid fa-receipt me-1"></i> {{ total_operaciones }} venta{{ 's' if total_operaciones != 1 else '' }}
                 </span>
-                <span class="small fw-bold" style="color: #E53935; font-family: var(--font-heading);">
+                <span class="small fw-bold" style="color: #FF1493; font-family: var(--font-heading);">
                     Prom. ${{ (ticket_promedio)|cop }}
                 </span>
             </div>

@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maripocell - Sin Conexión</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/icons/favicon-32x32.png?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/icons/favicon-16x16.png?v=maripocell_v3">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/icons/apple-touch-icon.png?v=maripocell_v3">
-    <meta name="theme-color" content="#D4AF37">
-    <!-- Google Fonts: Montserrat & Roboto -->
+    <title>My Case - Sin Conexión</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/icons/favicon-32x32.png?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/icons/favicon-16x16.png?v=mycase_v1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/icons/apple-touch-icon.png?v=mycase_v1">
+    <meta name="theme-color" content="#FF1493">
+    <!-- Google Fonts: Great Vibes, Montserrat & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --brand-bg: #FFFFFF;
             --brand-white: #FFFFFF;
-            --brand-primary: #D4AF37;
-            --brand-secondary: #1F1F1F;
-            --brand-text: #111827;
-            --brand-muted: #4B5563;
-            --brand-border: #E5E7EB;
-            --brand-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(212, 175, 55, 0.08);
+            --brand-primary: #FF1493;
+            --brand-accent: #F472B6;
+            --brand-text: #18181B;
+            --brand-muted: #71717A;
+            --brand-border: #FCE7F3;
+            --brand-shadow: 0 10px 25px -5px rgba(255, 20, 147, 0.08), 0 8px 10px -6px rgba(255, 20, 147, 0.04);
         }
 
         * {
@@ -33,8 +33,8 @@
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--brand-bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #FFFFFF !important;
             color: var(--brand-text);
             min-height: 100vh;
             display: flex;
@@ -44,11 +44,11 @@
         }
 
         .offline-card {
-            background: var(--brand-white);
+            background: #FFFFFF !important;
             border: 1px solid var(--brand-border);
-            border-radius: 20px;
+            border-radius: 24px;
             box-shadow: var(--brand-shadow);
-            padding: 2.5rem 2rem;
+            padding: 2.75rem 2rem;
             max-width: 480px;
             width: 100%;
             text-align: center;
@@ -62,87 +62,92 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+            height: 5px;
+            background: linear-gradient(90deg, #FF1493, #F472B6, #FF69B4);
         }
 
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(212, 175, 55, 0.12);
-            color: #926C09;
-            padding: 0.4rem 1rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
+        .brand-logo-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.4rem;
+            color: #FF1493;
+            line-height: 1;
+            margin-bottom: 0.15rem;
+            text-shadow: 0 2px 10px rgba(255, 20, 147, 0.18);
+        }
+
+        .brand-subtitle-tag {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.68rem;
             font-weight: 700;
-            letter-spacing: 0.05em;
             text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: #F472B6;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .icon-container {
-            width: 84px;
-            height: 84px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: rgba(212, 175, 55, 0.12);
+            background: #FFF1F7;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
             color: var(--brand-primary);
-            font-size: 2.25rem;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            font-size: 2rem;
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.15);
+            border: 1px solid #FCE7F3;
         }
 
         h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
+            font-size: 1.45rem;
+            font-weight: 800;
             color: var(--brand-text);
             margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
         p {
             color: var(--brand-muted);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             line-height: 1.55;
             margin-bottom: 1.75rem;
         }
 
         .btn-retry {
-            background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
-            color: #111827;
-            border: 1px solid #D4AF37;
-            padding: 0.85rem 1.75rem;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%);
+            color: #FFFFFF !important;
+            border: none;
+            padding: 0.85rem 1.85rem;
+            border-radius: 14px;
             font-size: 0.95rem;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             text-decoration: none;
-            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.35);
         }
 
         .btn-retry:hover {
             transform: translateY(-2px);
-            background: linear-gradient(135deg, #E5B842 0%, #FCE8B2 100%);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 6px 22px rgba(255, 20, 147, 0.45);
+            filter: brightness(1.05);
         }
 
         .status-pill {
-            margin-top: 1.5rem;
+            margin-top: 1.75rem;
             font-size: 0.8rem;
+            font-weight: 600;
             color: var(--brand-muted);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
+            gap: 0.45rem;
         }
 
         .status-dot {
@@ -162,18 +167,17 @@
 </head>
 <body>
     <div class="offline-card">
-        <div class="mb-3">
-            <img src="/static/img/icons/icon-192x192.png" alt="Maripocell Logo" style="width: 72px; height: 72px; object-fit: contain; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 4px; border: 1px solid #E5E7EB; background: #FFFFFF;">
+        <div class="mb-2">
+            <img src="/static/img/icons/icon-192x192.png?v=mycase_v1" alt="My Case Logo" style="width: 72px; height: 72px; object-fit: contain; border-radius: 18px; box-shadow: 0 4px 15px rgba(255, 20, 147, 0.12); padding: 4px; border: 1px solid #FCE7F3; background: #FFFFFF;">
         </div>
-        <div class="brand-badge">
-            <i class="fas fa-bolt"></i> Maripocell POS
-        </div>
+        <div class="brand-logo-text">My Case</div>
+        <div class="brand-subtitle-tag">Accesorios para tu celular</div>
         <div class="icon-container">
             <i class="fas fa-wifi-slash"></i>
         </div>
         <h1>Sin Conexión a Internet</h1>
         <p>
-            No pudimos sincronizar con el servidor de Maripocell. Por favor verifica tu conexión Wi-Fi o datos móviles.
+            No pudimos sincronizar con el servidor de My Case. Por favor verifica tu conexión Wi-Fi o datos móviles.
         </p>
         <button class="btn-retry" onclick="window.location.reload();">
             <i class="fas fa-rotate-right"></i> Reintentar Conexión

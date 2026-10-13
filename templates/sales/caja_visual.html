@@ -132,11 +132,11 @@
         transform: scale(0.95);
     }
 
-    /* Estilos Premium con Destellos Dorados para el Panel de Balance POS */
+    /* Estilos Glam Light Theme para el Panel de Balance POS (100% Blanco con Acentos Neón) */
     .balance-card-container {
         border-radius: 20px !important;
-        border: 1.5px solid rgba(212, 175, 55, 0.35) !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06) !important;
+        border: 1.5px solid #FCE7F3 !important;
+        box-shadow: 0 8px 30px rgba(255, 20, 147, 0.05) !important;
         background: #FFFFFF !important;
         position: relative;
         overflow: hidden;
@@ -146,15 +146,15 @@
         font-family: var(--font-heading);
         letter-spacing: 0.3px;
         font-weight: 800;
-        color: #111827;
+        color: #18181B;
     }
 
-    /* Caja Destacada de Total a Cobrar con Destello Dorado */
+    /* Caja Destacada de Total a Cobrar con Acento Rosa Neón */
     .total-charge-box {
-        background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF7 40%, #FFF8E6 100%) !important;
-        border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+        background: #FFFFFF !important;
+        border: 1.5px solid #FCE7F3 !important;
         border-radius: 16px !important;
-        box-shadow: 0 4px 18px rgba(212, 175, 55, 0.16) !important;
+        box-shadow: 0 4px 18px rgba(255, 20, 147, 0.08) !important;
         position: relative;
         overflow: hidden;
         transition: all 0.25s ease;
@@ -166,24 +166,24 @@
         right: -30px;
         width: 100px;
         height: 100px;
-        background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(243, 208, 121, 0.05) 50%, transparent 75%);
+        background: radial-gradient(circle, rgba(255, 20, 147, 0.15) 0%, rgba(244, 114, 182, 0.05) 50%, transparent 75%);
         border-radius: 50%;
         pointer-events: none;
     }
 
-    /* Destello Shimmer Dorado Animado */
-    .gold-shimmer-effect {
+    /* Destello Shimmer Glam Neón Animado */
+    .gold-shimmer-effect, .glam-shimmer-effect {
         position: relative;
         overflow: hidden;
     }
-    .gold-shimmer-effect::after {
+    .gold-shimmer-effect::after, .glam-shimmer-effect::after {
         content: '';
         position: absolute;
         top: 0;
         left: -150%;
         width: 75%;
         height: 100%;
-        background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.2) 50%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 20, 147, 0.15) 50%, transparent 100%);
         transform: skewX(-25deg);
         animation: posShimmerLoop 5s infinite ease-in-out;
         pointer-events: none;
@@ -195,15 +195,15 @@
         100% { left: 160%; }
     }
 
-    /* Botón de Procesar Cobro con Oro Tech y Shimmer */
+    /* Botón de Procesar Cobro con Degradado Rosa Neón Glam */
     .btn-process-cobro-gold {
-        background: linear-gradient(135deg, #D4AF37 0%, #F3D079 50%, #E5B842 100%) !important;
-        color: #111827 !important;
-        font-weight: 900 !important;
+        background: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%) !important;
+        color: #FFFFFF !important;
+        font-weight: 800 !important;
         font-family: var(--font-heading);
         letter-spacing: 0.5px;
-        border: 1px solid #D4AF37 !important;
-        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+        border: none !important;
+        box-shadow: 0 6px 20px rgba(255, 20, 147, 0.35) !important;
         position: relative;
         overflow: hidden;
         transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -221,32 +221,32 @@
         pointer-events: none;
     }
     .btn-process-cobro-gold:hover {
-        background: linear-gradient(135deg, #E5B842 0%, #FCE8B2 50%, #F3D079 100%) !important;
+        background: linear-gradient(135deg, #FF80BF 0%, #FF2E9D 50%, #D81B60 100%) !important;
         transform: translateY(-3px) scale(1.01);
-        box-shadow: 0 10px 28px rgba(212, 175, 55, 0.55) !important;
-        color: #111827 !important;
+        box-shadow: 0 10px 28px rgba(255, 20, 147, 0.5) !important;
+        color: #FFFFFF !important;
     }
     .btn-process-cobro-gold:active {
         transform: scale(0.98);
     }
 
-    /* Selector de Métodos de Pago Estilizado */
+    /* Selector de Métodos de Pago Estilizado Glam */
     .payment-method-group .btn-check:checked + .btn {
-        background: linear-gradient(135deg, #111827 0%, #1F2937 100%) !important;
-        color: #F9FAFB !important;
-        border-color: #111827 !important;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        background: #FF1493 !important;
+        color: #FFFFFF !important;
+        border-color: #FF1493 !important;
+        box-shadow: 0 3px 12px rgba(255, 20, 147, 0.35);
     }
     .payment-method-group .btn {
-        border-color: #E2E8F0;
+        border-color: #FCE7F3;
         background: #FFFFFF;
-        color: #4B5563;
+        color: #71717A;
         transition: all 0.18s ease;
     }
     .payment-method-group .btn:hover {
-        border-color: rgba(212, 175, 55, 0.5);
-        background: #FFFDF8;
-        color: #111827;
+        border-color: #F472B6;
+        background: #FFF1F7;
+        color: #FF1493;
     }
 
     /* Botón de limpiar buscador */
@@ -425,16 +425,16 @@
         <div class="card card-custom balance-card-container p-4 position-sticky" style="top: 90px; height: auto;">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center text-dark fw-bold" style="width: 36px; height: 36px; background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%); box-shadow: 0 2px 8px rgba(212,175,55,0.3);">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center text-white fw-bold" style="width: 36px; height: 36px; background: linear-gradient(135deg, #FF66B2 0%, #FF1493 100%); box-shadow: 0 2px 8px rgba(255,20,147,0.35);">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </div>
                     <h5 class="balance-header-title m-0">Balance & Cobro</h5>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill fw-bold d-lg-none" onclick="volverAlCatalogo()">
+                    <button type="button" class="btn btn-outline-pink btn-sm rounded-pill fw-bold d-lg-none" onclick="volverAlCatalogo()">
                         <i class="fa-solid fa-plus me-1"></i> Agregar más
                     </button>
-                    <span class="badge rounded-pill px-3 py-2 fw-bold" id="total_items" style="background: #111827; color: #D4AF37; border: 1px solid rgba(212,175,55,0.4);">0 items</span>
+                    <span class="badge rounded-pill px-3 py-2 fw-bold" id="total_items" style="background: rgba(255,20,147,0.08); color: #FF1493; border: 1px solid #FCE7F3;">0 items</span>
                 </div>
             </div>
             
@@ -446,15 +446,15 @@
                 </ul>
             </div>
 
-            <!-- Total a Cobrar con Destello Shimmer Dorado -->
-            <div class="total-charge-box gold-shimmer-effect d-flex justify-content-between align-items-center py-3 px-3 mb-3">
+            <!-- Total a Cobrar con Destello Shimmer Neón -->
+            <div class="total-charge-box glam-shimmer-effect d-flex justify-content-between align-items-center py-3 px-3 mb-3">
                 <div>
                     <span class="text-muted fw-bold text-uppercase d-block" style="font-size: 0.75rem; letter-spacing: 0.8px;">Total a Cobrar:</span>
-                    <small class="badge rounded-pill fw-bold" style="font-size: 0.65rem; background: rgba(212,175,55,0.18); color: #926C09; border: 1px solid rgba(212,175,55,0.35);">
+                    <small class="badge rounded-pill fw-bold" style="font-size: 0.65rem; background: rgba(255,20,147,0.08); color: #FF1493; border: 1px solid #FCE7F3;">
                         <i class="fa-solid fa-sparkles me-1"></i>Venta Directa
                     </small>
                 </div>
-                <span class="fw-bolder fs-1 text-dark" id="total_amount" style="font-family: var(--font-heading); letter-spacing: -0.5px;">$0</span>
+                <span class="fw-bolder fs-1" id="total_amount" style="font-family: var(--font-heading); letter-spacing: -0.5px; color: #FF1493 !important;">$0</span>
             </div>
 
             {% if current_user.rol == 'admin' %}
@@ -539,11 +539,11 @@
                 <!-- Botón de Cobro Masivo y Limpieza con Destellos Dorados -->
                 <div class="d-grid gap-2 mt-auto pt-3">
                     <!-- Botón para regresar al catálogo desde el celular si se bajó por error -->
-                    <button type="button" class="btn btn-outline-primary btn-lg rounded-3 py-2 fw-bold d-lg-none" onclick="volverAlCatalogo()">
+                    <button type="button" class="btn btn-outline-pink btn-lg rounded-3 py-2 fw-bold d-lg-none" onclick="volverAlCatalogo()">
                         <i class="fa-solid fa-arrow-up me-2"></i> Subir / Agregar más productos
                     </button>
                     <button type="button" class="btn btn-process-cobro-gold btn-lg rounded-3 py-3 shadow text-uppercase fw-bold" id="btn_process_sale">
-                        <i class="fa-solid fa-credit-card me-2"></i> Procesar Cobro <span class="badge bg-dark text-warning ms-1 fw-bold d-none d-md-inline" style="font-size: 0.7rem;">F4</span>
+                        <i class="fa-solid fa-credit-card me-2"></i> Procesar Cobro <span class="badge ms-1 fw-bold d-none d-md-inline" style="background: rgba(255, 255, 255, 0.28); color: #FFFFFF; font-size: 0.7rem;">F4</span>
                     </button>
                     <button type="button" class="btn btn-light fw-bold text-muted border-0 py-2" id="btn_clear_cart">
                         <i class="fa-solid fa-trash-can me-1 text-danger"></i> Limpiar Venta

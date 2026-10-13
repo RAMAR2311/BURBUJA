@@ -38,15 +38,18 @@
         overflow-y: auto;
         border-radius: 0;
         border: none;
+        background-color: #FFFFFF !important;
     }
     .tirilla-scroll thead th {
         position: sticky;
         top: 0;
-        background-color: #000000 !important;
-        color: #FFFFFF !important;
+        background-color: #FFFFFF !important;
+        color: #71717A !important;
+        border-bottom: 2px solid #FF1493 !important;
         z-index: 5;
         font-size: 0.78rem;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
         padding: 0.75rem 1rem;
         font-family: var(--font-heading);
         font-weight: 700;
@@ -235,16 +238,16 @@
         <!-- COLUMNA IZQUIERDA (70%): Auditoría Operativa, Desgloses y Tirilla -->
         <div class="col-lg-8">
             
-            <!-- 3 KPI Cards Superiores -->
+            <!-- 3 KPI Cards Superiores (100% White Canvas con Acentos Glam) -->
             <div class="row g-3 mb-4">
                 <div class="col-md-4">
-                    <div class="card kpi-card-arqueo text-white p-3 shadow-sm h-100" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;">
+                    <div class="card p-3 shadow-sm h-100 bg-white" style="border: 1px solid #FCE7F3; border-radius: 16px;">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <small class="text-white text-opacity-75 fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Efectivo en Sistema</small>
-                                <h3 class="fw-bolder m-0 text-white font-orbitron" style="color: #ffffff !important; font-size: 1.75rem;">${{ total_efectivo|cop }}</h3>
+                                <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.1em; font-family: var(--font-heading);">Efectivo en Sistema</small>
+                                <h3 class="fw-bolder m-0 font-orbitron" style="color: #059669 !important; font-size: 1.75rem;">${{ total_efectivo|cop }}</h3>
                             </div>
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.25); font-size: 1.4rem;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background-color: rgba(16, 185, 129, 0.12); color: #059669; font-size: 1.3rem;">
                                 <i class="fa-solid fa-money-bill-wave"></i>
                             </div>
                         </div>
@@ -252,13 +255,13 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card kpi-card-arqueo text-white p-3 shadow-sm h-100" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;">
+                    <div class="card p-3 shadow-sm h-100 bg-white" style="border: 1px solid #FCE7F3; border-radius: 16px;">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <small class="text-white text-opacity-75 fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Dinero Digital / Bancos</small>
-                                <h3 class="fw-bolder m-0 text-white font-orbitron" style="color: #ffffff !important; font-size: 1.75rem;">${{ total_digital|cop }}</h3>
+                                <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.1em; font-family: var(--font-heading);">Dinero Digital / Bancos</small>
+                                <h3 class="fw-bolder m-0 font-orbitron" style="color: #F472B6 !important; font-size: 1.75rem;">${{ total_digital|cop }}</h3>
                             </div>
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.25); font-size: 1.4rem;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background-color: rgba(244, 114, 182, 0.15); color: #FF1493; font-size: 1.3rem;">
                                 <i class="fa-solid fa-mobile-screen-button"></i>
                             </div>
                         </div>
@@ -266,13 +269,13 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card kpi-card-arqueo text-white p-3 shadow-sm h-100" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;">
+                    <div class="card p-3 shadow-sm h-100 bg-white" style="border: 1.5px solid #FF1493; border-radius: 16px; box-shadow: 0 4px 18px rgba(255, 20, 147, 0.12) !important;">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <small class="text-white text-opacity-75 fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Venta Total Bruta</small>
-                                <h3 class="fw-bolder m-0 text-white font-orbitron" style="color: #ffffff !important; font-size: 1.75rem;">${{ (total_efectivo + total_digital)|cop }}</h3>
+                                <small class="fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.1em; color: #FF1493; font-family: var(--font-heading);">Venta Total Bruta</small>
+                                <h3 class="fw-bolder m-0 font-orbitron display-total" style="color: #FF1493 !important; font-size: 1.75rem;">${{ (total_efectivo + total_digital)|cop }}</h3>
                             </div>
-                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.25); font-size: 1.4rem;">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background-color: rgba(255, 20, 147, 0.12); color: #FF1493; font-size: 1.3rem;">
                                 <i class="fa-solid fa-sack-dollar"></i>
                             </div>
                         </div>

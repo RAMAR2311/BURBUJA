@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket de Compra #{{ venta.id }} - Maripocell</title>
+    <title>Ticket de Compra #{{ venta.id }} - My Case</title>
     <!-- Open Graph Meta Tags para Previsualización Rica en WhatsApp / Redes Sociales -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Maripocell - Recibo Digital #{{ venta.id }}">
-    <meta property="og:description" content="Comprobante de compra oficial de Maripocell - Accesorios & Tecnología. Total: ${{ (venta.monto_total)|cop }} COP">
+    <meta property="og:title" content="My Case - Recibo Digital #{{ venta.id }}">
+    <meta property="og:description" content="Comprobante de compra oficial de My Case - Accesorios para tu celular. Total: ${{ (venta.monto_total)|cop }} COP">
     <meta property="og:image" content="{{ url_for('static', filename='img/icons/icon-512x512.png', _external=True) }}">
     <meta property="og:url" content="{{ request.url }}">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=maripocell_v3">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=maripocell_v3">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=maripocell_v3">
-    <!-- Google Fonts: Montserrat, Roboto y Roboto Mono -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=mycase_v1">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=mycase_v1">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=mycase_v1">
+    <!-- Google Fonts: Great Vibes, Montserrat, Roboto y Roboto Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;600;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;600;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- html2canvas para generación de imagen nítida del ticket -->
@@ -26,17 +26,17 @@
     <style>
         /* =========================================================
            TICKET DIGITAL (VISTA PANTALLA / NAVEGADOR / PDF)
-           Paleta Oficial Maripocell: Fondo Blanco #FFFFFF,
-           Texto Negro #111827, Acentos Oro #D4AF37 y Grafito #1F1F1F
+           Paleta Oficial My Case: Fondo Blanco #FFFFFF Puro,
+           Texto Negro #18181B, Acentos Rosa Neón #FF1493 y Bordes #FCE7F3
            ========================================================= */
         body {
-            background-color: #F8F9FA;
+            background-color: #FFFFFF;
             margin: 0;
             padding: 30px;
             display: flex;
             justify-content: center;
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #111827;
+            color: #18181B;
         }
         
         .ticket {
@@ -44,34 +44,38 @@
             width: 100%;
             max-width: 380px; /* Ancho estándar de impresora térmica 80mm */
             padding: 25px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 0 20px rgba(212, 175, 55, 0.08);
-            border: 1px solid #E5E7EB;
-            border-top: 4px solid #D4AF37;
-            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.05), 0 2px 10px rgba(0, 0, 0, 0.02);
+            border: 1px solid #FCE7F3;
+            border-top: 4px solid #FF1493;
+            border-radius: 16px;
             box-sizing: border-box;
         }
 
         .header {
             text-align: center;
-            border-bottom: 2px dashed #D4AF37;
+            border-bottom: 2px dashed #FF1493;
             padding-bottom: 15px;
             margin-bottom: 20px;
         }
 
         .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.1rem;
-            font-weight: 900;
-            margin: 0 0 4px 0;
-            letter-spacing: 2px;
-            color: #111827;
+            margin: 0 0 2px 0;
+        }
+
+        .logo-script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #FF1493;
+            line-height: 1;
+            display: block;
+            text-shadow: 0 0 8px rgba(255, 20, 147, 0.2);
         }
 
         .subtitle-brand {
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
             font-weight: 700;
-            color: #926C09;
+            color: #71717A;
             margin-bottom: 12px;
             text-transform: uppercase;
             font-family: 'Montserrat', sans-serif;
@@ -81,7 +85,7 @@
             font-size: 0.85rem;
             margin: 3px 0;
             line-height: 1.4;
-            color: #1F2937;
+            color: #18181B;
             font-family: 'Roboto', sans-serif;
         }
 
@@ -95,20 +99,21 @@
 
         .table-items th {
             text-align: left;
-            border-bottom: 2px solid #D4AF37;
-            color: #926C09;
+            border-bottom: 2px solid #FF1493;
+            color: #FF1493;
             padding-bottom: 8px;
             font-weight: 700;
             font-size: 0.78rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.1em;
             font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
         }
 
         .table-items td {
             padding: 10px 0;
             vertical-align: top;
-            border-bottom: 1px solid #E5E7EB;
-            color: #111827;
+            border-bottom: 1px solid #FDE2EE;
+            color: #18181B;
             font-family: 'Roboto', sans-serif;
         }
 
@@ -117,7 +122,7 @@
         .col-sub { width: 30%; text-align: right; font-family: 'Roboto Mono', monospace; font-weight: 700; }
 
         .totals {
-            border-top: 2px dashed #D4AF37;
+            border-top: 2px dashed #FF1493;
             padding-top: 20px;
             margin-bottom: 25px;
         }
@@ -128,11 +133,11 @@
             align-items: center;
             font-size: 1.35rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
-            color: #111827;
+            background: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%);
+            color: #FFFFFF;
             padding: 12px 16px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
             font-family: 'Montserrat', sans-serif;
             letter-spacing: 0.5px;
         }
@@ -140,7 +145,7 @@
         .footer {
             text-align: center;
             font-size: 0.82rem;
-            color: #4D4D4D;
+            color: #71717A;
             margin-top: 25px;
             line-height: 1.5;
             font-family: 'Roboto', sans-serif;
@@ -150,23 +155,24 @@
             display: block;
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #D4AF37 0%, #F3D079 100%);
-            color: #111827;
-            border: 1px solid #D4AF37;
+            background: #FF1493;
+            color: #FFFFFF;
+            border: none;
             font-size: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 800;
             font-family: 'Montserrat', sans-serif;
             letter-spacing: 1px;
             cursor: pointer;
             margin-top: 25px;
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
         }
 
         .btn-print:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 22px rgba(212, 175, 55, 0.4);
+            background: #E01080;
+            box-shadow: 0 6px 22px rgba(255, 20, 147, 0.45);
         }
 
         .btn-whatsapp {
@@ -180,7 +186,7 @@
             color: #FFFFFF;
             border: none;
             font-size: 0.92rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 800;
             font-family: 'Montserrat', sans-serif;
             letter-spacing: 0.5px;
@@ -205,10 +211,10 @@
             width: 100%;
             padding: 12px;
             background: #FFFFFF;
-            color: #000000;
-            border: 1px solid #CBD5E1;
+            color: #18181B;
+            border: 1px solid #FCE7F3;
             font-size: 0.88rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 700;
             font-family: 'Montserrat', sans-serif;
             cursor: pointer;
@@ -219,8 +225,9 @@
         }
 
         .btn-download:hover {
-            background: #F5F5F5;
-            border-color: #94A3B8;
+            background: #FFF1F7;
+            border-color: #F472B6;
+            color: #FF1493;
             transform: translateY(-1px);
         }
 
@@ -231,12 +238,12 @@
             gap: 10px;
             width: 100%;
             padding: 14px;
-            background: #0F172A;
-            color: #FFFFFF;
-            border: none;
+            background: #FFFFFF;
+            color: #18181B;
+            border: 1.5px solid #FCE7F3;
             font-size: 0.95rem;
-            border-radius: 8px;
-            font-weight: 800;
+            border-radius: 10px;
+            font-weight: 700;
             font-family: 'Montserrat', sans-serif;
             letter-spacing: 0.5px;
             cursor: pointer;
@@ -244,15 +251,16 @@
             text-decoration: none;
             box-sizing: border-box;
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
             text-transform: uppercase;
         }
 
         .btn-return:hover {
-            background: #1E293B;
-            color: #FFFFFF;
+            background: #FFF1F7;
+            border-color: #F472B6;
+            color: #FF1493;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.35);
+        }
         }
 
         /* Modal Flotante para WhatsApp */
@@ -372,9 +380,9 @@
 <div class="ticket">
     <div class="header">
         <h1 class="logo">
-            <span style="color: #111827; font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: 2px;">Maripocell</span>
+            <span class="logo-script">My Case</span>
         </h1>
-        <div class="subtitle-brand">MARIPOCELL - ACCESORIOS & TECNOLOGÍA</div>
+        <div class="subtitle-brand">MY CASE - ACCESORIOS PARA TU CELULAR</div>
         
         <p class="info">Folio / Ticket: #{{ venta.id }}</p>
         <p class="info">Expedido: {{ venta.fecha_venta.strftime('%d/%m/%Y %H:%M') }}</p>
@@ -447,7 +455,7 @@
     <div class="footer">
         <p style="font-size: 0.95rem; font-weight: bold; color: #000000; margin-bottom: 6px; font-family: 'Montserrat', sans-serif;">¡Gracias por tu compra!</p>
         <p style="margin-bottom: 4px;">Políticas de Tienda: Devoluciones únicamente presentando ticket impreso o digital.</p>
-        <p>Soporte: ventas@maripocell.com</p>
+        <p>Soporte: ventas@mycase.com</p>
     </div>
 
     <a href="javascript:void(0);" onclick="volverACaja();" class="btn-return">
@@ -535,7 +543,7 @@
         try {
             const canvas = await generarCanvasTicket();
             const link = document.createElement('a');
-            link.download = `Factura_Maripocell_${SALE_ID}.png`;
+            link.download = `Factura_MyCase_${SALE_ID}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
         } catch (e) {
@@ -581,9 +589,9 @@
 
         let mensaje;
         if (nombre) {
-            mensaje = `Hola ${nombre}! Aquí tienes tu factura digital de Maripocell - Accesorios & Tecnología: ${enlaceRecibo}`;
+            mensaje = `Hola ${nombre}! Aquí tienes tu factura digital de My Case - Accesorios para tu celular: ${enlaceRecibo}`;
         } else {
-            mensaje = `Hola! Aquí tienes tu factura digital de Maripocell - Accesorios & Tecnología: ${enlaceRecibo}`;
+            mensaje = `Hola! Aquí tienes tu factura digital de My Case - Accesorios para tu celular: ${enlaceRecibo}`;
         }
 
         const url = `https://wa.me/${raw}?text=${encodeURIComponent(mensaje)}`;
@@ -592,7 +600,7 @@
     }
 
     // Texto limpio garantizado sin caracteres conflictivos
-    const mensajeTextoLimpio = `*MARIPOCELL - ACCESORIOS & TECNOLOGÍA*
+    const mensajeTextoLimpio = `*MY CASE - ACCESORIOS PARA TU CELULAR*
 *Folio / Ticket:* #{{ venta.id }}
 *Expedido:* {{ venta.fecha_venta.strftime('%d/%m/%Y %H:%M') }}
 *Cajero:* {{ venta.vendedor.nombre }}
@@ -609,9 +617,9 @@ _Desglose:_
 {% for pago in venta.pagos %}  * {{ pago.metodo_pago|capitalize }}: ${{ (pago.monto)|cop }}
 {% endfor %}
 {% endif %}
-Gracias por tu compra en Maripocell - Accesorios & Tecnología.
+Gracias por tu compra en My Case - Accesorios para tu celular.
 Politicas: Devoluciones unicamente con ticket impreso o digital.
-Soporte: ventas@maripocell.com`;
+Soporte: contacto@mycases.com`;
 
     function enviarWhatsAppSoloTexto() {
         const input = document.getElementById('waNumeroInput');
