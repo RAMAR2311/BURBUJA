@@ -123,11 +123,11 @@ def create_app():
             dia_preventivo = 8  # Aviso preventivo 7 días antes (del 8 al 14)
 
             # Regla de fecha de cobro: 
-            # Cobro los días 15 de cada mes a partir del 15 de octubre de 2026.
-            # Antes de esa fecha (ej: septiembre 2026), el primer corte aplicable es el 15 de Octubre de 2026
+            # Cobro los días 15 de cada mes a partir del 15 de noviembre de 2026.
+            # Antes de esa fecha (ej: octubre 2026), el primer corte aplicable es el 15 de Noviembre de 2026
             # y el sistema se encuentra en estado "al día".
-            if anio_actual < 2026 or (anio_actual == 2026 and mes_actual < 10):
-                mes_cobro = 10
+            if anio_actual < 2026 or (anio_actual == 2026 and mes_actual < 11):
+                mes_cobro = 11
                 anio_cobro = 2026
                 pago_existente = ServerPayment.query.filter_by(
                     anio=anio_cobro,
@@ -135,10 +135,10 @@ def create_app():
                     estado='pagado'
                 ).first()
                 estado = 'pagado' if pago_existente else 'al_dia'
-                dias_restantes = (datetime(2026, 10, 15) - datetime(anio_actual, mes_actual, dia_actual)).days
+                dias_restantes = (datetime(2026, 11, 15) - datetime(anio_actual, mes_actual, dia_actual)).days
                 dias_gabela = 0
             else:
-                # A partir de octubre 2026:
+                # A partir de noviembre 2026:
                 pago_mes_actual = ServerPayment.query.filter_by(
                     anio=anio_actual,
                     mes=mes_actual,
@@ -225,7 +225,7 @@ def create_app():
             }
         except Exception as e:
             ahora_fallback = obtener_hora_bogota()
-            dia_venc_fallback = 15 if (ahora_fallback.year > 2026 or (ahora_fallback.year == 2026 and ahora_fallback.month >= 10)) else 30
+            dia_venc_fallback = 15
             pago_servidor = {
                 'estado': 'al_dia',
                 'mes_nombre': 'Actual',
