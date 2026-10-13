@@ -306,24 +306,24 @@
             font-weight: 600;
         }
 
-        /* Sidebar Offcanvas Estilos Glam 100% White Canvas (Lateral Derecha) */
-        .offcanvas, .offcanvas-end {
+        /* Sidebar Offcanvas Estilos Glam 100% White Canvas (Lateral Izquierda) */
+        .offcanvas, .offcanvas-start {
             background: #FFFFFF !important;
             color: var(--brand-text) !important;
-            border-left: 1.5px solid var(--brand-border) !important;
-            border-right: none !important;
-            box-shadow: -10px 0 40px rgba(255, 20, 147, 0.08) !important;
-            border-top-left-radius: 24px;
-            border-bottom-left-radius: 24px;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+            border-right: 1.5px solid var(--brand-border) !important;
+            border-left: none !important;
+            box-shadow: 10px 0 40px rgba(255, 20, 147, 0.08) !important;
+            border-top-right-radius: 24px;
+            border-bottom-right-radius: 24px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
         .sidebar-header-card {
             background: linear-gradient(180deg, #FFF0F6 0%, #FFFFFF 100%) !important;
             padding: 1.25rem 1.25rem 1rem 1.25rem;
             position: relative;
             border-bottom: 1.5px solid var(--brand-border);
-            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
         }
         .sidebar-avatar-circle {
             width: 44px;
@@ -494,22 +494,24 @@
             color: #FF1493;
         }
 
-        /* Botón PWA Glam */
+        /* Botón PWA Glam en Pie del Sidebar */
         .btn-sidebar-pwa {
-            background: #FFFFFF;
-            border: 1.5px solid #FF1493;
-            color: #FF1493;
+            background: var(--brand-gradient) !important;
+            border: none !important;
+            color: #FFFFFF !important;
             font-weight: 700;
-            padding: 0.7rem 1rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.12);
-            transition: all 0.2s ease;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(255, 20, 147, 0.35);
+            transition: all 0.22s ease-in-out;
+            font-family: var(--font-heading);
+            letter-spacing: 0.3px;
         }
         .btn-sidebar-pwa:hover {
-            background: var(--brand-gradient);
-            color: #FFFFFF;
+            background: var(--brand-gradient-hover) !important;
+            color: #FFFFFF !important;
             transform: translateY(-2px);
-            box-shadow: var(--brand-neon-glow);
+            box-shadow: 0 6px 22px rgba(255, 20, 147, 0.48);
         }
 
         /* Pestañas Modal PWA Glam */
@@ -545,15 +547,58 @@
             box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
         }
 
-        /* Reglas EXCLUSIVAS para móviles (<768px) */
+        /* =========================================================
+           ADAPTABILIDAD RESPONSIVA MULTI-DISPOSITIVO (PC, TABLET, MÓVIL)
+           ========================================================= */
+        
+        /* 1. Reset Global Anti-Desbordamiento */
+        html, body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            min-height: 100vh;
+        }
+
+        /* 2. Soporte PWA Standalone (Safe Areas para iOS y Android) */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .navbar-custom {
+                padding-top: max(0.75rem, env(safe-area-inset-top));
+            }
+            .offcanvas {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+
+        /* 3. Tablas con scroll horizontal suave en todos los dispositivos */
+        .table-responsive {
+            width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 14px;
+        }
+
+        /* 4. Celular (< 768px) */
         @media (max-width: 767.98px) {
-            html, body {
-                overflow-x: hidden;
-                max-width: 100vw;
+            .offcanvas.offcanvas-start {
+                max-width: 86vw !important;
+                width: 310px !important;
             }
             main.container {
-                overflow-x: clip;
-                max-width: 100%;
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+                overflow-x: hidden !important;
+            }
+            .navbar-custom {
+                padding: 0.6rem 0.25rem !important;
+            }
+            .navbar-brand img {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            .section-subtitle {
+                font-size: 0.58rem !important;
+                letter-spacing: 0.15em !important;
             }
             .dashboard-filter-container {
                 width: 100% !important;
@@ -571,6 +616,42 @@
             }
             .dashboard-filter-container > button {
                 width: 100% !important;
+            }
+            .card-custom, .card {
+                border-radius: 14px !important;
+            }
+            .btn {
+                min-height: 38px;
+            }
+            /* Modales en Móvil */
+            .modal-dialog {
+                margin: 0.5rem !important;
+                max-width: calc(100% - 1rem) !important;
+            }
+            .modal-content {
+                border-radius: 16px !important;
+            }
+        }
+
+        /* 5. Tablet (768px - 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .offcanvas.offcanvas-start {
+                width: 320px !important;
+            }
+            main.container {
+                padding-left: 1.25rem !important;
+                padding-right: 1.25rem !important;
+                max-width: 95% !important;
+            }
+            .dashboard-filter-container {
+                flex-wrap: wrap !important;
+            }
+        }
+
+        /* 6. PC / Escritorio (> 1024px) */
+        @media (min-width: 1024.02px) {
+            main.container {
+                max-width: 1240px;
             }
         }
     </style>
@@ -603,7 +684,7 @@
                 </a>
             </div>
 
-            <!-- Columna Derecha: Badges y Botón Desplegar Menú Lateral Derecho -->
+            <!-- Columna Derecha: Badges de Notificaciones y Servidor Zenic -->
             <div class="d-flex align-items-center justify-content-end gap-1 gap-md-2" style="min-width: 44px;">
                 {% if current_user.is_authenticated and current_user.rol == 'admin' %}
                     <div id="admin_approval_badge_btn" style="display: none;" class="me-1">
@@ -624,16 +705,8 @@
                         <span>Al día</span>
                     </button>
                     {% endif %}
-                {% endif %}
-
-                {% if current_user.is_authenticated %}
-                <!-- Botón Desplegar Barra Lateral Derecha -->
-                <button class="btn btn-sm btn-nav-menu rounded-pill px-3 py-1 fw-bold d-flex align-items-center gap-2 shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Menú de Navegación">
-                    <i class="fa-solid fa-bars-staggered" style="color: #FF1493;"></i>
-                    <span class="d-none d-sm-inline small fw-bold text-brand-black">Menú</span>
-                </button>
                 {% else %}
-                <div style="width: 40px;"></div>
+                    <div style="width: 40px;"></div>
                 {% endif %}
             </div>
         </div>
@@ -641,8 +714,8 @@
 
 
     {% if current_user.is_authenticated %}
-    <!-- Offcanvas Menú Lateral Derecho (Sidebar 100% Blanco con Acentos Glam) -->
-    <div class="offcanvas offcanvas-end border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 320px;">
+    <!-- Offcanvas Menú Lateral Izquierdo (Sidebar 100% Blanco con Acentos Glam) -->
+    <div class="offcanvas offcanvas-start border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 320px;">
         <!-- Header con Identidad Boutique y Perfil de Usuario -->
         <div class="sidebar-header-card">
             <div class="d-flex align-items-center justify-content-between mb-3">
@@ -675,25 +748,6 @@
 
         <!-- Cuerpo del Menú con Scroll Suave -->
         <div class="offcanvas-body d-flex flex-column px-3 py-3" style="scrollbar-width: thin; scrollbar-color: #E5E7EB transparent;">
-            
-            <!-- Tarjeta VIP Promocional: Descargar App My Case (PWA) -->
-            <div class="p-3 mb-3 rounded-4 text-center pwa-install-trigger shadow-sm" style="background: linear-gradient(135deg, #FFF1F7 0%, #FFFFFF 100%); border: 1.5px dashed #F472B6;">
-                <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
-                    <i class="fa-solid fa-mobile-screen-button fs-4" style="color: #FF1493;"></i>
-                    <span class="fw-bold text-brand-black" style="font-family: var(--font-heading); font-size: 0.95rem;">App Móvil My Case</span>
-                </div>
-                <p class="text-muted small mb-2" style="font-size: 0.74rem; line-height: 1.25;">
-                    Instala la app en tu dispositivo para abrir la caja y facturar a toda velocidad.
-                </p>
-                <button type="button" 
-                        class="btn btn-sm btn-pink w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm" 
-                        onclick="triggerPWAInstall()"
-                        title="Descargar e instalar App My Case">
-                    <i class="fa-solid fa-cloud-arrow-down fs-6"></i>
-                    <span>Descargar App My Case</span>
-                </button>
-            </div>
-
             <div class="mb-auto">
                 {% if current_user.rol == 'admin' %}
                     <!-- Categoría: PRINCIPAL -->
