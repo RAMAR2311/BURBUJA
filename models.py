@@ -36,8 +36,12 @@ class Product(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(150), nullable=False)
-    sku = db.Column(db.String(50), unique=True, nullable=False, index=True)
+    sku = db.Column(db.String(50), nullable=False, index=True)
     tipo_inventario = db.Column(db.String(50), nullable=False, server_default='tienda') # 'tienda' o 'bodega'
+
+    __table_args__ = (
+        db.UniqueConstraint('sku', 'tipo_inventario', name='uq_product_sku_tipo'),
+    )
     cantidad_stock = db.Column(db.Integer, nullable=False, default=0)
     precio_costo = db.Column(db.Numeric(10, 2), nullable=False, default=0.00) # El Costo de Bodega
     precio_minimo = db.Column(db.Numeric(10, 2), nullable=False)

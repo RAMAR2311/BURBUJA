@@ -429,10 +429,10 @@ def nuevo():
             flash('Debes ingresar un código SKU para el producto.', 'warning')
             return render_template('inventory/form.html')
 
-        prod_existente = Product.query.filter_by(sku=sku_candidato, activo=True).first()
+        prod_existente = Product.query.filter_by(sku=sku_candidato, tipo_inventario=tipo, activo=True).first()
         if prod_existente:
-            flash(f'El código SKU "{sku_candidato}" ya existe en el inventario (pertenece a "{prod_existente.nombre}"). Cada producto debe tener un SKU único.', 'warning')
-            return render_template('inventory/form.html')
+            flash(f'El código SKU "{sku_candidato}" ya existe en el inventario de {tipo} (pertenece a "{prod_existente.nombre}").', 'warning')
+            return render_template('inventory/form.html', tipo=tipo)
 
         nuevo_prod = Product(
             sku=sku_candidato,
@@ -525,9 +525,9 @@ def editar_producto(id):
             flash('El código SKU no puede estar vacío.', 'warning')
             return redirect(url_for('inventory_bp.editar_producto', id=id))
 
-        otro_con_sku = Product.query.filter(Product.sku == nuevo_sku, Product.id != id).first()
+        otro_con_sku = Product.query.filter(Product.sku == nuevo_sku, Product.id != id, Product.tipo_inventario == producto.tipo_inventario).first()
         if otro_con_sku:
-            flash(f'El SKU "{nuevo_sku}" ya pertenece a otro producto ("{otro_con_sku.nombre}"). Los códigos SKU deben ser únicos.', 'warning')
+            flash(f'El SKU "{nuevo_sku}" ya pertenece a otro producto en este inventario ("{otro_con_sku.nombre}").', 'warning')
             return redirect(url_for('inventory_bp.editar_producto', id=id))
 
         producto.sku = nuevo_sku
