@@ -39,7 +39,6 @@ def index():
     productos = paginacion.items
 
     # --- KPIs de Inventario ---
-    # Se calcula sobre TODO el inventario activo (no solo la página actual)
     todos = Product.query.filter_by(tipo_inventario=tipo, activo=True).all()
     total_productos = len(todos)
 
@@ -74,6 +73,209 @@ def index():
         q=q
     )
 
+@inventory_bp.route('/bodega', methods=['GET'])
+@login_required
+@admin_or_bodega_required
+def bodega_index():
+    tipo = 'bodega'
+    page = request.args.get('page', 1, type=int)
+    q = request.args.get('q', '').strip()
+    per_page = 20
+
+    base_query = Product.query.filter_by(tipo_inventario=tipo, activo=True)
+    if q:
+        from sqlalchemy import or_
+        base_query = base_query.filter(
+            or_(
+                Product.sku.ilike(f'%{q}%'),
+                Product.nombre.ilike(f'%{q}%'),
+                Product.observacion.ilike(f'%{q}%'),
+                Product.variantes.any(ProductVariant.nombre_variante.ilike(f'%{q}%'))
+            )
+        )
+
+    paginacion = base_query.order_by(Product.nombre).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+    productos = paginacion.items
+
+    todos = Product.query.filter_by(tipo_inventario=tipo, activo=True).all()
+    total_productos = len(todos)
+
+    valor_costo = 0.0
+    valor_sugerido = 0.0
+    total_unidades_fisicas = 0
+    for p in todos:
+        if p.variantes:
+            for v in p.variantes:
+                costo = float(v.precio_costo or p.precio_costo or 0)
+                sugerido = float(v.precio_sugerido or p.precio_sugerido or 0)
+                stock = v.cantidad_stock or 0
+                valor_costo += costo * stock
+                valor_sugerido += sugerido * stock
+                total_unidades_fisicas += stock
+        else:
+            costo = float(p.precio_costo or 0)
+            sugerido = float(p.precio_sugerido or 0)
+            stock = p.cantidad_stock or 0
+            valor_costo += costo * stock
+            valor_sugerido += sugerido * stock
+            total_unidades_fisicas += stock
+
+    # Lista de productos de tienda disponibles para transferencias
+    productos_tienda = Product.query.filter_by(tipo_inventario='tienda', activo=True).order_by(Product.nombre).all()
+
+    return render_template(
+        'inventory/bodega.html',
+        productos=productos,
+        paginacion=paginacion,
+        total_productos=total_productos,
+        valor_costo=valor_costo,
+        valor_sugerido=valor_sugerido,
+        total_unidades_fisicas=total_unidades_fisicas,
+        productos_tienda=productos_tienda,
+        q=q
+    )
+
+@inventory_bp.route('/transferir-a-tienda', methods=['POST'])
+@login_required
+@admin_or_bodega_required
+def transferir_a_tienda():
+    try:
+        bodega_prod_id = request.form.get('bodega_prod_id', type=int)
+        bodega_variant_id = request.form.get('bodega_variant_id', type=int)
+        cantidad = request.form.get('cantidad', type=int)
+        tienda_prod_id = request.form.get('tienda_prod_id', type=int)
+        tienda_variant_id = request.form.get('tienda_variant_id', type=int)
+        crear_si_no_existe = request.form.get('crear_si_no_existe') == '1'
+
+        if not bodega_prod_id or not cantidad or cantidad <= 0:
+            flash('Debes indicar un producto de bodega válido y una cantidad mayor a 0.', 'warning')
+            return redirect(url_for('inventory_bp.bodega_index'))
+
+        prod_bodega = Product.query.get_or_404(bodega_prod_id)
+        if prod_bodega.tipo_inventario != 'bodega':
+            flash('El producto de origen no pertenece a Bodega.', 'danger')
+            return redirect(url_for('inventory_bp.bodega_index'))
+
+        var_bodega = None
+        if bodega_variant_id:
+            var_bodega = ProductVariant.query.get(bodega_variant_id)
+            if not var_bodega or var_bodega.product_id != prod_bodega.id:
+                flash('Variante de bodega no válida.', 'danger')
+                return redirect(url_for('inventory_bp.bodega_index'))
+            stock_disp = var_bodega.cantidad_stock
+        else:
+            stock_disp = prod_bodega.cantidad_stock
+
+        if stock_disp < cantidad:
+            flash(f'Stock insuficiente en Bodega. Disponible: {stock_disp}, solicitado: {cantidad}.', 'danger')
+            return redirect(url_for('inventory_bp.bodega_index'))
+
+        # Identificar o emparejar producto destino en Tienda
+        prod_tienda = None
+        if tienda_prod_id:
+            prod_tienda = Product.query.get(tienda_prod_id)
+        else:
+            # Buscar por nombre idéntico en tienda
+            prod_tienda = Product.query.filter_by(nombre=prod_bodega.nombre, tipo_inventario='tienda', activo=True).first()
+            if not prod_tienda:
+                # O buscar si el SKU base coincide (quitando posibles sufijos -BOD)
+                clean_sku = prod_bodega.sku.replace('-BOD', '').replace('_BOD', '')
+                prod_tienda = Product.query.filter_by(sku=clean_sku, tipo_inventario='tienda', activo=True).first()
+
+        # Si no existe en tienda y el usuario aceptó crearlo
+        if not prod_tienda:
+            if not crear_si_no_existe:
+                flash(f'No se encontró un producto equivalente en Tienda para "{prod_bodega.nombre}". Selecciona el producto destino o activa la creación automática.', 'warning')
+                return redirect(url_for('inventory_bp.bodega_index'))
+
+            # Crear producto espejo en tienda con SKU libre
+            sku_tienda_candidato = prod_bodega.sku.replace('-BOD', '').replace('_BOD', '')
+            if Product.query.filter_by(sku=sku_tienda_candidato, activo=True).first():
+                sku_tienda_candidato = f"{sku_tienda_candidato}-TDA"
+
+            prod_tienda = Product(
+                sku=sku_tienda_candidato,
+                nombre=prod_bodega.nombre,
+                tipo_inventario='tienda',
+                cantidad_stock=0,
+                precio_costo=prod_bodega.precio_costo,
+                precio_minimo=prod_bodega.precio_minimo,
+                precio_sugerido=prod_bodega.precio_sugerido,
+                imagen=prod_bodega.imagen,
+                observacion=prod_bodega.observacion
+            )
+            db.session.add(prod_tienda)
+            db.session.flush()
+
+        # Manejo de la variante en tienda si el origen tenía variante
+        var_tienda = None
+        if var_bodega:
+            if tienda_variant_id:
+                var_tienda = ProductVariant.query.get(tienda_variant_id)
+            else:
+                var_tienda = ProductVariant.query.filter_by(product_id=prod_tienda.id, nombre_variante=var_bodega.nombre_variante).first()
+                if not var_tienda:
+                    var_tienda = ProductVariant(
+                        product_id=prod_tienda.id,
+                        nombre_variante=var_bodega.nombre_variante,
+                        cantidad_stock=0,
+                        precio_costo=var_bodega.precio_costo,
+                        precio_minimo=var_bodega.precio_minimo,
+                        precio_sugerido=var_bodega.precio_sugerido
+                    )
+                    db.session.add(var_tienda)
+                    db.session.flush()
+
+        # --- APLICAR TRANSFERENCIA ---
+        # 1. Descontar en Bodega
+        st_ant_bodega = prod_bodega.total_stock
+        if var_bodega:
+            var_bodega.cantidad_stock -= cantidad
+        else:
+            prod_bodega.cantidad_stock -= cantidad
+        st_nuevo_bodega = prod_bodega.total_stock
+
+        # Kardex Bodega
+        item_desc = f"{prod_bodega.nombre} ({var_bodega.nombre_variante})" if var_bodega else prod_bodega.nombre
+        ajuste_bodega = StockAdjustment(
+            product_id=prod_bodega.id,
+            admin_id=current_user.id,
+            tipo_movimiento=f"Transferencia Salida -> Tienda ({cantidad} uds de {item_desc})",
+            stock_anterior=st_ant_bodega,
+            stock_nuevo=st_nuevo_bodega
+        )
+        db.session.add(ajuste_bodega)
+
+        # 2. Aumentar en Tienda
+        st_ant_tienda = prod_tienda.total_stock
+        if var_tienda:
+            var_tienda.cantidad_stock += cantidad
+            prod_tienda.cantidad_stock = 0
+        else:
+            prod_tienda.cantidad_stock += cantidad
+        st_nuevo_tienda = prod_tienda.total_stock
+
+        # Kardex Tienda
+        ajuste_tienda = StockAdjustment(
+            product_id=prod_tienda.id,
+            admin_id=current_user.id,
+            tipo_movimiento=f"Transferencia Entrada <- Bodega ({cantidad} uds de {item_desc})",
+            stock_anterior=st_ant_tienda,
+            stock_nuevo=st_nuevo_tienda
+        )
+        db.session.add(ajuste_tienda)
+
+        db.session.commit()
+        flash(f'¡Transferencia exitosa! Se pasaron {cantidad} uds de "{item_desc}" de Bodega a Tienda.', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al procesar la transferencia: {str(e)}', 'danger')
+
+    return redirect(url_for('inventory_bp.bodega_index'))
+
 @inventory_bp.route('/nuevo', methods=['GET', 'POST'])
 @login_required
 @admin_or_bodega_required
@@ -95,8 +297,7 @@ def nuevo():
                     flash(f'Error al guardar la imagen (Revisa permisos o la ruta en el VPS): {str(e)}', 'danger')
                     return redirect(url_for('inventory_bp.nuevo'))
 
-        # La instanciación agrupa todos los parámetros del nuevo producto
-        tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
+        tipo = request.form.get('tipo_inventario') or ('bodega' if current_user.rol == 'bodega' else 'tienda')
         
         # Recibir variantes
         v_nombres = request.form.getlist('v_nombre[]')
@@ -162,6 +363,8 @@ def nuevo():
             db.session.commit()
 
             flash('Producto Maestro y sus subcategorías creados exitosamente.', 'success')
+            if nuevo_prod.tipo_inventario == 'bodega':
+                return redirect(url_for('inventory_bp.bodega_index'))
             return redirect(url_for('inventory_bp.index'))
         except Exception as e:
             db.session.rollback()
@@ -170,7 +373,8 @@ def nuevo():
             else:
                 flash(f'Error al intentar guardar el producto: {str(e)}', 'danger')
             
-    return render_template('inventory/form.html')
+    tipo_solicitado = request.args.get('tipo', 'bodega' if current_user.rol == 'bodega' else 'tienda')
+    return render_template('inventory/form.html', tipo=tipo_solicitado)
 
 @inventory_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -291,6 +495,8 @@ def editar_producto(id):
                 db.session.commit()
                 
             flash('Producto Maestro actualizado correctamente.', 'success')
+            if producto.tipo_inventario == 'bodega':
+                return redirect(url_for('inventory_bp.bodega_index'))
             return redirect(url_for('inventory_bp.index'))
         except Exception as e:
             print("DEBUG: Exception during commit! Exception:", str(e))
@@ -316,9 +522,10 @@ def historial_ajustes():
 @admin_or_bodega_required
 def ver_producto(id):
     producto = Product.query.get_or_404(id)
-    tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
-    if producto.tipo_inventario != tipo:
-        abort(403)
+    if current_user.rol != 'admin':
+        tipo = 'bodega' if current_user.rol in ['bodega', 'vendedor_bodega'] else 'tienda'
+        if producto.tipo_inventario != tipo:
+            abort(403)
     ajustes = StockAdjustment.query.filter_by(product_id=id).order_by(StockAdjustment.fecha_ajuste.desc()).all()
     return render_template('inventory/ver.html', producto=producto, ajustes=ajustes)
 
@@ -327,20 +534,19 @@ def ver_producto(id):
 @admin_or_bodega_required
 def eliminar_producto(id):
     producto = Product.query.get_or_404(id)
-    tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
-    
-    if producto.tipo_inventario != tipo:
-        abort(403)
+    if current_user.rol != 'admin':
+        tipo = 'bodega' if current_user.rol in ['bodega', 'vendedor_bodega'] else 'tienda'
+        if producto.tipo_inventario != tipo:
+            abort(403)
         
     nombre = producto.nombre
+    era_bodega = producto.tipo_inventario == 'bodega'
     try:
         # 1. Liberar el código SKU agregando sufijo para que el cliente pueda volver a usarlo en otro producto
         if not producto.sku.endswith(f"_arch_{producto.id}"):
             producto.sku = f"{producto.sku}_arch_{producto.id}"
             
         # 2. Borrado Lógico: Marcar como inactivo
-        # El producto desaparece del inventario visible y de la caja POS, pero todas sus ventas pasadas,
-        # facturas, arqueos y reportes anteriores quedan 100% íntegros y legibles.
         producto.activo = False
         db.session.commit()
         flash(f'Producto "{nombre}" fue eliminado del catálogo. Las ventas pasadas y reportes se conservan intactos.', 'success')
@@ -348,6 +554,8 @@ def eliminar_producto(id):
         db.session.rollback()
         flash(f'Ocurrió un error al eliminar el producto: {str(e)}', 'danger')
         
+    if era_bodega:
+        return redirect(url_for('inventory_bp.bodega_index'))
     return redirect(url_for('inventory_bp.index'))
 
 @inventory_bp.route('/producto/<int:id>/agregar_variante', methods=['POST'])
@@ -747,7 +955,11 @@ def importar_inventario():
 @admin_or_bodega_required
 def api_search():
     query = request.args.get('q', '').strip()
-    tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
+    tipo_req = request.args.get('tipo')
+    if tipo_req in ['tienda', 'bodega']:
+        tipo = tipo_req
+    else:
+        tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
     
     if len(query) < 1:
         return jsonify([])

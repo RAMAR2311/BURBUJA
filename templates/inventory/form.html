@@ -4,13 +4,16 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="d-flex align-items-center mb-4">
-            <a href="/inventory" class="btn btn-light rounded-circle me-3 border-0"><i class="fa-solid fa-arrow-left"></i></a>
-            <h2 class="fw-bold text-brand-black mb-0">{% if producto %}Editar Producto{% else %}Crear Producto{% endif %}</h2>
+            <a href="{% if (producto and producto.tipo_inventario == 'bodega') or tipo == 'bodega' %}{{ url_for('inventory_bp.bodega_index') }}{% else %}{{ url_for('inventory_bp.index') }}{% endif %}" class="btn btn-light rounded-circle me-3 border-0"><i class="fa-solid fa-arrow-left"></i></a>
+            <h2 class="fw-bold text-brand-black mb-0">
+                {% if producto %}Editar Producto ({{ producto.tipo_inventario|capitalize }}){% else %}Crear Producto ({% if tipo == 'bodega' %}Bodega{% else %}Tienda{% endif %}){% endif %}
+            </h2>
         </div>
 
         <div class="card card-custom p-5">
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="tipo_inventario" value="{% if producto %}{{ producto.tipo_inventario }}{% else %}{{ tipo or 'tienda' }}{% endif %}"/>
                 
                 <div class="row g-4">
                     <div class="col-md-4">

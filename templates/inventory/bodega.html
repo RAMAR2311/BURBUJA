@@ -1,0 +1,768 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .action-btn-hover {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+    }
+    .action-btn-hover:hover {
+        background-color: var(--brand-primary) !important;
+        border-color: var(--brand-primary) !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(255, 23, 68, 0.25) !important;
+    }
+    .action-btn-hover:hover i {
+        color: #ffffff !important;
+    }
+    .action-btn-danger-hover {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+    }
+    .action-btn-danger-hover:hover {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.25) !important;
+    }
+    .action-btn-danger-hover:hover i {
+        color: #ffffff !important;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="fw-bold text-brand-black m-0 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-warehouse text-primary" style="color: #FF1744;"></i> Inventario Bodega
+        </h2>
+        <small class="text-muted">Gestión de existencias en depósito y despacho a tienda</small>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+        <button type="button" class="btn btn-outline-danger rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#transferirModalGlobal">
+            <i class="fa-solid fa-truck-ramp-box me-1"></i> Transferir a Tienda
+        </button>
+        <button type="button" class="btn btn-outline-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#importarModal">
+            <i class="fa-solid fa-file-excel me-1"></i> Importar Masivo
+        </button>
+        <a href="{{ url_for('inventory_bp.nuevo', tipo='bodega') }}" class="btn btn-blue rounded-pill px-4 fw-bold shadow-sm">
+            <i class="fa-solid fa-plus me-1"></i> Nuevo en Bodega
+        </a>
+    </div>
+</div>
+
+<!-- Fila de Tarjetas Dinámicas de Inventario Bodega -->
+<div class="row g-3 mb-4">
+    <!-- 1. Cantidad de Productos -->
+    <div class="col-12 col-md-4">
+        <div class="card card-custom h-100 p-4 border-0 shadow-sm bg-white" style="border-left: 5px solid #FF1744 !important; border-radius: 16px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <span class="text-muted small fw-bold text-uppercase d-block mb-1" style="letter-spacing: 0.5px;">Stock Total en Bodega</span>
+                    <h2 class="fw-bolder mb-0 text-brand-black font-orbitron">
+                        {{ "{:,.0f}".format(total_unidades_fisicas) }} <span class="fs-6 text-muted fw-normal">uds.</span>
+                    </h2>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center shadow-sm" style="background-color: rgba(255, 23, 68, 0.1); width: 52px; height: 52px;">
+                    <i class="fa-solid fa-warehouse fs-4" style="color: #FF1744;"></i>
+                </div>
+            </div>
+            <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center text-muted small">
+                <span><i class="fa-solid fa-tag me-1 text-muted"></i> <strong>{{ total_productos }}</strong> referencias en bodega</span>
+                <span class="badge bg-light text-dark border rounded-pill px-2 py-1">Depósito</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Valor de Productos a Costo -->
+    <div class="col-12 col-md-4">
+        <div class="card card-custom h-100 p-4 border-0 shadow-sm bg-white" style="border-left: 5px solid #FF5252 !important; border-radius: 16px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <span class="text-muted small fw-bold text-uppercase d-block mb-1" style="letter-spacing: 0.5px;">Costo Total en Bodega</span>
+                    <h2 class="fw-bolder mb-0 text-brand-black font-orbitron">
+                        ${{ (valor_costo)|cop }}
+                    </h2>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center shadow-sm" style="background-color: rgba(255, 82, 82, 0.1); width: 52px; height: 52px;">
+                    <i class="fa-solid fa-file-invoice-dollar fs-4" style="color: #FF5252;"></i>
+                </div>
+            </div>
+            <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center text-muted small">
+                <span><i class="fa-solid fa-calculator me-1 text-muted"></i> Inversión almacenada</span>
+                <span class="badge bg-light text-dark border rounded-pill px-2 py-1">Costo Adquisición</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Valor de Productos a Venta -->
+    <div class="col-12 col-md-4">
+        <div class="card card-custom h-100 p-4 border-0 shadow-sm bg-white" style="border-left: 5px solid #FF8A80 !important; border-radius: 16px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <span class="text-muted small fw-bold text-uppercase d-block mb-1" style="letter-spacing: 0.5px;">Valor Estimado a Venta</span>
+                    <h2 class="fw-bolder mb-0 text-brand-black font-orbitron">
+                        ${{ (valor_sugerido)|cop }}
+                    </h2>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center shadow-sm" style="background-color: rgba(255, 138, 128, 0.15); width: 52px; height: 52px;">
+                    <i class="fa-solid fa-sack-dollar fs-4" style="color: #FF1744;"></i>
+                </div>
+            </div>
+            <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center text-muted small">
+                <span><i class="fa-solid fa-arrow-trend-up me-1 text-success"></i> Margen: <strong>+${{ (valor_sugerido - valor_costo)|cop }}</strong></span>
+                <span class="badge bg-light text-dark border rounded-pill px-2 py-1">PVP Sugerido</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Buscador Dinámico de Inventario Bodega -->
+<div class="card card-custom p-3 mb-4 border-0 shadow-sm bg-white">
+    <div class="row align-items-center">
+        <div class="col-md-8 col-lg-7 position-relative">
+            <form method="GET" action="{{ url_for('inventory_bp.bodega_index') }}" id="searchForm" class="m-0 position-relative">
+                <div class="input-group input-group-lg shadow-sm rounded-pill border bg-white overflow-hidden">
+                    <span class="input-group-text bg-white border-0 ps-4 text-muted">
+                        <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+                        <span class="spinner-border spinner-border-sm text-primary d-none" id="searchSpinner" role="status"></span>
+                    </span>
+                    <input type="text" 
+                           name="q" 
+                           id="inventarioSearch" 
+                           class="form-control border-0 bg-white shadow-none ps-2" 
+                           placeholder="Buscar en bodega por SKU, Nombre o Subcategoría..." 
+                           autocomplete="off" 
+                           value="{{ q or '' }}">
+                    <button class="btn btn-light border-0 px-3 text-muted {% if not q %}d-none{% endif %}" type="button" id="clearSearch" title="Limpiar búsqueda">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <button type="submit" class="btn btn-blue px-4 fw-bold">
+                        Buscar
+                    </button>
+                </div>
+            </form>
+            <!-- Contenedor desplegable para autocompletado en vivo -->
+            <div id="searchDropdown" class="dropdown-menu shadow-lg border-0 w-100 p-0 mt-2 d-none" style="max-height: 420px; overflow-y: auto; z-index: 1050; border-radius: 16px;">
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-5 text-md-end mt-3 mt-md-0">
+            {% if q %}
+            <div class="d-inline-flex align-items-center bg-light border rounded-pill px-3 py-1 me-2 mb-1">
+                <span class="small text-muted me-1">Filtro activo:</span>
+                <strong class="small text-brand-pink me-2">"{{ q }}"</strong>
+                <a href="{{ url_for('inventory_bp.bodega_index') }}" class="text-secondary hover-danger text-decoration-none" title="Quitar filtro">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </a>
+            </div>
+            {% endif %}
+            <small class="text-muted fw-bold text-uppercase d-block d-sm-inline" style="font-size: 0.75rem;">
+                Mostrando <span id="visibleCount" class="text-brand-pink">{% if q %}{{ paginacion.total }}{% else %}{{ productos|length }}{% endif %}</span>
+                de <strong>{{ total_productos }}</strong> productos en bodega
+                {% if paginacion.pages > 1 %}<span class="text-muted">&nbsp;· pág. {{ paginacion.page }}/{{ paginacion.pages }}</span>{% endif %}
+            </small>
+        </div>
+    </div>
+</div>
+
+<div class="card card-custom p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover table-custom mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th width="120" class="ps-4">SKU</th>
+                    <th>PRODUCTO EN BODEGA</th>
+                    <th width="140" class="text-center">STOCK BODEGA</th>
+                    <th width="140" class="text-end">PRECIO COSTO</th>
+                    <th width="140" class="text-end">PRECIO MÍNIMO</th>
+                    <th width="140" class="text-end pe-4">PRECIO SUGERIDO</th>
+                    <th width="260" class="text-end pe-4">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in productos %}
+                <tr class="producto-fila" 
+                    id="fila-prod-{{ p.id }}" 
+                    data-id="{{ p.id }}" 
+                    data-sku="{{ p.sku|lower }}" 
+                    data-nombre="{{ p.nombre|lower }}" 
+                    data-variantes="{% if p.variantes %}{% for v in p.variantes %}{{ v.nombre_variante|lower }} {% endfor %}{% endif %}">
+                    <td class="text-muted text-nowrap">
+                        {% if p.variantes %}
+                            <button class="btn btn-sm btn-light border me-1 rounded-circle shadow-sm p-1" style="width: 28px; height: 28px;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVariantes{{ p.id }}" aria-expanded="false" title="Ver Subcategorías">
+                                <i class="fa-solid fa-chevron-down small"></i>
+                            </button>
+                        {% endif %}
+                        <small><strong>{{ p.sku }}</strong></small>
+                    </td>
+                    <td class="fw-semibold text-brand-black">{{ p.nombre }}</td>
+                    <td class="text-center">
+                        {% if p.total_stock <= 3 %}
+                            <span class="badge bg-danger rounded-pill px-3 py-2"><i class="fa-solid fa-triangle-exclamation me-1"></i> {{ p.total_stock }} (Bajo)</span>
+                        {% else %}
+                            <span class="badge bg-light text-dark border rounded-pill px-3 py-2 fw-semibold">{{ p.total_stock }} unidades</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end fw-bold" style="color: var(--brand-pink);">
+                        {% if p.rango_costos %}
+                            {% if p.rango_costos is number %}
+                                ${{ (p.rango_costos)|cop }}
+                            {% else %}
+                                <div class="small text-muted fw-normal" style="line-height:1;">Desde</div>
+                                ${{ (p.rango_costos[0])|cop }}
+                                <div class="small text-muted fw-normal mt-1" style="line-height:1;">hasta</div>
+                                ${{ (p.rango_costos[1])|cop }}
+                            {% endif %}
+                        {% else %}
+                            ${{ (p.precio_costo)|cop }}
+                        {% endif %}
+                    </td>
+                    <td class="text-end text-muted fw-bold">
+                        {% if p.rango_minimos %}
+                            {% if p.rango_minimos is number %}
+                                ${{ (p.rango_minimos)|cop }}
+                            {% else %}
+                                <div class="small text-muted fw-normal" style="line-height:1;">Desde</div>
+                                ${{ (p.rango_minimos[0])|cop }}
+                                <div class="small text-muted fw-normal mt-1" style="line-height:1;">hasta</div>
+                                ${{ (p.rango_minimos[1])|cop }}
+                            {% endif %}
+                        {% else %}
+                            ${{ (p.precio_minimo)|cop }}
+                        {% endif %}
+                    </td>
+                    <td class="text-end fw-bold text-brand-black pe-4">
+                        {% if p.rango_precios %}
+                            {% if p.rango_precios is number %}
+                                ${{ (p.rango_precios)|cop }}
+                            {% else %}
+                                <div class="small text-muted fw-normal" style="line-height:1;">Desde</div>
+                                ${{ (p.rango_precios[0])|cop }}<br>
+                                <div class="small text-muted fw-normal mt-1" style="line-height:1;">hasta</div>
+                                ${{ (p.rango_precios[1])|cop }}
+                            {% endif %}
+                        {% else %}
+                            ${{ (p.precio_sugerido)|cop }}
+                        {% endif %}
+                    </td>
+                    <td class="text-end pe-3 text-nowrap">
+                        <div class="d-inline-flex align-items-center justify-content-end gap-1">
+                            <!-- Botón Transferir a Tienda -->
+                            <button type="button" 
+                                    class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 shadow-2xs fw-bold" 
+                                    title="Pasar unidades a Tienda" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#transferirModal{{ p.id }}"
+                                    style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                <span>A Tienda</span>
+                            </button>
+
+                            <!-- Gestionar Subcategorías -->
+                            <button type="button" 
+                                    class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1 d-inline-flex align-items-center gap-1 shadow-2xs" 
+                                    title="Gestionar Subcategorías / Variantes" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#variantesModal{{ p.id }}"
+                                    style="font-size: 0.78rem; font-weight: 600;">
+                                <i class="fa-solid fa-sitemap text-primary"></i> 
+                            </button>
+
+                            <!-- Ver Detalle -->
+                            <a href="{{ url_for('inventory_bp.ver_producto', id=p.id) }}" 
+                               class="btn btn-sm btn-light border text-primary rounded-circle p-0 d-inline-flex align-items-center justify-content-center shadow-2xs action-btn-hover" 
+                               style="width: 32px; height: 32px;" 
+                               title="Ver Detalle Completo">
+                                <i class="fa-solid fa-eye" style="font-size: 0.82rem;"></i>
+                            </a>
+
+                            <!-- Editar Producto -->
+                            <a href="{{ url_for('inventory_bp.editar_producto', id=p.id) }}" 
+                               class="btn btn-sm btn-light border text-dark rounded-circle p-0 d-inline-flex align-items-center justify-content-center shadow-2xs action-btn-hover" 
+                               style="width: 32px; height: 32px;" 
+                               title="Editar Producto">
+                                <i class="fa-solid fa-pen" style="font-size: 0.82rem;"></i>
+                            </a>
+
+                            <!-- Eliminar Producto -->
+                            <form method="POST" action="{{ url_for('inventory_bp.eliminar_producto', id=p.id) }}" class="d-inline m-0 p-0" onsubmit="return confirm('¿Está seguro de que desea eliminar este producto de bodega? Sus movimientos pasados se conservarán.');">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" 
+                                        class="btn btn-sm btn-light border text-danger rounded-circle p-0 d-inline-flex align-items-center justify-content-center shadow-2xs action-btn-danger-hover" 
+                                        style="width: 32px; height: 32px;" 
+                                        title="Eliminar Producto">
+                                    <i class="fa-solid fa-trash-can" style="font-size: 0.82rem;"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+                {% if p.variantes %}
+                <tr class="collapse bg-light collapse-variantes-fila" id="collapseVariantes{{ p.id }}" data-parent-id="{{ p.id }}">
+                    <td colspan="7" class="p-0 border-bottom border-dark border-opacity-10 shadow-inner">
+                        <div class="p-3 bg-white" style="border-left: 4px solid var(--brand-pink); border-radius: 0 0 8px 8px;">
+                            <table class="table table-sm table-borderless mb-0">
+                                <thead class="text-muted" style="font-size: 0.8rem; border-bottom: 1px solid #eee;">
+                                    <tr>
+                                        <th class="ps-3"><i class="fa-solid fa-arrow-turn-down me-2 text-black-50"></i>Subcategoría (Variante)</th>
+                                        <th class="text-center">Stock Bodega</th>
+                                        <th class="text-end">Costo Unitario</th>
+                                        <th class="text-end text-success">Valor Invertido (Costo)</th>
+                                        <th class="text-end">Sugerido</th>
+                                        <th class="text-end pe-3">Acción Rápida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for v in p.variantes %}
+                                    <tr class="align-middle">
+                                        <td class="ps-4 fw-semibold text-brand-black" style="font-size: 0.95rem;">{{ v.nombre_variante }}</td>
+                                        <td class="text-center">
+                                            {% if v.cantidad_stock <= 3 %}
+                                                <span class="badge bg-danger rounded-pill">{{ v.cantidad_stock }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary rounded-pill text-white">{{ v.cantidad_stock }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end text-muted">${{ (v.precio_costo or p.precio_costo)|cop }}</td>
+                                        <td class="text-end fw-bold text-success">${{ ((v.precio_costo or p.precio_costo) * v.cantidad_stock)|cop }}</td>
+                                        <td class="text-end text-muted">${{ (v.precio_sugerido or p.precio_sugerido)|cop }}</td>
+                                        <td class="text-end pe-3">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-danger rounded-pill px-2 py-0 fw-bold" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#transferirModal{{ p.id }}"
+                                                    data-variant-id="{{ v.id }}"
+                                                    style="font-size: 0.72rem;">
+                                                <i class="fa-solid fa-truck-fast me-1"></i> Pasar a Tienda
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-warehouse fs-1 mb-3 text-brand-pink"></i>
+                        <p class="mb-0">
+                            {% if q %}
+                                No se encontraron productos en bodega coincidentes con "<strong>{{ q }}</strong>". 
+                                <a href="{{ url_for('inventory_bp.bodega_index') }}" class="btn btn-sm btn-outline-primary rounded-pill ms-2">Ver todo el depósito</a>
+                            {% else %}
+                                El inventario de bodega está vacío actualmente.
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Paginación -->
+{% if paginacion.pages > 1 %}
+<nav aria-label="Paginación de bodega" class="mt-4">
+    <ul class="pagination justify-content-center flex-wrap gap-1 mb-0">
+        <li class="page-item {% if not paginacion.has_prev %}disabled{% endif %}">
+            <a class="page-link rounded-pill px-3 shadow-sm"
+               href="{% if paginacion.has_prev %}{{ url_for('inventory_bp.bodega_index', page=paginacion.prev_num, q=q if q else None) }}{% else %}#{% endif %}"
+               aria-label="Anterior">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+        {% for p_num in paginacion.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+            {% if p_num %}
+                <li class="page-item {% if p_num == paginacion.page %}active{% endif %}">
+                    <a class="page-link rounded-pill px-3 shadow-sm"
+                       href="{{ url_for('inventory_bp.bodega_index', page=p_num, q=q if q else None) }}">{{ p_num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link rounded-pill px-3">…</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not paginacion.has_next %}disabled{% endif %}">
+            <a class="page-link rounded-pill px-3 shadow-sm"
+               href="{% if paginacion.has_next %}{{ url_for('inventory_bp.bodega_index', page=paginacion.next_num, q=q if q else None) }}{% else %}#{% endif %}"
+               aria-label="Siguiente">
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+<!-- Modales de Variantes por Producto -->
+{% for p in productos %}
+    {% include 'inventory/modal_variantes.html' %}
+{% endfor %}
+
+<!-- Modales de Transferencia por Producto -->
+{% for p in productos %}
+<div class="modal fade" id="transferirModal{{ p.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form method="POST" action="{{ url_for('inventory_bp.transferir_a_tienda') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="bodega_prod_id" value="{{ p.id }}">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold text-brand-black">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-primary me-2" style="color: #FF1744;"></i>
+                        Pasar a Tienda: {{ p.nombre }}
+                    </h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-white">
+                    <div class="alert alert-light border py-2 px-3 small rounded-3 mb-3">
+                        <i class="fa-solid fa-circle-info text-primary me-1" style="color: #FF1744;"></i>
+                        Stock total en Bodega: <strong>{{ p.total_stock }}</strong> unidades.
+                    </div>
+
+                    {% if p.variantes %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">Subcategoría / Variante a transferir:</label>
+                        <select name="bodega_variant_id" class="form-select border shadow-none" required>
+                            {% for v in p.variantes %}
+                                <option value="{{ v.id }}">{{ v.nombre_variante }} (Disp: {{ v.cantidad_stock }} uds)</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">Cantidad de unidades a transferir a Tienda:</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-cubes-stacked"></i></span>
+                            <input type="number" name="cantidad" min="1" max="{{ p.total_stock }}" value="1" class="form-control fw-bold fs-5" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">Producto de Destino en Tienda (Opcional):</label>
+                        <select name="tienda_prod_id" class="form-select border shadow-none">
+                            <option value="">-- Emparejar automáticamente por nombre/SKU --</option>
+                            {% for pt in productos_tienda %}
+                                <option value="{{ pt.id }}" {% if pt.nombre|lower == p.nombre|lower %}selected{% endif %}>
+                                    {{ pt.nombre }} (SKU: {{ pt.sku }} | Stock tienda: {{ pt.total_stock }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted d-block mt-1">Si ya existe en tienda, se sumarán las unidades. Si no, se vinculará o creará con el mismo nombre.</small>
+                    </div>
+
+                    <div class="form-check form-switch mt-3">
+                        <input class="form-check-input" type="checkbox" name="crear_si_no_existe" value="1" id="crearSiNoExiste{{ p.id }}" checked>
+                        <label class="form-check-label small" for="crearSiNoExiste{{ p.id }}">
+                            Crear automáticamente en Tienda si aún no existe
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-blue rounded-pill fw-bold px-4 shadow-sm">
+                        <i class="fa-solid fa-check me-1"></i> Confirmar Transferencia
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Modal Global de Transferencia (Selector libre) -->
+<div class="modal fade" id="transferirModalGlobal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form method="POST" action="{{ url_for('inventory_bp.transferir_a_tienda') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold text-brand-black">
+                        <i class="fa-solid fa-truck-ramp-box text-primary me-2" style="color: #FF1744;"></i>
+                        Transferir Producto a Tienda
+                    </h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-white">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">1. Seleccionar Producto de Bodega (Origen):</label>
+                        <select name="bodega_prod_id" id="globalBodegaProdSelect" class="form-select border shadow-none" required>
+                            <option value="">-- Elige un producto de bodega --</option>
+                            {% for p in productos %}
+                                <option value="{{ p.id }}" data-has-variants="{% if p.variantes %}1{% else %}0{% endif %}">
+                                    {{ p.nombre }} (SKU: {{ p.sku }} | Disp: {{ p.total_stock }} uds)
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">2. Cantidad a transferir:</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-cubes-stacked"></i></span>
+                            <input type="number" name="cantidad" min="1" value="1" class="form-control fw-bold fs-5" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-brand-black">3. Producto Destino en Tienda (Opcional):</label>
+                        <select name="tienda_prod_id" class="form-select border shadow-none">
+                            <option value="">-- Detectar automáticamente por nombre --</option>
+                            {% for pt in productos_tienda %}
+                                <option value="{{ pt.id }}">
+                                    {{ pt.nombre }} (SKU: {{ pt.sku }} | Stock tienda: {{ pt.total_stock }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-check form-switch mt-3">
+                        <input class="form-check-input" type="checkbox" name="crear_si_no_existe" value="1" id="crearGlobalCheck" checked>
+                        <label class="form-check-label small" for="crearGlobalCheck">
+                            Crear automáticamente en Tienda si aún no existe
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-blue rounded-pill fw-bold px-4 shadow-sm">
+                        <i class="fa-solid fa-check me-1"></i> Confirmar Transferencia
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Importación Masiva a Bodega -->
+<div class="modal fade" id="importarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form method="POST" action="{{ url_for('inventory_bp.importar_inventario') }}" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold text-success">
+                        <i class="fa-solid fa-cloud-arrow-up me-2"></i>Carga Masiva a Bodega
+                    </h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <i class="fa-solid fa-file-excel text-success d-block mb-3" style="font-size: 3rem;"></i>
+                    <p class="mb-4">Sube un documento Excel <strong>(.xlsx)</strong> o <strong>CSV</strong> para cargar existencias a bodega.</p>
+                    
+                    <a href="{{ url_for('inventory_bp.descargar_plantilla') }}" class="btn btn-outline-secondary rounded-pill fw-bold w-100 mb-4 text-start shadow-sm">
+                        <i class="fa-solid fa-download ms-2 me-2"></i> Descargar Plantilla de Ejemplo
+                    </a>
+
+                    <div class="text-start mb-2">
+                        <label class="form-label fw-bold">Subir archivo rellenado</label>
+                        <input type="file" name="archivo" accept=".xlsx, .csv" class="form-control bg-light border-0 shadow-sm" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success rounded-pill fw-bold px-4 shadow-sm">
+                        <i class="fa-solid fa-gear me-1"></i> Subir a Bodega
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('inventarioSearch');
+    const clearBtn = document.getElementById('clearSearch');
+    const dropdown = document.getElementById('searchDropdown');
+    const searchSpinner = document.getElementById('searchSpinner');
+    const searchIcon = document.getElementById('searchIcon');
+    const searchForm = document.getElementById('searchForm');
+    const rows = document.querySelectorAll('.producto-fila');
+    const visibleCount = document.getElementById('visibleCount');
+    let debounceTimer;
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function filterLocalTable(query) {
+        let matches = 0;
+        rows.forEach(row => {
+            const sku = row.dataset.sku || '';
+            const nombre = row.dataset.nombre || '';
+            const variantes = row.dataset.variantes || '';
+            const collapseRow = document.getElementById('collapseVariantes' + row.dataset.id);
+
+            if (!query || sku.includes(query) || nombre.includes(query) || variantes.includes(query)) {
+                row.classList.remove('d-none');
+                matches++;
+            } else {
+                row.classList.add('d-none');
+                if (collapseRow && collapseRow.classList.contains('show')) {
+                    collapseRow.classList.remove('show');
+                }
+            }
+        });
+
+        if (visibleCount) {
+            visibleCount.textContent = matches;
+        }
+    }
+
+    function searchGlobal(query) {
+        clearTimeout(debounceTimer);
+        if (!query || query.length < 1) {
+            dropdown.classList.add('d-none');
+            dropdown.classList.remove('show');
+            if (searchSpinner) searchSpinner.classList.add('d-none');
+            if (searchIcon) searchIcon.classList.remove('d-none');
+            return;
+        }
+
+        if (searchSpinner) searchSpinner.classList.remove('d-none');
+        if (searchIcon) searchIcon.classList.add('d-none');
+
+        debounceTimer = setTimeout(() => {
+            fetch(`/inventory/api/search?tipo=bodega&q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (searchSpinner) searchSpinner.classList.add('d-none');
+                    if (searchIcon) searchIcon.classList.remove('d-none');
+
+                    dropdown.innerHTML = '';
+
+                    if (data && data.length > 0) {
+                        const header = document.createElement('div');
+                        header.className = 'px-3 py-2 bg-light border-bottom d-flex justify-content-between align-items-center';
+                        header.innerHTML = `
+                            <small class="text-muted fw-bold text-uppercase" style="font-size:0.75rem;">
+                                <i class="fa-solid fa-bolt text-warning me-1"></i> Resultados rápidos (${data.length})
+                            </small>
+                            <small class="text-muted" style="font-size:0.75rem;">Enter para filtrar tabla</small>
+                        `;
+                        dropdown.appendChild(header);
+
+                        data.forEach(item => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'dropdown-item p-3 border-bottom d-flex justify-content-between align-items-center flex-wrap';
+                            itemDiv.style.whiteSpace = 'normal';
+
+                            let variantesHtml = '';
+                            if (item.variantes && item.variantes.length > 0) {
+                                variantesHtml = '<div class="mt-1 d-flex flex-wrap gap-1">';
+                                item.variantes.slice(0, 4).forEach(v => {
+                                    const isMatch = v.matches;
+                                    const badgeClass = isMatch ? 'bg-warning text-dark border border-warning fw-bold' : 'bg-light text-muted border';
+                                    variantesHtml += `<span class="badge ${badgeClass}" style="font-size: 0.72rem;">${escapeHtml(v.nombre)} (${v.stock})</span>`;
+                                });
+                                variantesHtml += '</div>';
+                            }
+
+                            const stockBadge = item.stock <= 3 
+                                ? `<span class="badge bg-danger rounded-pill px-2 py-1">${item.stock} uds</span>`
+                                : `<span class="badge bg-light text-dark border rounded-pill px-2 py-1">${item.stock} uds</span>`;
+
+                            itemDiv.innerHTML = `
+                                <div class="me-2" style="max-width: 70%;">
+                                    <div class="fw-bold text-brand-black" style="font-size: 0.95rem;">${escapeHtml(item.nombre)}</div>
+                                    <div class="small text-muted">
+                                        <span class="badge bg-light text-dark border me-1">SKU: ${escapeHtml(item.sku)}</span>
+                                        ${item.precio_sugerido ? `<span class="text-success fw-semibold">$${Number(item.precio_sugerido).toLocaleString('es-CO')}</span>` : ''}
+                                    </div>
+                                    ${variantesHtml}
+                                </div>
+                                <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+                                    ${stockBadge}
+                                    <a href="${item.url_ver}" class="btn btn-sm btn-outline-info rounded-pill px-2 py-1 shadow-sm" title="Ver detalle">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <a href="${item.url_editar}" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1 shadow-sm" title="Editar">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                </div>
+                            `;
+
+                            itemDiv.addEventListener('click', function(e) {
+                                if (!e.target.closest('a') && !e.target.closest('button')) {
+                                    window.location.href = item.url_ver;
+                                }
+                            });
+
+                            dropdown.appendChild(itemDiv);
+                        });
+
+                        dropdown.classList.remove('d-none');
+                        dropdown.classList.add('show');
+                    } else {
+                        dropdown.innerHTML = `
+                            <div class="p-4 text-center text-muted">
+                                <i class="fa-solid fa-box-open text-brand-pink fs-3 mb-2"></i>
+                                <p class="mb-0 small fw-semibold">No se encontraron productos en bodega para "<strong>${escapeHtml(query)}</strong>".</p>
+                            </div>
+                        `;
+                        dropdown.classList.remove('d-none');
+                        dropdown.classList.add('show');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error buscando productos:', err);
+                    if (searchSpinner) searchSpinner.classList.add('d-none');
+                    if (searchIcon) searchIcon.classList.remove('d-none');
+                });
+        }, 250);
+    }
+
+    function handleInput() {
+        const query = searchInput.value.toLowerCase().trim();
+        if (query.length > 0) {
+            clearBtn.classList.remove('d-none');
+        } else {
+            clearBtn.classList.add('d-none');
+        }
+        filterLocalTable(query);
+        searchGlobal(query);
+    }
+
+    searchInput.addEventListener('input', handleInput);
+
+    searchInput.addEventListener('focus', function() {
+        const query = searchInput.value.toLowerCase().trim();
+        if (query.length >= 1 && dropdown.children.length > 0) {
+            dropdown.classList.remove('d-none');
+            dropdown.classList.add('show');
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('d-none');
+            dropdown.classList.remove('show');
+        }
+    });
+
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        clearBtn.classList.add('d-none');
+        dropdown.classList.add('d-none');
+        dropdown.classList.remove('show');
+        if (window.location.search.includes('q=')) {
+            window.location.href = "{{ url_for('inventory_bp.bodega_index') }}";
+        } else {
+            filterLocalTable('');
+            searchInput.focus();
+        }
+    });
+});
+</script>
+{% endblock %}
