@@ -2,150 +2,158 @@ import os
 import math
 from PIL import Image, ImageDraw, ImageFilter
 
-def create_heart_polygon(cx, cy, size):
-    """Generates points for a smooth parametric heart."""
-    points = []
-    # Parametric equations for a heart:
-    # x = 16 * sin(t)^3
-    # y = -(13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t))
-    scale = size / 35.0
-    for deg in range(0, 360, 2):
-        t = math.radians(deg)
-        x = 16 * (math.sin(t) ** 3)
-        y = -(13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t))
-        px = cx + x * scale
-        py = cy + y * scale
-        points.append((px, py))
-    return points
+def draw_3d_bubble(draw, cx, cy, radius, primary_color=(255, 23, 68), specular_color=(255, 255, 255)):
+    """
+    Dibuja una burbuja esférica 3D con relieve, degradado concéntrico y brillo especular.
+    """
+    r, g, b = primary_color
+    # Base con sombra difusa perimetral
+    steps = 14
+    for i in range(steps):
+        factor = i / steps
+        cur_r = radius * (1.0 - factor * 0.45)
+        # Tinte que oscurece hacia el borde y aclara hacia el centro superior
+        cur_col = (
+            min(255, int(r + (255 - r) * (1 - factor) * 0.45)),
+            min(255, int(g + 60 * (1 - factor) * 0.45)),
+            min(255, int(b + 60 * (1 - factor) * 0.45)),
+            int(255 * (1.0 - factor * 0.15))
+        )
+        offset_x = (cx - radius * 0.18 * (1 - factor))
+        offset_y = (cy - radius * 0.18 * (1 - factor))
+        draw.ellipse(
+            [offset_x - cur_r, offset_y - cur_r, offset_x + cur_r, offset_y + cur_r],
+            fill=cur_col
+        )
+    
+    # Brillo especular 3D de alta luminosidad (destello de luz de la burbuja)
+    specular_cx = cx - radius * 0.35
+    specular_cy = cy - radius * 0.35
+    spec_rx = radius * 0.28
+    spec_ry = radius * 0.18
+    draw.ellipse(
+        [specular_cx - spec_rx, specular_cy - spec_ry, specular_cx + spec_rx, specular_cy + spec_ry],
+        fill=(255, 255, 255, 220)
+    )
+    # Segundo micro-brillo reflejo en el borde inferior
+    ref_cx = cx + radius * 0.28
+    ref_cy = cy + radius * 0.30
+    draw.ellipse(
+        [ref_cx - radius * 0.12, ref_cy - radius * 0.08, ref_cx + radius * 0.12, ref_cy + radius * 0.08],
+        fill=(255, 255, 255, 120)
+    )
 
-def generate_mycase_master_icon():
-    # Render at high resolution (1024x1024) for supreme antialiased quality
+def generate_burbuja_lili_master_icon():
     canvas_size = 1024
     img = Image.new("RGBA", (canvas_size, canvas_size), (255, 255, 255, 255))
-    draw = ImageDraw.Draw(img)
-
     cx, cy = canvas_size // 2, canvas_size // 2
 
-    # 1. Subtle Neon Ambient Glow layer
+    # 1. Resplandor difuso suave de fondo (Rojo Burbuja sutil sobre fondo blanco)
     glow_img = Image.new("RGBA", (canvas_size, canvas_size), (0, 0, 0, 0))
     glow_draw = ImageDraw.Draw(glow_img)
-    glow_radius = 420
+    glow_radius = 430
     glow_draw.ellipse(
         [cx - glow_radius, cy - glow_radius, cx + glow_radius, cy + glow_radius],
-        outline=(255, 20, 147, 80),
-        width=40
+        fill=(255, 23, 68, 28)
     )
-    glow_img = glow_img.filter(ImageFilter.GaussianBlur(radius=25))
+    glow_img = glow_img.filter(ImageFilter.GaussianBlur(radius=40))
     img.alpha_composite(glow_img)
 
-    # Re-obtain draw after composite
+    # Re-draw para las burbujas
     draw = ImageDraw.Draw(img)
 
-    # 2. Outer Circular Neon Ring (#FF1493)
-    ring_radius = 410
+    # 2. Anillo fino perimetral de contención estética
+    ring_r = 440
     draw.ellipse(
-        [cx - ring_radius, cy - ring_radius, cx + ring_radius, cy + ring_radius],
-        outline=(255, 20, 147, 255),
-        width=24
+        [cx - ring_r, cy - ring_r, cx + ring_r, cy + ring_r],
+        outline=(253, 232, 232, 255),
+        width=8
     )
 
-    # Accent thin inner ring for Metallic Glam vibe
-    inner_ring_radius = ring_radius - 22
+    # 3. Flor de Burbujas en Relieve 3D (Rojo Burbuja #FF1744 con centro Blanco)
+    # Generamos 6 pétalos de burbujas en círculo
+    num_petals = 6
+    petal_distance = 185
+    petal_radius = 125
+
+    # Dibujar pétalos de burbujas 3D
+    for i in range(num_petals):
+        angle = math.radians(i * (360 / num_petals) - 30)
+        px = cx + math.cos(angle) * petal_distance
+        py = cy + math.sin(angle) * petal_distance
+        draw_3d_bubble(draw, px, py, petal_radius, primary_color=(255, 23, 68))
+
+    # Burbujas satélite exteriores decorativas más pequeñas (efecto burbujeo dinámico)
+    satellites = [
+        (cx + 340, cy - 230, 48),
+        (cx - 330, cy - 210, 42),
+        (cx + 310, cy + 240, 36),
+        (cx - 320, cy + 220, 46),
+        (cx, cy - 365, 32),
+        (cx, cy + 365, 32)
+    ]
+    for sx, sy, sr in satellites:
+        draw_3d_bubble(draw, sx, sy, sr, primary_color=(255, 82, 82))
+
+    # 4. Burbuja Central (Centro Blanco brillante con núcleo rojo translúcido y relieve 3D)
+    center_radius = 135
+    # Sombra interna / halo del centro
     draw.ellipse(
-        [cx - inner_ring_radius, cy - inner_ring_radius, cx + inner_ring_radius, cy + inner_ring_radius],
-        outline=(244, 114, 182, 140),
-        width=6
+        [cx - center_radius - 8, cy - center_radius - 8, cx + center_radius + 8, cy + center_radius + 8],
+        fill=(183, 28, 28, 90)
     )
-
-    # 3. Smartphone Silhouette in Center
-    # Phone dimensions
-    phone_w = 340
-    phone_h = 560
-    phone_x0 = cx - phone_w // 2
-    phone_y0 = cy - phone_h // 2
-    phone_x1 = cx + phone_w // 2
-    phone_y1 = cy + phone_h // 2
-    corner_radius = 52
-
-    # Phone outer frame (White filled with Neon Pink border)
+    # Esfera blanca central perlada
+    steps_c = 12
+    for j in range(steps_c):
+        factor_c = j / steps_c
+        cur_cr = center_radius * (1.0 - factor_c * 0.4)
+        c_val = int(245 + 10 * factor_c)
+        draw.ellipse(
+            [cx - cur_cr, cy - cur_cr, cx + cur_cr, cy + cur_cr],
+            fill=(c_val, c_val, c_val, 255),
+            outline=(255, 23, 68, 180) if j == 0 else None,
+            width=6 if j == 0 else 0
+        )
+    # Destello especular central
+    draw.ellipse(
+        [cx - 45 - 28, cy - 45 - 18, cx - 45 + 28, cy - 45 + 18],
+        fill=(255, 255, 255, 255)
+    )
+    # Detalle de smartphone estilizado o inicial "B" en el corazón blanco
+    # Dibujamos un ícono sutil de teléfono celular en rojo burbuja dentro del centro blanco
+    phone_w = 46
+    phone_h = 76
     draw.rounded_rectangle(
-        [phone_x0, phone_y0, phone_x1, phone_y1],
-        radius=corner_radius,
+        [cx - phone_w // 2, cy - phone_h // 2, cx + phone_w // 2, cy + phone_h // 2],
+        radius=12,
         fill=(255, 255, 255, 255),
-        outline=(255, 20, 147, 255),
-        width=18
+        outline=(255, 23, 68, 255),
+        width=5
     )
-
-    # Phone Inner Screen
-    screen_pad = 26
-    screen_x0 = phone_x0 + screen_pad
-    screen_y0 = phone_y0 + screen_pad + 20
-    screen_x1 = phone_x1 - screen_pad
-    screen_y1 = phone_y1 - screen_pad - 20
+    # Pantalla interna del teléfono
     draw.rounded_rectangle(
-        [screen_x0, screen_y0, screen_x1, screen_y1],
-        radius=30,
-        fill=(255, 245, 250, 255), # Ultra-subtle glam blush tint
-        outline=(244, 114, 182, 180),
-        width=6
+        [cx - phone_w // 2 + 5, cy - phone_h // 2 + 7, cx + phone_w // 2 - 5, cy + phone_h // 2 - 9],
+        radius=6,
+        fill=(255, 23, 68, 255)
     )
+    # Notch/altavoz
+    draw.line([cx - 8, cy - phone_h // 2 + 3, cx + 8, cy - phone_h // 2 + 3], fill=(255, 23, 68, 255), width=2)
+    # Micro botón/corazón en la pantallita
+    draw.ellipse([cx - 5, cy - 2, cx + 5, cy + 8], fill=(255, 255, 255, 255))
 
-    # Top Speaker Pill / Dynamic Island
-    speaker_w = 70
-    speaker_h = 10
-    draw.rounded_rectangle(
-        [cx - speaker_w // 2, phone_y0 + 20, cx + speaker_w // 2, phone_y0 + 20 + speaker_h],
-        radius=5,
-        fill=(255, 20, 147, 220)
-    )
-
-    # Bottom Home Indicator Bar
-    bar_w = 90
-    bar_h = 6
-    draw.rounded_rectangle(
-        [cx - bar_w // 2, phone_y1 - 22, cx + bar_w // 2, phone_y1 - 22 + bar_h],
-        radius=3,
-        fill=(244, 114, 182, 200)
-    )
-
-    # 4. Heart in Center of Screen (#FF1493 Neon Heart)
-    heart_points = create_heart_polygon(cx, cy - 8, size=150)
-    draw.polygon(heart_points, fill=(255, 20, 147, 255))
-
-    # Glam specular highlight on upper left of heart
-    hl_points = create_heart_polygon(cx - 10, cy - 20, size=75)
-    # Draw small accent dot/glow
-    draw.ellipse([cx - 40, cy - 40, cx - 18, cy - 18], fill=(255, 255, 255, 200))
-
-    # Tiny decorative stars / sparkles around the phone
-    def draw_star(sx, sy, r, color):
-        points = [
-            (sx, sy - r), (sx + r * 0.3, sy - r * 0.3),
-            (sx + r, sy), (sx + r * 0.3, sy + r * 0.3),
-            (sx, sy + r), (sx - r * 0.3, sy + r * 0.3),
-            (sx - r, sy), (sx - r * 0.3, sy - r * 0.3)
-        ]
-        draw.polygon(points, fill=color)
-
-    draw_star(cx + 240, cy - 220, 26, (255, 20, 147, 255))
-    draw_star(cx - 240, cy + 200, 22, (244, 114, 182, 255))
-    draw_star(cx + 220, cy + 240, 16, (255, 102, 178, 220))
-    draw_star(cx - 220, cy - 240, 18, (255, 20, 147, 220))
-
-    # Convert to pure RGB on white background
+    # Convertir a RGB puro sobre fondo blanco
     final_rgb = Image.new("RGB", (canvas_size, canvas_size), (255, 255, 255))
     final_rgb.paste(img, (0, 0), img)
 
-    # Create target directories
+    # Crear directorios
     os.makedirs("static/img/icons", exist_ok=True)
 
-    # Save Master PNG files
+    # Guardar Master PNG files
+    final_rgb.save("static/img/BurbujaLili.png", "PNG", quality=95)
     final_rgb.save("static/img/MyCase.png", "PNG", quality=95)
-    final_rgb.save("static/img/Maripocell.png", "PNG", quality=95)
-    final_rgb.save("static/img/Maripocell_wide.png", "PNG", quality=95)
     final_rgb.save("static/img/MyCase_wide.png", "PNG", quality=95)
 
-    # Save PWA and Favicon sizes
+    # Guardar tamaños PWA y Favicon
     sizes = {
         "static/img/icons/icon-512x512.png": 512,
         "static/img/icons/icon-192x192.png": 192,
@@ -159,9 +167,9 @@ def generate_mycase_master_icon():
         resized = final_rgb.resize((sz, sz), Image.Resampling.LANCZOS)
         resized.save(path, "PNG", optimize=True)
 
-    # Save .ico with multi-resolution
+    # Guardar .ico multi-resolución
     final_rgb.save("static/favicon.ico", format='ICO', sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
-    print("[SUCCESS] Todos los iconos PWA, Isotipo y Favicons de My Case generados sobre fondo 100% blanco puro (#FFFFFF).")
+    print("[SUCCESS] Isotipo PWA Flor de Burbujas 3D y Favicons de Burbuja Lili generados sobre fondo 100% blanco puro (#FFFFFF).")
 
 if __name__ == "__main__":
-    generate_mycase_master_icon()
+    generate_burbuja_lili_master_icon()

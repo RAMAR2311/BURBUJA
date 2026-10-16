@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Case - Accesorios para tu celular{% endblock %}</title>
+    <title>{% block title %}Burbuja Lili - Accesorios para tu celular{% endblock %}</title>
     <!-- Favicon y PWA Manifest -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=mycase_v1">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=mycase_v1">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=mycase_v1">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=mycase_v1">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=burbuja_v2">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/icons/favicon-32x32.png') }}?v=burbuja_v2">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/icons/favicon-16x16.png') }}?v=burbuja_v2">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icons/apple-touch-icon.png') }}?v=burbuja_v2">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=burbuja_v2">
     <link rel="manifest" href="/manifest.json">
     <script>
         // Captura anticipada del evento de instalación nativa PWA
@@ -33,16 +33,16 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="My Case">
-    <meta name="application-name" content="My Case">
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1">
-    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=mycase_v1">
-    <meta name="theme-color" content="#FF1493">
+    <meta name="apple-mobile-web-app-title" content="Burbuja Lili">
+    <meta name="application-name" content="Burbuja Lili">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=burbuja_v2">
+    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=burbuja_v2">
+    <meta name="theme-color" content="#FF1744">
 
-    <!-- Google Fonts: Great Vibes, Allura, Montserrat, Inter, Poppins -->
+    <!-- Google Fonts: Comfortaa, Fredoka, Montserrat, Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&family=Inter:wght@400;500;600;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Poppins:wght@600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Fredoka:wght@600;700&family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,17 +50,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* =========================================================
-           MY CASE DESIGN SYSTEM: GLAM LIGHT THEME (100% WHITE CANVAS)
-           Canvas Base: #FFFFFF (Blanco Puro)
-           Cards / Shell / Modales: #FFFFFF
-           Bordes de Delimitación: #FCE7F3
-           Divisores: #FDE2EE
-           Color Primario: #FF1493 (Rosa Neón)
-           Color de Acento: #F472B6 (Rosa Metálico)
-           Texto Principal: #18181B (Negro suave de alto contraste)
-           Texto Secundario: #71717A
-           Totalizadores / Precios Display: #FF1493 en negrita
-           Degradado Corporativo: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%)
+           BURBUJA LILI DESIGN SYSTEM: 100% WHITE CANVAS & BUBBLE LIGHT THEME
+           Fondo General: #FFFFFF (Blanco puro estricto)
+           Sidebar, Header, Modales, Tarjetas y Tablas: #FFFFFF
+           Bordes de Delimitación: #FDE8E8 (Tinte rojo tenue)
+           Divisores: #FDE8E8
+           Color Primario (Rojo Burbuja): #FF1744
+           Color de Acento (Rojo Coral): #FF5252
+           Texto Principal: #1A1A1A (Gris carbón para lectura nítida)
+           Texto Secundario: #757575
+           Totalizadores / Precios Display: #FF1744 en negrita
+           Degradado de Marca: linear-gradient(135deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%)
+           Sombras Sutiles: rgba(255, 23, 68, 0.05)
            ========================================================= */
         :root {
             --brand-bg: #FFFFFF;            /* Canvas 100% blanco puro */
@@ -68,36 +69,36 @@
             --brand-surface: #FFFFFF;       /* Contenedores y Cards blancos */
             --brand-surface-card: #FFFFFF;
             --brand-card-bg: #FFFFFF;
-            --brand-surface-hover: #FFF1F7;
+            --brand-surface-hover: #FFF5F5;
 
-            --brand-primary: #FF1493;       /* Rosa Neón */
-            --brand-primary-btn: #FF1493;   /* Botón primario y CTA */
-            --brand-primary-dark: #C71585;  /* Magenta profundo */
-            --brand-secondary: #F472B6;     /* Rosa Metálico */
-            --brand-secondary-light: #FCE7F3;
-            --brand-accent: #F472B6;        /* Rosa Metálico */
-            --brand-pink: #FF1493;
-            --brand-red: #EF4444;           /* Alertas y faltantes */
-            --brand-cyan: #FF1493;
-            --brand-blue: #FF1493;
+            --brand-primary: #FF1744;       /* Rojo Burbuja */
+            --brand-primary-btn: #FF1744;   /* Botón primario y CTA */
+            --brand-primary-dark: #B71C1C;  /* Rojo profundo */
+            --brand-secondary: #FF5252;     /* Rojo Coral */
+            --brand-secondary-light: #FDE8E8;
+            --brand-accent: #FF5252;        /* Rojo Coral */
+            --brand-pink: #FF1744;
+            --brand-red: #FF1744;           /* Rojo Burbuja */
+            --brand-cyan: #FF1744;
+            --brand-blue: #FF1744;
 
-            --brand-text: #18181B;          /* Negro suave de alto contraste */
-            --brand-text-dark: #18181B;
-            --brand-black: #18181B;
-            --brand-text-muted: #71717A;    /* Texto secundario */
-            --brand-border: #FCE7F3;        /* Bordes limpios */
-            --brand-border-dark: #FBCFE8;
-            --brand-divider: #FDE2EE;       /* Divisores */
+            --brand-text: #1A1A1A;          /* Gris carbón de alta nitidez */
+            --brand-text-dark: #1A1A1A;
+            --brand-black: #1A1A1A;
+            --brand-text-muted: #757575;    /* Texto secundario */
+            --brand-border: #FDE8E8;        /* Borde de delimitación limpio */
+            --brand-border-dark: #FCE8E8;
+            --brand-divider: #FDE8E8;       /* Divisores */
 
-            --brand-gradient: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%);
-            --brand-gradient-hover: linear-gradient(135deg, #FF80BF 0%, #FF2E9D 50%, #D81B60 100%);
-            --brand-neon-glow: 0 4px 18px rgba(255, 20, 147, 0.35);
-            --brand-neon-glow-sm: 0 2px 10px rgba(255, 20, 147, 0.22);
-            --brand-shadow: 0 4px 20px rgba(255, 20, 147, 0.05);
+            --brand-gradient: linear-gradient(135deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #FF6E6E 0%, #FF2E56 50%, #C62828 100%);
+            --brand-neon-glow: 0 4px 18px rgba(255, 23, 68, 0.35);
+            --brand-neon-glow-sm: 0 2px 10px rgba(255, 23, 68, 0.20);
+            --brand-shadow: 0 4px 20px rgba(255, 23, 68, 0.05);
 
-            --font-brand-display: 'Great Vibes', cursive;
+            --font-brand-display: 'Comfortaa', 'Fredoka', cursive, sans-serif;
             --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-body: 'Inter', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -115,8 +116,10 @@
         }
 
         .brand-title-script {
-            font-family: 'Great Vibes', cursive !important;
-            color: #FF1493 !important;
+            font-family: 'Comfortaa', 'Fredoka', sans-serif !important;
+            color: #FF1744 !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.5px;
             line-height: 1.1;
         }
 
@@ -126,31 +129,31 @@
             text-transform: uppercase;
             letter-spacing: 0.22em;
             color: var(--brand-text-muted);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
         }
 
         .display-total, .price-display, .precio-destacado, .total-destacado {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800 !important;
-            color: #FF1493 !important;
+            color: #FF1744 !important;
         }
 
-        /* Clases base Glam Light Theme */
+        /* Clases base Burbuja Lili Light Theme */
         .bg-brand-blue { background: var(--brand-gradient) !important; color: #FFFFFF !important; border: none; }
-        .text-brand-blue { color: #FF1493 !important; font-weight: 700; }
+        .text-brand-blue { color: #FF1744 !important; font-weight: 700; }
         .bg-brand-pink { background: var(--brand-gradient) !important; color: #FFFFFF !important; box-shadow: var(--brand-neon-glow-sm); }
         .bg-brand-white { background-color: #FFFFFF !important; color: var(--brand-text) !important; border: 1px solid var(--brand-border); }
         
         .text-brand-black { color: var(--brand-text) !important; }
-        .text-brand-pink { color: #FF1493 !important; font-weight: 700; }
-        .badge-accent { background-color: #F472B6 !important; color: #FFFFFF !important; font-weight: 600; }
+        .text-brand-pink { color: #FF1744 !important; font-weight: 700; }
+        .badge-accent { background-color: #FF5252 !important; color: #FFFFFF !important; font-weight: 600; }
 
-        /* Navbar Clean Glam Boutique para My Case */
+        /* Navbar Clean White Canvas para Burbuja Lili */
         .navbar-custom {
-            background: linear-gradient(180deg, #FFF0F6 0%, #FFFFFF 100%) !important;
+            background: #FFFFFF !important;
             border-bottom: 1.5px solid var(--brand-border) !important;
             padding: 0.75rem 0;
-            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.08) !important;
+            box-shadow: 0 4px 20px rgba(255, 23, 68, 0.05) !important;
             position: relative;
         }
         .navbar-custom::before {
@@ -160,32 +163,32 @@
             left: 0;
             right: 0;
             height: 3.5px;
-            background: linear-gradient(90deg, #FF1493 0%, #FF66B2 25%, #F472B6 50%, #FF1493 75%, #C71585 100%);
-            box-shadow: 0 0 10px rgba(255, 20, 147, 0.35);
+            background: linear-gradient(90deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%);
+            box-shadow: 0 0 10px rgba(255, 23, 68, 0.35);
         }
         
         .navbar-custom .navbar-brand {
             font-family: var(--font-heading);
-            color: #18181B !important;
+            color: #1A1A1A !important;
         }
 
         .btn-nav-menu {
             background: #FFFFFF !important;
-            border: 1.5px solid #FCE7F3 !important;
-            color: #18181B !important;
-            box-shadow: 0 2px 8px rgba(255, 20, 147, 0.08);
+            border: 1.5px solid #FDE8E8 !important;
+            color: #1A1A1A !important;
+            box-shadow: 0 2px 8px rgba(255, 23, 68, 0.05);
             transition: all 0.2s ease;
         }
         .btn-nav-menu:hover {
-            background: #FFF1F7 !important;
-            border-color: #FF1493 !important;
-            color: #FF1493 !important;
+            background: #FFF5F5 !important;
+            border-color: #FF1744 !important;
+            color: #FF1744 !important;
             transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.2);
+            box-shadow: 0 4px 14px rgba(255, 23, 68, 0.15);
         }
 
         .navbar-custom .nav-link {
-            color: #18181B;
+            color: #1A1A1A;
             font-weight: 500;
             margin-left: 1rem;
             transition: color 0.2s;
@@ -196,14 +199,14 @@
             color: var(--brand-primary);
         }
 
-        /* Botones Glam Pro */
+        /* Botones Rojo Burbuja */
         .btn-pink, .btn-primary, .btn-brand {
             background: var(--brand-gradient) !important;
             color: #FFFFFF !important;
             font-weight: 700;
             border: none !important;
             transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.3);
+            box-shadow: 0 4px 14px rgba(255, 23, 68, 0.25);
             font-family: var(--font-heading);
         }
         .btn-pink:hover, .btn-primary:hover, .btn-brand:hover {
@@ -215,25 +218,25 @@
 
         .btn-blue, .btn-dark-graphite {
             background-color: #FFFFFF !important;
-            color: #18181B !important;
+            color: #1A1A1A !important;
             font-weight: 600;
             border: 1px solid var(--brand-border) !important;
             transition: all 0.2s ease-in-out;
             font-family: var(--font-heading);
         }
         .btn-blue:hover, .btn-dark-graphite:hover {
-            background-color: #FFF1F7 !important;
-            border-color: #F472B6 !important;
-            color: #FF1493 !important;
+            background-color: #FFF5F5 !important;
+            border-color: #FF5252 !important;
+            color: #FF1744 !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.08);
+            box-shadow: 0 4px 12px rgba(255, 23, 68, 0.08);
         }
 
         .btn-outline-pink, .btn-outline-brand {
             background-color: #FFFFFF !important;
-            color: #FF1493 !important;
+            color: #FF1744 !important;
             font-weight: 600;
-            border: 1.5px solid #FF1493 !important;
+            border: 1.5px solid #FF1744 !important;
             transition: all 0.2s ease-in-out;
             font-family: var(--font-heading);
         }
@@ -242,15 +245,16 @@
             color: #FFFFFF !important;
             border-color: transparent !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.3);
+            box-shadow: 0 4px 14px rgba(255, 23, 68, 0.25);
         }
+
 
         /* Superficies y Cards 100% Blancas */
         .card-custom, .card {
             background-color: #FFFFFF !important;
             border: 1px solid var(--brand-border) !important;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(255, 20, 147, 0.04);
+            box-shadow: 0 4px 20px rgba(255, 23, 68, 0.04);
             color: var(--brand-text);
         }
 
@@ -264,8 +268,8 @@
         }
         .table-custom thead th, .table thead th {
             background-color: #FFFFFF !important;
-            color: #71717A !important;
-            border-bottom: 2px solid #FF1493 !important;
+            color: #757575 !important;
+            border-bottom: 2px solid #FF1744 !important;
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.22em;
@@ -288,38 +292,38 @@
         /* Inputs y Formularios */
         .form-control, .form-select {
             background-color: #FFFFFF !important;
-            border: 1px solid var(--brand-border) !important;
+            border: 1px solid #FCE8E8 !important;
             color: var(--brand-text) !important;
             font-family: var(--font-body);
             border-radius: 10px;
         }
         .form-control:focus, .form-select:focus {
-            border-color: #FF1493 !important;
-            box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.22) !important;
+            border-color: #FF1744 !important;
+            box-shadow: 0 0 0 3px rgba(255, 23, 68, 0.20) !important;
             background-color: #FFFFFF !important;
             color: var(--brand-text) !important;
         }
         .input-group-text {
-            background-color: #FFF5F9 !important;
+            background-color: #FFF5F5 !important;
             border-color: var(--brand-border) !important;
             color: var(--brand-text) !important;
             font-weight: 600;
         }
 
-        /* Sidebar Offcanvas Estilos Glam 100% White Canvas (Lateral Izquierda) */
+        /* Sidebar Offcanvas 100% White Canvas (Lateral Izquierda) */
         .offcanvas, .offcanvas-start {
             background: #FFFFFF !important;
             color: var(--brand-text) !important;
             border-right: 1.5px solid var(--brand-border) !important;
             border-left: none !important;
-            box-shadow: 10px 0 40px rgba(255, 20, 147, 0.08) !important;
+            box-shadow: 10px 0 40px rgba(255, 23, 68, 0.05) !important;
             border-top-right-radius: 24px;
             border-bottom-right-radius: 24px;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
         .sidebar-header-card {
-            background: linear-gradient(180deg, #FFF0F6 0%, #FFFFFF 100%) !important;
+            background: #FFFFFF !important;
             padding: 1.25rem 1.25rem 1rem 1.25rem;
             position: relative;
             border-bottom: 1.5px solid var(--brand-border);
@@ -329,20 +333,20 @@
             width: 44px;
             height: 44px;
             border-radius: 14px;
-            background: linear-gradient(135deg, #FF66B2 0%, #FF1493 100%);
+            background: linear-gradient(135deg, #FF5252 0%, #FF1744 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
             font-weight: 800;
             font-size: 1.2rem;
-            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.35);
+            box-shadow: 0 4px 14px rgba(255, 23, 68, 0.30);
             flex-shrink: 0;
         }
         .sidebar-close-btn {
             background: #FFFFFF;
             border: 1px solid var(--brand-border);
-            color: #71717A;
+            color: #757575;
             width: 32px;
             height: 32px;
             border-radius: 10px;
@@ -353,9 +357,9 @@
             transition: all 0.2s ease;
         }
         .sidebar-close-btn:hover {
-            background: rgba(255, 20, 147, 0.08);
-            color: #FF1493;
-            border-color: #FF1493;
+            background: rgba(255, 23, 68, 0.06);
+            color: #FF1744;
+            border-color: #FF1744;
             transform: rotate(90deg);
         }
         
@@ -365,7 +369,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.22em;
-            color: #71717A;
+            color: #757575;
             margin: 0.95rem 0.5rem 0.4rem 0.5rem;
             display: flex;
             align-items: center;
@@ -386,29 +390,29 @@
             padding: 0.65rem 0.85rem;
             margin-bottom: 0.35rem;
             border-radius: 12px;
-            color: #18181B !important;
+            color: #1A1A1A !important;
             font-weight: 600;
             font-size: 0.9rem;
             text-decoration: none;
             background: #FFFFFF !important;
             border: 1px solid var(--brand-border);
             border-left: 3px solid transparent;
-            box-shadow: 0 2px 5px rgba(255, 20, 147, 0.02);
+            box-shadow: 0 2px 5px rgba(255, 23, 68, 0.02);
             transition: all 0.2s ease;
             position: relative;
         }
         .sidebar-nav-item:hover {
-            background: rgba(255, 20, 147, 0.04) !important;
-            border-color: #F472B6 !important;
-            color: #FF1493 !important;
+            background: rgba(255, 23, 68, 0.04) !important;
+            border-color: #FF5252 !important;
+            color: #FF1744 !important;
             transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.08) !important;
+            box-shadow: 0 4px 12px rgba(255, 23, 68, 0.08) !important;
         }
         .sidebar-nav-item.active {
-            background: rgba(255, 20, 147, 0.06) !important;
-            border-left: 4px solid #FF1493 !important;
+            background: rgba(255, 23, 68, 0.06) !important;
+            border-left: 4px solid #FF1744 !important;
             border-color: var(--brand-border) !important;
-            color: #FF1493 !important;
+            color: #FF1744 !important;
             font-weight: 700;
         }
         
@@ -423,35 +427,35 @@
             font-size: 0.95rem;
             margin-right: 0.75rem;
             flex-shrink: 0;
-            background: rgba(255, 20, 147, 0.08);
-            color: #FF1493;
+            background: rgba(255, 23, 68, 0.08);
+            color: #FF1744;
             transition: transform 0.2s ease;
         }
         .sidebar-nav-item:hover .sidebar-icon-box {
             transform: scale(1.1);
-            background: rgba(255, 20, 147, 0.16);
-            color: #FF1493;
+            background: rgba(255, 23, 68, 0.16);
+            color: #FF1744;
         }
-        .icon-box-gold { background: rgba(255, 20, 147, 0.1); color: #FF1493; }
-        .icon-box-indigo { background: rgba(244, 114, 182, 0.14); color: #C71585; }
+        .icon-box-gold { background: rgba(255, 23, 68, 0.1); color: #FF1744; }
+        .icon-box-indigo { background: rgba(255, 82, 82, 0.14); color: #B71C1C; }
         .icon-box-emerald { background: rgba(16, 185, 129, 0.12); color: #059669; }
-        .icon-box-amber { background: rgba(255, 20, 147, 0.12); color: #FF1493; }
-        .icon-box-sky { background: rgba(244, 114, 182, 0.15); color: #DB2777; }
-        .icon-box-purple { background: rgba(199, 21, 133, 0.12); color: #C71585; }
-        .icon-box-rose { background: rgba(255, 20, 147, 0.14); color: #FF1493; }
-        .icon-box-pink { background: rgba(244, 114, 182, 0.16); color: #FF1493; }
-        .icon-box-teal { background: rgba(244, 114, 182, 0.14); color: #C71585; }
+        .icon-box-amber { background: rgba(255, 23, 68, 0.12); color: #FF1744; }
+        .icon-box-sky { background: rgba(255, 82, 82, 0.15); color: #D32F2F; }
+        .icon-box-purple { background: rgba(183, 28, 28, 0.12); color: #B71C1C; }
+        .icon-box-rose { background: rgba(255, 23, 68, 0.14); color: #FF1744; }
+        .icon-box-pink { background: rgba(255, 82, 82, 0.16); color: #FF1744; }
+        .icon-box-teal { background: rgba(255, 82, 82, 0.14); color: #B71C1C; }
 
         /* Tarjeta Destacada para Arqueo de Caja */
         .sidebar-nav-highlight {
             background: #FFFFFF !important;
-            border: 1.5px solid #FF1493 !important;
-            box-shadow: 0 4px 14px rgba(255, 20, 147, 0.12) !important;
+            border: 1.5px solid #FF1744 !important;
+            box-shadow: 0 4px 14px rgba(255, 23, 68, 0.10) !important;
         }
         .sidebar-nav-highlight:hover {
-            border-color: #FF1493 !important;
-            background: rgba(255, 20, 147, 0.06) !important;
-            box-shadow: 0 6px 18px rgba(255, 20, 147, 0.2) !important;
+            border-color: #FF1744 !important;
+            background: rgba(255, 23, 68, 0.06) !important;
+            box-shadow: 0 6px 18px rgba(255, 23, 68, 0.18) !important;
         }
 
         /* Submenú desplegable estilizado */
@@ -475,10 +479,10 @@
             transition: all 0.18s ease;
         }
         .sidebar-sub-item:hover {
-            background: rgba(255, 20, 147, 0.05);
-            color: #FF1493;
+            background: rgba(255, 23, 68, 0.05);
+            color: #FF1744;
             transform: translateX(3px);
-            box-shadow: 0 2px 6px rgba(255, 20, 147, 0.04);
+            box-shadow: 0 2px 6px rgba(255, 23, 68, 0.04);
         }
         .sidebar-sub-item i {
             font-size: 0.8rem;
@@ -491,10 +495,10 @@
         }
         [aria-expanded="true"] .chevron-toggle {
             transform: rotate(180deg);
-            color: #FF1493;
+            color: #FF1744;
         }
 
-        /* Botón PWA Glam en Pie del Sidebar */
+        /* Botón PWA en Pie del Sidebar */
         .btn-sidebar-pwa {
             background: var(--brand-gradient) !important;
             border: none !important;
@@ -502,7 +506,7 @@
             font-weight: 700;
             padding: 0.85rem 1rem;
             border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(255, 20, 147, 0.35);
+            box-shadow: 0 4px 16px rgba(255, 23, 68, 0.30);
             transition: all 0.22s ease-in-out;
             font-family: var(--font-heading);
             letter-spacing: 0.3px;
@@ -511,18 +515,18 @@
             background: var(--brand-gradient-hover) !important;
             color: #FFFFFF !important;
             transform: translateY(-2px);
-            box-shadow: 0 6px 22px rgba(255, 20, 147, 0.48);
+            box-shadow: 0 6px 22px rgba(255, 23, 68, 0.40);
         }
 
-        /* Pestañas Modal PWA Glam */
+        /* Pestañas Modal PWA */
         #pwaTab .nav-link {
-            color: #71717A;
+            color: #757575;
             transition: all 0.2s ease;
         }
         #pwaTab .nav-link.active {
-            background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%) !important;
+            background: linear-gradient(135deg, #FF5252 0%, #FF1744 100%) !important;
             color: #FFFFFF !important;
-            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(255, 23, 68, 0.25) !important;
         }
 
         /* Botón Salir Elegante */
@@ -658,7 +662,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navbar MY CASE Boutique -->
+    <!-- Navbar BURBUJA LILI White Canvas -->
     <nav class="navbar navbar-custom mb-4 mb-md-5">
         <div class="container-fluid px-2 px-md-3 d-flex align-items-center justify-content-between">
             
@@ -666,20 +670,20 @@
             <div class="d-flex align-items-center" style="min-width: 44px;">
                 {% if current_user.is_authenticated %}
                 <button class="navbar-toggler btn-nav-menu rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Abrir Menú Lateral">
-                    <i class="fa-solid fa-bars fs-5" style="color: #FF1493;"></i>
+                    <i class="fa-solid fa-bars fs-5" style="color: #FF1744;"></i>
                 </button>
                 {% else %}
                 <div style="width: 40px;"></div>
                 {% endif %}
             </div>
 
-            <!-- Columna Centro: Brand Logo Boutique (My Case) -->
+            <!-- Columna Centro: Brand Logo (Burbuja Lili - Accesorios para tu celular) -->
             <div class="d-flex justify-content-center flex-grow-1 px-1 px-sm-2 text-center overflow-hidden">
                 <a class="navbar-brand d-inline-flex align-items-center m-0 text-nowrap" href="{{ url_for('index') }}" style="gap: 12px;">
-                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" alt="My Case Logo" class="rounded-circle" style="width: 42px; height: 42px; object-fit: contain; border: 2px solid #FF1493; box-shadow: 0 0 12px rgba(255, 20, 147, 0.25);">
+                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=burbuja_v2" alt="Burbuja Lili Logo" class="rounded-circle" style="width: 44px; height: 44px; object-fit: contain; border: 2px solid #FF1744; box-shadow: 0 0 12px rgba(255, 23, 68, 0.20); background: #FFFFFF;">
                     <div class="d-flex flex-column text-start">
-                        <span class="brand-title-script" style="font-size: clamp(1.8rem, 4vw, 2.3rem); font-weight: normal; text-shadow: 0 0 10px rgba(255, 20, 147, 0.18);">My Case</span>
-                        <span class="section-subtitle" style="font-size: 0.65rem; color: #71717A; line-height: 1; margin-top: -2px;">ACCESORIOS PARA TU CELULAR</span>
+                        <span class="brand-title-script" style="font-size: clamp(1.6rem, 3.8vw, 2.1rem); font-weight: 700; color: #FF1744;">Burbuja Lili</span>
+                        <span class="section-subtitle" style="font-size: 0.65rem; color: #757575; line-height: 1; margin-top: -2px; letter-spacing: 0.22em;">ACCESORIOS PARA TU CELULAR</span>
                     </div>
                 </a>
             </div>
@@ -714,20 +718,23 @@
 
 
     {% if current_user.is_authenticated %}
-    <!-- Offcanvas Menú Lateral Izquierdo (Sidebar 100% Blanco con Acentos Glam) -->
+    <!-- Offcanvas Menú Lateral Izquierdo (Sidebar 100% Blanco con Acentos Rojo Burbuja) -->
     <div class="offcanvas offcanvas-start border-0 shadow-lg" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 320px;">
-        <!-- Header con Identidad Boutique y Perfil de Usuario -->
+        <!-- Header con Identidad Burbuja Lili y Perfil de Usuario -->
         <div class="sidebar-header-card">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" alt="Logo" class="rounded-circle" style="width: 34px; height: 34px; border: 1.5px solid #FF1493;">
-                    <span class="brand-title-script text-brand-pink" style="font-size: 1.85rem; line-height: 1;">My Case</span>
+                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=burbuja_v2" alt="Logo" class="rounded-circle" style="width: 36px; height: 36px; border: 1.5px solid #FF1744; background: #FFFFFF;">
+                    <div class="d-flex flex-column">
+                        <span class="brand-title-script" style="font-size: 1.55rem; line-height: 1; color: #FF1744;">Burbuja Lili</span>
+                        <span style="font-size: 0.58rem; letter-spacing: 0.18em; font-weight: 700; color: #757575; font-family: 'Montserrat', sans-serif;">ACCESORIOS PARA CELULAR</span>
+                    </div>
                 </div>
                 <button type="button" class="sidebar-close-btn" data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar Menú">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="d-flex align-items-center gap-3 pt-2 border-top" style="border-color: #FCE7F3 !important;">
+            <div class="d-flex align-items-center gap-3 pt-2 border-top" style="border-color: #FDE8E8 !important;">
                 <div class="sidebar-avatar-circle">
                     {% if current_user.rol == 'admin' %}
                         <i class="fa-solid fa-crown text-white" style="font-size: 1.1rem;"></i>
@@ -736,10 +743,10 @@
                     {% endif %}
                 </div>
                 <div>
-                    <h6 class="fw-bold mb-0 text-truncate" style="max-width: 170px; font-family: var(--font-heading); color: #18181B; letter-spacing: 0.3px;">
+                    <h6 class="fw-bold mb-0 text-truncate" style="max-width: 170px; font-family: var(--font-heading); color: #1A1A1A; letter-spacing: 0.3px;">
                         {{ current_user.nombre if current_user.nombre else (current_user.rol | capitalize) }}
                     </h6>
-                    <span class="badge rounded-pill fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: rgba(255, 20, 147, 0.08); color: #FF1493; border: 1px solid #FCE7F3; letter-spacing: 0.5px;">
+                    <span class="badge rounded-pill fw-bold px-2 py-0 mt-1" style="font-size: 0.68rem; background: rgba(255, 23, 68, 0.08); color: #FF1744; border: 1px solid #FDE8E8; letter-spacing: 0.5px;">
                         {{ 'ADMINISTRADOR' if current_user.rol == 'admin' else 'VENDEDOR' }}
                     </span>
                 </div>
@@ -835,8 +842,8 @@
                             <i class="fa-solid fa-calculator"></i>
                         </div>
                         <div class="d-flex flex-column">
-                            <span class="fw-bold" style="color: #FF1493;">Arqueo de Caja</span>
-                            <span style="font-size: 0.72rem; color: #71717A; font-weight: 600;">Cuadre y cierre diario</span>
+                            <span class="fw-bold" style="color: #FF1744;">Arqueo de Caja</span>
+                            <span style="font-size: 0.72rem; color: #757575; font-weight: 600;">Cuadre y cierre diario</span>
                         </div>
                     </a>
 
@@ -879,20 +886,20 @@
                             <i class="fa-solid fa-calculator"></i>
                         </div>
                         <div class="d-flex flex-column">
-                            <span class="fw-bold" style="color: #FF1493;">Arqueo de Caja</span>
-                            <span style="font-size: 0.72rem; color: #71717A; font-weight: 600;">Cierre de turno</span>
+                            <span class="fw-bold" style="color: #FF1744;">Arqueo de Caja</span>
+                            <span style="font-size: 0.72rem; color: #757575; font-weight: 600;">Cierre de turno</span>
                         </div>
                     </a>
                 {% endif %}
             </div>
             
-            <!-- Botón Descargar App My Case (PWA) -->
+            <!-- Botón Descargar App Burbuja Lili (PWA) -->
             <div class="pt-3 pb-2" id="pwa-install-container">
                 <button class="btn btn-sidebar-pwa w-100 d-flex align-items-center justify-content-center gap-2 pwa-install-trigger" 
                         onclick="triggerPWAInstall()"
-                        title="Descargar / Instalar My Case">
+                        title="Descargar / Instalar Burbuja Lili">
                     <i class="fa-solid fa-cloud-arrow-down fs-5"></i> 
-                    <span>Descargar App My Case</span>
+                    <span>Descargar App Burbuja Lili</span>
                 </button>
             </div>
 
@@ -1337,15 +1344,15 @@
     {% endif %}
 
 
-    <!-- Modal Instrucciones de Instalación / Descarga PWA My Case -->
+    <!-- Modal Instrucciones de Instalación / Descarga PWA Burbuja Lili -->
     <div class="modal fade" id="modalInstalarPwa" tabindex="-1" aria-labelledby="modalInstalarPwaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #FFFFFF; border: 1px solid #FCE7F3 !important;">
-                <div class="modal-header border-0 py-3" style="background: linear-gradient(135deg, #FF1493 0%, #F472B6 100%); color: #FFFFFF;">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #FFFFFF; border: 1px solid #FDE8E8 !important;">
+                <div class="modal-header border-0 py-3" style="background: linear-gradient(135deg, #FF5252 0%, #FF1744 100%); color: #FFFFFF;">
                     <div class="d-flex align-items-center gap-2">
-                        <img src="/static/img/icons/icon-192x192.png" alt="My Case Logo" class="rounded-circle shadow-sm" style="width: 38px; height: 38px; object-fit: contain; border: 2px solid #FFFFFF; background: #FFFFFF;">
+                        <img src="/static/img/icons/icon-192x192.png?v=burbuja_v2" alt="Burbuja Lili Logo" class="rounded-circle shadow-sm" style="width: 38px; height: 38px; object-fit: contain; border: 2px solid #FFFFFF; background: #FFFFFF;">
                         <div>
-                            <h5 class="modal-title fw-bold m-0" id="modalInstalarPwaLabel" style="font-family: var(--font-heading); font-size: 1.15rem;">Descargar App My Case</h5>
+                            <h5 class="modal-title fw-bold m-0" id="modalInstalarPwaLabel" style="font-family: var(--font-heading); font-size: 1.15rem;">Descargar App Burbuja Lili</h5>
                             <span style="font-size: 0.72rem; opacity: 0.95;">Instalación rápida en tu celular o computador</span>
                         </div>
                     </div>
@@ -1354,7 +1361,7 @@
                 
                 <div class="modal-body p-4" style="background-color: #FFFFFF;">
                     <!-- Navegación de Pestañas por Dispositivo -->
-                    <ul class="nav nav-pills nav-fill mb-3 p-1 rounded-pill" style="background: #FFF1F7; border: 1px solid #FCE7F3;" id="pwaTab" role="tablist">
+                    <ul class="nav nav-pills nav-fill mb-3 p-1 rounded-pill" style="background: #FFF5F5; border: 1px solid #FDE8E8;" id="pwaTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active rounded-pill fw-bold py-1 px-2" style="font-size: 0.8rem;" id="pwa-android-tab" data-bs-toggle="pill" data-bs-target="#pwa-android" type="button" role="tab">
                                 <i class="fa-brands fa-android me-1 text-success"></i> Android
@@ -1367,7 +1374,7 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link rounded-pill fw-bold py-1 px-2" style="font-size: 0.8rem;" id="pwa-pc-tab" data-bs-toggle="pill" data-bs-target="#pwa-pc" type="button" role="tab">
-                                <i class="fa-solid fa-desktop me-1" style="color: #FF1493;"></i> PC / Mac
+                                <i class="fa-solid fa-desktop me-1" style="color: #FF1744;"></i> PC / Mac
                             </button>
                         </li>
                     </ul>
@@ -1375,24 +1382,24 @@
                     <div class="tab-content" id="pwaTabContent">
                         <!-- Pestaña Android -->
                         <div class="tab-pane fade show active" id="pwa-android" role="tabpanel">
-                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
-                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-solid fa-mobile-screen-button me-2"></i>Instalación en Android (Chrome / Edge):</h6>
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF5F5; border: 1px solid #FDE8E8;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1744;"><i class="fa-solid fa-mobile-screen-button me-2"></i>Instalación en Android (Chrome / Edge):</h6>
                                 <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
                                     <li>Toca el menú de tu navegador (los <strong>tres puntos ⋮</strong> arriba a la derecha).</li>
                                     <li>Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
-                                    <li>Toca <strong>"Instalar"</strong>. My Case quedará instalada como App nativa.</li>
+                                    <li>Toca <strong>"Instalar"</strong>. Burbuja Lili quedará instalada como App nativa.</li>
                                 </ol>
                             </div>
                         </div>
 
                         <!-- Pestaña Apple iOS -->
                         <div class="tab-pane fade" id="pwa-apple" role="tabpanel">
-                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
-                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-brands fa-apple me-2"></i>Instalación en iPhone / iPad (Safari):</h6>
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF5F5; border: 1px solid #FDE8E8;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1744;"><i class="fa-brands fa-apple me-2"></i>Instalación en iPhone / iPad (Safari):</h6>
                                 <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
                                     <li>Abre esta página en el navegador <strong>Safari</strong>.</li>
-                                    <li>Pulsa el botón <strong>Compartir</strong> (<i class="fa-solid fa-arrow-up-from-bracket" style="color: #FF1493;"></i> el cuadro con flecha hacia arriba en la barra inferior).</li>
-                                    <li>Deslízate hacia abajo y selecciona <strong>"Agregar a pantalla de inicio"</strong> (<i class="fa-regular fa-square-plus" style="color: #FF1493;"></i>).</li>
+                                    <li>Pulsa el botón <strong>Compartir</strong> (<i class="fa-solid fa-arrow-up-from-bracket" style="color: #FF1744;"></i> el cuadro con flecha hacia arriba en la barra inferior).</li>
+                                    <li>Deslízate hacia abajo y selecciona <strong>"Agregar a pantalla de inicio"</strong> (<i class="fa-regular fa-square-plus" style="color: #FF1744;"></i>).</li>
                                     <li>Pulsa <strong>"Agregar"</strong> arriba a la derecha. ¡Listo!</li>
                                 </ol>
                             </div>
@@ -1400,19 +1407,19 @@
 
                         <!-- Pestaña PC / Windows / Mac -->
                         <div class="tab-pane fade" id="pwa-pc" role="tabpanel">
-                            <div class="p-3 rounded-3 mb-3" style="background: #FFF1F7; border: 1px solid #FCE7F3;">
-                                <h6 class="fw-bold mb-2" style="color: #FF1493;"><i class="fa-solid fa-laptop me-2"></i>Instalación en PC / Laptop (Chrome / Edge):</h6>
+                            <div class="p-3 rounded-3 mb-3" style="background: #FFF5F5; border: 1px solid #FDE8E8;">
+                                <h6 class="fw-bold mb-2" style="color: #FF1744;"><i class="fa-solid fa-laptop me-2"></i>Instalación en PC / Laptop (Chrome / Edge):</h6>
                                 <ol class="mb-0 ps-3 small text-dark" style="line-height: 1.7;">
-                                    <li>En la barra de direcciones (junto a la estrella de favoritos), haz clic en el ícono de <strong>Instalar</strong> (<i class="fa-solid fa-laptop-arrow-down" style="color: #FF1493;"></i>).</li>
-                                    <li>O haz clic en los <strong>tres puntos (⋮)</strong> > <strong>"Instalar My Case..."</strong>.</li>
+                                    <li>En la barra de direcciones (junto a la estrella de favoritos), haz clic en el ícono de <strong>Instalar</strong> (<i class="fa-solid fa-laptop-arrow-down" style="color: #FF1744;"></i>).</li>
+                                    <li>O haz clic en los <strong>tres puntos (⋮)</strong> > <strong>"Instalar Burbuja Lili..."</strong>.</li>
                                     <li>Haz clic en <strong>Instalar</strong>. Se abrirá como aplicación de escritorio independiente.</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
 
-                    <div class="alert alert-light border d-flex align-items-center gap-2 py-2 px-3 rounded-3 mb-0" style="border-color: #FCE7F3 !important; font-size: 0.78rem;">
-                        <i class="fa-solid fa-bolt-lightning fs-5" style="color: #FF1493;"></i>
+                    <div class="alert alert-light border d-flex align-items-center gap-2 py-2 px-3 rounded-3 mb-0" style="border-color: #FDE8E8 !important; font-size: 0.78rem;">
+                        <i class="fa-solid fa-bolt-lightning fs-5" style="color: #FF1744;"></i>
                         <span class="text-muted">La App instalada carga al instante, funciona sin barras del navegador y agiliza las ventas.</span>
                     </div>
                 </div>
@@ -1463,7 +1470,7 @@
                 window.deferredPrompt.prompt();
                 window.deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('[PWA] El usuario aceptó la instalación de My Case');
+                        console.log('[PWA] El usuario aceptó la instalación de Burbuja Lili');
                         const modalEl = document.getElementById('modalInstalarPwa');
                         if (modalEl && typeof bootstrap !== 'undefined') {
                             const modal = bootstrap.Modal.getInstance(modalEl);
@@ -1512,15 +1519,16 @@
                     }
                 }, 150);
             } else {
-                alert("Para instalar My Case:\n• En Android: Menú (⋮) > 'Instalar aplicación'.\n• En iPhone/iPad: Compartir > 'Agregar a pantalla de inicio'.\n• En PC: Clic en el ícono de instalar en la barra de direcciones.");
+                alert("Para instalar Burbuja Lili:\n• En Android: Menú (⋮) > 'Instalar aplicación'.\n• En iPhone/iPad: Compartir > 'Agregar a pantalla de inicio'.\n• En PC: Clic en el ícono de instalar en la barra de direcciones.");
             }
         }
 
         window.addEventListener('appinstalled', () => {
-            console.log('[PWA] My Case fue instalada satisfactoriamente');
+            console.log('[PWA] Burbuja Lili fue instalada satisfactoriamente');
             window.deferredPrompt = null;
         });
     </script>
+
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

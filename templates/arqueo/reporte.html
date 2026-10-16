@@ -47,13 +47,13 @@
 
     <!-- DOCUMENTO EN PANTALLA E IMPRESIÓN (CARTA) -->
     <div class="col-12 col-xl-11" id="seccionImpresionCarta">
-        <div class="card bg-white p-4 p-md-5 border shadow-sm rounded-4 printable-document" style="border: 1px solid #FCE7F3 !important; background: #FFFFFF !important;">
+        <div class="card bg-white p-4 p-md-5 border shadow-sm rounded-4 printable-document" style="border: 1px solid #FDE8E8 !important; background: #FFFFFF !important;">
             
-            <!-- Encabezado del Documento Contable Oficial My Case -->
-            <div class="text-center mb-4 pb-3 border-bottom" style="border-color: #FCE7F3 !important;">
-                <div style="font-family: 'Great Vibes', cursive; font-size: 2.85rem; color: #FF1493; line-height: 1; text-shadow: 0 2px 10px rgba(255, 20, 147, 0.15);">My Case</div>
-                <div style="font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #F472B6; margin-top: 2px;">ACCESORIOS PARA TU CELULAR</div>
-                <h5 class="fw-bold mt-2" style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #18181B; letter-spacing: 0.05em;">CONCILIACIÓN Y AUDITORÍA DE CIERRE DE CAJA</h5>
+            <!-- Encabezado del Documento Contable Oficial Burbuja Lili -->
+            <div class="text-center mb-4 pb-3 border-bottom" style="border-color: #FDE8E8 !important;">
+                <div style="font-family: 'Comfortaa', 'Fredoka', cursive, sans-serif; font-size: 2.7rem; font-weight: 700; color: #FF1744; line-height: 1.1; letter-spacing: -0.5px;">Burbuja Lili</div>
+                <div style="font-family: 'Montserrat', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #757575; margin-top: 4px;">ACCESORIOS PARA TU CELULAR</div>
+                <h5 class="fw-bold mt-2" style="font-family: 'Montserrat', sans-serif; font-size: 0.95rem; color: #1A1A1A; letter-spacing: 0.05em;">CONCILIACIÓN Y AUDITORÍA DE CIERRE DE CAJA</h5>
                 <p class="mb-0 text-secondary small" style="font-family: 'Inter', sans-serif;">
                     Período: <strong>{{ fecha_inicio }}</strong> al <strong>{{ fecha_fin }}</strong> 
                     <span class="mx-2">•</span> 
@@ -66,38 +66,39 @@
             </div>
 
             <!-- Resumen Consolidado de Totales (Pure White Canvas) -->
-            <div class="p-3 mb-4 rounded-4" style="background-color: #FFFFFF; border: 1px solid #FCE7F3; box-shadow: 0 4px 15px rgba(255, 20, 147, 0.03);">
-                <h6 class="fw-bold text-uppercase mb-3 small" style="color: #18181B; font-family: 'Montserrat', sans-serif;">
-                    <i class="fa-solid fa-chart-pie me-2" style="color: #FF1493;"></i>Resumen General del Período
+            <div class="p-3 mb-4 rounded-4" style="background-color: #FFFFFF; border: 1px solid #FDE8E8; box-shadow: 0 4px 15px rgba(255, 23, 68, 0.03);">
+                <h6 class="fw-bold text-uppercase mb-3 small" style="color: #1A1A1A; font-family: 'Montserrat', sans-serif;">
+                    <i class="fa-solid fa-chart-pie me-2" style="color: #FF1744;"></i>Resumen General del Período
                 </h6>
                 <div class="row g-3">
                     <div class="col-6 col-md-3">
-                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FCE7F3 !important;">
+                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FDE8E8 !important;">
                             <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; font-family: 'Montserrat', sans-serif;">Base Apertura</small>
-                            <h3 class="mb-0 fw-bold" style="color: #18181B; font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">${{ resumen.total_base|cop }}</h3>
+                            <h3 class="mb-0 fw-bold" style="color: #1A1A1A; font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">${{ resumen.total_base|cop }}</h3>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FCE7F3 !important;">
+                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FDE8E8 !important;">
                             <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; font-family: 'Montserrat', sans-serif;">Ventas Efectivo</small>
                             <h3 class="mb-0 fw-bold text-success" style="font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">${{ resumen.total_efectivo|cop }}</h3>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FCE7F3 !important;">
+                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FDE8E8 !important;">
                             <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; font-family: 'Montserrat', sans-serif;">Dinero Digital</small>
-                            <h3 class="mb-0 fw-bold" style="color: #FF1493; font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">${{ resumen.total_digital|cop }}</h3>
+                            <h3 class="mb-0 fw-bold" style="color: #FF1744; font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">${{ resumen.total_digital|cop }}</h3>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-3">
-                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FCE7F3 !important;">
+                        <div class="card p-3 border rounded-3 bg-white text-center h-100 shadow-sm" style="border: 1px solid #FDE8E8 !important;">
                             <small class="text-muted fw-bold text-uppercase d-block mb-1" style="font-size: 0.72rem; font-family: 'Montserrat', sans-serif;">Gastos en Efectivo</small>
                             <h3 class="mb-0 fw-bold" style="color: #DC2626; font-family: 'Montserrat', sans-serif; font-size: 1.45rem;">-${{ resumen.total_gastos|cop }}</h3>
                         </div>
                     </div>
+
 
                     <div class="col-12 col-md-4">
                         <div class="card p-3 border rounded-3 text-center h-100 shadow-sm" style="background-color: #FFFFFF; border: 1.5px solid #BBF7D0 !important;">
@@ -277,8 +278,8 @@
     <div id="seccionTicket80mm" class="d-none">
         <div class="ticket-pos">
             <div class="text-center">
-                <h4 class="fw-bold mb-0" style="font-family: sans-serif;">MY CASE</h4>
-                <small class="d-block" style="font-size: 9px; letter-spacing: 1px;">ACCESORIOS PARA TU CELULAR</small>
+                <h4 class="fw-bold mb-0" style="font-family: sans-serif; letter-spacing: 0.5px;">BURBUJA LILI</h4>
+                <small class="d-block" style="font-size: 9px; letter-spacing: 1.5px; font-weight: bold;">ACCESORIOS PARA TU CELULAR</small>
                 <small class="d-block mt-1">CIERRE DE CAJA DIARIO</small>
                 <small class="d-block">Fecha: {{ fecha_inicio }}</small>
                 <small class="d-block text-muted">Generado: {{ fecha_generacion }}</small>

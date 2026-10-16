@@ -16,17 +16,17 @@
 
     <!-- Contenido del Reporte -->
     <div class="col-12 col-xl-10 report-container">
-        <div class="card p-4 p-md-5 border shadow-sm rounded-4 printable-document" style="background-color: #FFFFFF !important; border: 1px solid #FCE7F3 !important; color: #18181B;">
+        <div class="card p-4 p-md-5 border shadow-sm rounded-4 printable-document" style="background-color: #FFFFFF !important; border: 1px solid #FDE8E8 !important; color: #1A1A1A;">
             
-            <!-- Cabecera Oficial My Case -->
-            <div class="text-center mb-5 pb-4 border-bottom d-print-block" style="border-color: #FCE7F3 !important;">
-                <div style="font-family: 'Great Vibes', cursive; font-size: 3.4rem; color: #FF1493; line-height: 1; text-shadow: 0 2px 12px rgba(255, 20, 147, 0.18);">
-                    My Case
+            <!-- Cabecera Oficial Burbuja Lili -->
+            <div class="text-center mb-5 pb-4 border-bottom d-print-block" style="border-color: #FDE8E8 !important;">
+                <div style="font-family: 'Comfortaa', 'Fredoka', cursive, sans-serif; font-size: 3.2rem; font-weight: 700; color: #FF1744; line-height: 1; letter-spacing: -0.5px;">
+                    Burbuja Lili
                 </div>
-                <div class="small fw-semibold text-uppercase mb-2" style="letter-spacing: 0.22em; font-family: 'Montserrat', sans-serif; color: #F472B6; font-size: 0.78rem;">
+                <div class="small fw-semibold text-uppercase mb-2" style="letter-spacing: 0.22em; font-family: 'Montserrat', sans-serif; color: #757575; font-size: 0.78rem;">
                     ACCESORIOS PARA TU CELULAR • POS & GESTIÓN COMERCIAL
                 </div>
-                <h4 class="fw-bold mb-2" style="font-family: 'Montserrat', sans-serif; color: #18181B; letter-spacing: 0.05em;">ESTADO DE RESULTADOS CONTABLE</h4>
+                <h4 class="fw-bold mb-2" style="font-family: 'Montserrat', sans-serif; color: #1A1A1A; letter-spacing: 0.05em;">ESTADO DE RESULTADOS CONTABLE</h4>
                 <p class="mb-0 text-muted small" style="font-family: 'Inter', sans-serif;">
                     Período Auditado: <strong class="text-dark">{{ fecha_inicio }}</strong> hasta <strong class="text-dark">{{ fecha_fin }}</strong><br>
                     Generado por sistema el: <strong class="text-dark">{{ fecha_generacion }}</strong>
@@ -144,7 +144,7 @@
                     <hr class="w-100 border-dark border-1 opacity-100">
                     <p class="mb-0 fw-bold" style="font-family: var(--font-heading);">Verificado y Autorizado</p>
                     <p class="text-muted small mb-0">{{ current_user.nombre }}</p>
-                    <p class="text-muted" style="font-size: 0.75rem;">Administración General • MY CASE</p>
+                    <p class="text-muted" style="font-size: 0.75rem;">Administración General • BURBUJA LILI</p>
                 </div>
             </div>
 
@@ -178,15 +178,15 @@
     background-color: #FFFFFF !important;
     border-radius: 12px;
     overflow: hidden;
-    color: #18181B;
-    border: 1px solid #FCE7F3;
+    color: #1A1A1A;
+    border: 1px solid #FDE8E8;
     font-family: 'Inter', sans-serif;
 }
 
 .table-financial thead th {
     background-color: #FFFFFF !important;
-    color: #71717A !important;
-    border-bottom: 2px solid #FF1493 !important;
+    color: #757575 !important;
+    border-bottom: 2px solid #FF1744 !important;
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 0.08em;
@@ -201,21 +201,22 @@
 
 .table-financial tbody td {
     padding: 0.9rem 1rem;
-    border-bottom: 1px solid #FCE7F3 !important;
-    color: #18181B !important;
+    border-bottom: 1px solid #FDE8E8 !important;
+    color: #1A1A1A !important;
     font-family: 'Inter', sans-serif;
 }
 
 .table-financial tbody tr:hover td {
-    background-color: #FFF1F7 !important;
+    background-color: #FFF5F5 !important;
 }
 
 .table-summary-row td {
     background-color: #FFFFFF !important;
-    border-top: 2px solid #FF1493 !important;
-    border-bottom: 2px solid #FF1493 !important;
+    border-top: 2px solid #FF1744 !important;
+    border-bottom: 2px solid #FF1744 !important;
     font-weight: 700;
 }
+
 
 /* ====== Estilos Exclusivos para PDF/Impresión del Reporte Financiero ====== */
 @media print {

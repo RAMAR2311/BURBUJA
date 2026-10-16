@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Pago Servidor - Zenic / My Case</title>
+    <title>Confirmación de Pago Servidor - Zenic / Burbuja Lili</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
@@ -145,9 +145,9 @@
 <body>
 
 <div class="confirmation-card">
-    <div class="card-header-brand">
-        <div class="brand-logo-text">My Case</div>
-        <div class="brand-subtitle-tag">Accesorios para tu celular</div>
+    <div class="card-header-brand" style="background: linear-gradient(135deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%);">
+        <div class="brand-logo-text" style="font-family: 'Comfortaa', 'Fredoka', cursive, sans-serif; font-weight: 700;">Burbuja Lili</div>
+        <div class="brand-subtitle-tag" style="letter-spacing: 0.22em; font-weight: 600;">Accesorios para tu celular</div>
         <div class="brand-badge"><i class="fa-solid fa-server me-1"></i> Zenic Software • Gestión de Servidor</div>
     </div>
 
@@ -164,9 +164,9 @@
 
         {% elif status == 'already_paid' %}
             <div class="status-icon text-success">
-                <i class="fa-solid fa-circle-check" style="color: #FF1493;"></i>
+                <i class="fa-solid fa-circle-check" style="color: #FF1744;"></i>
             </div>
-            <h3 class="fw-bold mb-2" style="color: #FF1493;">¡Pago Ya Confirmado!</h3>
+            <h3 class="fw-bold mb-2" style="color: #FF1744;">¡Pago Ya Confirmado!</h3>
             <p class="text-muted mb-4">La mensualidad correspondiente a este período ya se encuentra registrada como pagada.</p>
 
             <div class="info-pill text-start mb-3">
@@ -188,11 +188,11 @@
 
         {% elif status == 'success' %}
             <div class="status-icon text-success">
-                <i class="fa-solid fa-shield-heart" style="color: #FF1493;"></i>
+                <i class="fa-solid fa-shield-heart" style="color: #FF1744;"></i>
             </div>
             <h3 class="fw-bold text-success mb-2">¡Pago Confirmado! ✅</h3>
             <p class="text-muted fw-medium mb-4">
-                Alerta de vencimiento desactivada automáticamente en la aplicación My Case.
+                Alerta de vencimiento desactivada automáticamente en la aplicación Burbuja Lili.
             </p>
 
             <div class="info-pill text-start mb-4">
@@ -211,17 +211,17 @@
             </div>
 
             <div class="alert alert-success bg-success bg-opacity-10 border-success text-success rounded-3 small">
-                <i class="fa-solid fa-circle-info me-1"></i> El sistema My Case ha quedado actualizado y en estado <strong>Al día</strong>.
+                <i class="fa-solid fa-circle-info me-1"></i> El sistema Burbuja Lili ha quedado actualizado y en estado <strong>Al día</strong>.
             </div>
 
         {% elif status == 'form' %}
             <div class="mb-3">
-                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #FFF1F7; color: #FF1493; border: 1px solid #FCE7F3;">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #FFF5F5; color: #FF1744; border: 1px solid #FDE8E8;">
                     <i class="fa-solid fa-calendar-check me-1"></i> Mensualidad {{ mes_nombre }} {{ anio }}
                 </span>
             </div>
 
-            <h4 class="fw-bold mb-2" style="font-family: 'Montserrat', sans-serif; color: #18181B;">Autorizar Confirmación</h4>
+            <h4 class="fw-bold mb-2" style="font-family: 'Montserrat', sans-serif; color: #1A1A1A;">Autorizar Confirmación</h4>
             <p class="text-muted small mb-4">
                 Ingresa el PIN Secreto del Proveedor para confirmar el recibo de <strong>${{ monto }} COP</strong>.
             </p>
@@ -245,23 +245,22 @@
                            id="pin" 
                            class="form-control pin-input" 
                            placeholder="••••" 
-                           maxlength="10"
+                           maxlength="10" 
                            required 
                            autofocus
                            autocomplete="off">
                 </div>
 
-                <button type="submit" class="btn btn-confirm w-100">
+                <button type="submit" class="btn btn-confirm w-100" style="background: linear-gradient(135deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%);">
                     <i class="fa-solid fa-key me-2"></i> Confirmar Pago
                 </button>
             </form>
         {% endif %}
     </div>
 
-    <div class="card-footer text-center py-3" style="background-color: #FFFFFF; border-top: 1px solid var(--brand-border);">
-        <small class="text-muted"><i class="fa-solid fa-lock me-1"></i> Zenic Cloud Management System • My Case</small>
+    <div class="card-footer text-center py-3" style="background-color: #FFFFFF; border-top: 1px solid #FDE8E8;">
+        <small class="text-muted"><i class="fa-solid fa-lock me-1"></i> Zenic Cloud Management System • Burbuja Lili</small>
     </div>
 </div>
-
 </body>
 </html>

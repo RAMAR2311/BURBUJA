@@ -13,10 +13,10 @@
 
     .login-card {
         background-color: #FFFFFF;
-        border: 1px solid #FCE7F3;
+        border: 1px solid #FDE8E8;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 20px 45px rgba(255, 20, 147, 0.06), 0 4px 20px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 20px 45px rgba(255, 23, 68, 0.05), 0 4px 20px rgba(0, 0, 0, 0.02);
         border-radius: 24px;
     }
 
@@ -27,50 +27,50 @@
         left: 0;
         right: 0;
         height: 6px;
-        background: linear-gradient(135deg, #FF66B2 0%, #FF1493 50%, #C71585 100%);
+        background: linear-gradient(135deg, #FF5252 0%, #FF1744 50%, #B71C1C 100%);
     }
 
     .login-card .form-control {
         background-color: #FFFFFF !important;
-        border: 1px solid #FCE7F3 !important;
-        color: #18181B !important;
+        border: 1px solid #FDE8E8 !important;
+        color: #1A1A1A !important;
         font-family: var(--font-body);
         transition: all 0.2s ease;
     }
 
     .login-card .form-control:focus {
-        border-color: #FF1493 !important;
-        box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.2) !important;
+        border-color: #FF1744 !important;
+        box-shadow: 0 0 0 4px rgba(255, 23, 68, 0.18) !important;
         background-color: #FFFFFF !important;
     }
 
     .brand-hero-card {
         background-color: #FFFFFF;
-        border: 1px solid #FCE7F3;
+        border: 1px solid #FDE8E8;
         border-radius: 24px;
-        box-shadow: 0 20px 45px rgba(255, 20, 147, 0.05), 0 4px 18px rgba(0, 0, 0, 0.02);
+        box-shadow: 0 20px 45px rgba(255, 23, 68, 0.04), 0 4px 18px rgba(0, 0, 0, 0.02);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     .brand-hero-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 25px 55px rgba(255, 20, 147, 0.12);
+        box-shadow: 0 25px 55px rgba(255, 23, 68, 0.10);
     }
 
     .btn-login-submit {
-        background: #FF1493 !important;
+        background: #FF1744 !important;
         color: #FFFFFF !important;
         border: none !important;
         font-weight: 700;
         transition: all 0.25s ease;
-        box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+        box-shadow: 0 4px 15px rgba(255, 23, 68, 0.3);
     }
 
     .btn-login-submit:hover {
-        background: #E01080 !important;
+        background: #D5002F !important;
         color: #FFFFFF !important;
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(255, 20, 147, 0.45);
+        box-shadow: 0 8px 25px rgba(255, 23, 68, 0.45);
     }
 </style>
 
@@ -80,15 +80,15 @@
         <div class="card login-card p-4 p-md-5">
             <div class="text-center mb-4">
                 <div class="mb-3 d-inline-block">
-                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=mycase_v1" 
-                         alt="My Case Logo" 
+                    <img src="{{ url_for('static', filename='img/icons/icon-192x192.png') }}?v=burbuja_v2" 
+                         alt="Burbuja Lili Logo" 
                          class="img-fluid rounded-circle shadow-sm" 
-                         style="width: 100px; height: 100px; object-fit: contain; background: #FFFFFF; padding: 4px; border: 2px solid #FF1493; box-shadow: 0 0 16px rgba(255, 20, 147, 0.25);">
+                         style="width: 104px; height: 104px; object-fit: contain; background: #FFFFFF; padding: 4px; border: 2.5px solid #FF1744; box-shadow: 0 0 16px rgba(255, 23, 68, 0.20);">
                 </div>
                 <div class="d-flex justify-content-center align-items-center mb-1">
-                    <span class="brand-title-script" style="font-size: 3.2rem; text-shadow: 0 0 12px rgba(255, 20, 147, 0.2);">My Case</span>
+                    <span class="brand-title-script" style="font-size: 2.7rem; font-weight: 700; color: #FF1744; letter-spacing: -0.5px;">Burbuja Lili</span>
                 </div>
-                <p class="section-subtitle mb-0" style="font-size: 0.72rem; color: #71717A;">ACCESORIOS PARA TU CELULAR</p>
+                <p class="section-subtitle mb-0" style="font-size: 0.72rem; color: #757575; letter-spacing: 0.22em; font-weight: 600;">ACCESORIOS PARA TU CELULAR</p>
             </div>
             
             <form method="POST" action="/auth/login">
@@ -96,15 +96,15 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold text-dark small text-uppercase" style="letter-spacing: 0.1em; font-family: var(--font-heading);">Correo Electrónico</label>
                     <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-white border-end-0 text-secondary"><i class="fa-solid fa-envelope" style="color: #FF1493;"></i></span>
-                        <input type="email" class="form-control form-control-lg border-start-0" name="email" required placeholder="admin@mycase.com">
+                        <span class="input-group-text bg-white border-end-0 text-secondary"><i class="fa-solid fa-envelope" style="color: #FF1744;"></i></span>
+                        <input type="email" class="form-control form-control-lg border-start-0" name="email" required placeholder="admin@burbujalili.com">
                     </div>
                 </div>
                 
                 <div class="mb-4">
                     <label class="form-label fw-bold text-dark small text-uppercase" style="letter-spacing: 0.1em; font-family: var(--font-heading);">Contraseña</label>
                     <div class="input-group shadow-sm rounded-3 overflow-hidden">
-                        <span class="input-group-text bg-white border-end-0 text-secondary"><i class="fa-solid fa-lock" style="color: #FF1493;"></i></span>
+                        <span class="input-group-text bg-white border-end-0 text-secondary"><i class="fa-solid fa-lock" style="color: #FF1744;"></i></span>
                         <input type="password" class="form-control form-control-lg border-start-0" name="password" required placeholder="••••••••">
                     </div>
                 </div>
@@ -118,23 +118,23 @@
         </div>
     </div>
 
-    <!-- Columna Derecha: Branding Glam Visual My Case -->
+    <!-- Columna Derecha: Branding Visual Burbuja Lili -->
     <div class="col-md-6 col-lg-5 d-none d-md-flex flex-column justify-content-center align-items-center text-center p-4">
         <div class="p-4 p-lg-5 brand-hero-card text-center" style="max-width: 440px; width: 100%;">
             <div class="mb-4 text-center">
-                <img src="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=mycase_v1" 
-                     alt="My Case - Accesorios para tu celular" 
+                <img src="{{ url_for('static', filename='img/icons/icon-512x512.png') }}?v=burbuja_v2" 
+                     alt="Burbuja Lili - Accesorios para tu celular" 
                      class="img-fluid rounded-circle shadow-sm" 
-                     style="max-width: 240px; width: 100%; height: auto; aspect-ratio: 1/1; object-fit: contain; background: #FFFFFF; padding: 8px; border: 3px solid #FF1493; box-shadow: 0 0 25px rgba(255, 20, 147, 0.2);">
+                     style="max-width: 220px; width: 100%; height: auto; aspect-ratio: 1/1; object-fit: contain; background: #FFFFFF; padding: 8px; border: 3px solid #FF1744; box-shadow: 0 0 25px rgba(255, 23, 68, 0.18);">
             </div>
             <div class="mb-2">
-                <span class="brand-title-script" style="font-size: 3.5rem; text-shadow: 0 0 14px rgba(255, 20, 147, 0.25);">My Case</span>
+                <span class="brand-title-script" style="font-size: 3.1rem; color: #FF1744; font-weight: 700; letter-spacing: -0.5px;">Burbuja Lili</span>
             </div>
-            <div class="badge rounded-pill px-3 py-2 fw-semibold mb-3" style="background-color: rgba(255, 20, 147, 0.08); color: #FF1493; border: 1px solid #FCE7F3; font-size: 0.78rem; letter-spacing: 0.22em; font-family: var(--font-heading);">
+            <div class="badge rounded-pill px-3 py-2 fw-semibold mb-3" style="background-color: rgba(255, 23, 68, 0.08); color: #FF1744; border: 1px solid #FDE8E8; font-size: 0.76rem; letter-spacing: 0.22em; font-family: var(--font-heading);">
                 ACCESORIOS PARA TU CELULAR
             </div>
-            <p class="mb-0 fw-normal" style="line-height: 1.6; font-size: 0.92rem; font-family: var(--font-body); color: #71717A !important;">
-                Plataforma integral para facturación POS, control de inventario y gestión comercial de My Case.
+            <p class="mb-0 fw-normal" style="line-height: 1.6; font-size: 0.92rem; font-family: var(--font-body); color: #757575 !important;">
+                Plataforma integral para facturación POS, control de inventario y gestión comercial de Burbuja Lili.
             </p>
         </div>
     </div>

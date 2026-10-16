@@ -1,14 +1,14 @@
 {
     "id": "/",
-    "name": "My Case - Accesorios para tu celular",
-    "short_name": "My Case",
-    "description": "Sistema integral de gestión de inventario, punto de venta y finanzas My Case - Accesorios para tu celular",
+    "name": "Burbuja Lili - Accesorios para tu celular",
+    "short_name": "Burbuja Lili",
+    "description": "Sistema integral de punto de venta, inventario y gestión comercial Burbuja Lili - Accesorios para tu celular",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
     "orientation": "any",
     "background_color": "#FFFFFF",
-    "theme_color": "#FF1493",
+    "theme_color": "#FF1744",
     "prefer_related_applications": false,
     "categories": [
         "business",
