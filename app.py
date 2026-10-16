@@ -314,15 +314,20 @@ if __name__ == '__main__':
         # Crear la carpeta de imágenes si no existe
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         
-        if not User.query.filter(User.email.in_(['admin@mycases.com', 'admin@mycase.com', 'admin@maripocell.com', 'admin@mariposacel.com'])).first():
-            master_admin = User(
-                nombre='Administrador Principal',
-                email='admin@mycases.com',
-                password_hash=generate_password_hash('Admin123'),
-                rol='admin'
-            )
-            db.session.add(master_admin)
-            db.session.commit()
-            print("[INFO] Usuario maestro 'admin@mycases.com' fue creado automaticamente.")
+        # Semilla de Usuarios Iniciales
+        usuarios_iniciales = [
+            {'nombre': 'Administrador General', 'email': 'admin@burbujalili.com', 'pwd': 'admin123', 'rol': 'admin'},
+            {'nombre': 'Caja Local Tienda', 'email': 'local@burbujalili.com', 'pwd': 'local123', 'rol': 'vendedor'}
+        ]
+        for u_data in usuarios_iniciales:
+            if not User.query.filter_by(email=u_data['email']).first():
+                nuevo_u = User(
+                    nombre=u_data['nombre'],
+                    email=u_data['email'],
+                    password_hash=generate_password_hash(u_data['pwd']),
+                    rol=u_data['rol']
+                )
+                db.session.add(nuevo_u)
+        db.session.commit()
             
     app.run(debug=True)
