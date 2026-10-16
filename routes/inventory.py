@@ -921,7 +921,9 @@ def importar_inventario():
         if 'subcategoria' not in df.columns:
             df['subcategoria'] = ''
             
-        tipo = 'bodega' if current_user.rol == 'bodega' else 'tienda'
+        tipo = request.form.get('tipo_inventario') or request.args.get('tipo')
+        if tipo not in ['bodega', 'tienda']:
+            tipo = 'bodega' if current_user.rol in ['bodega', 'vendedor_bodega'] else 'tienda'
         creados = 0
         actualizados = 0
         
@@ -1056,12 +1058,14 @@ def importar_inventario():
                 creados += 1
                 
         db.session.commit()
-        flash(f'Carga masiva completada exitosamente. Productos creados: {creados} | Agregados a stock existente: {actualizados}.', 'success')
+        flash(f'Carga masiva completada exitosamente en {"Bodega" if tipo == "bodega" else "Tienda"}. Productos creados: {creados} | Agregados a stock existente: {actualizados}.', 'success')
         
     except Exception as e:
         db.session.rollback()
         flash(f'Ocurrió un error leyendo las filas de tu archivo: {str(e)}', 'danger')
         
+    if tipo == 'bodega':
+        return redirect(url_for('inventory_bp.bodega_index'))
     return redirect(url_for('inventory_bp.index'))
 
 @inventory_bp.route('/api/search')

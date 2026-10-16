@@ -394,6 +394,7 @@
         <div class="modal-content border-0 shadow">
             <form method="POST" action="{{ url_for('inventory_bp.importar_inventario') }}" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="tipo_inventario" value="tienda">
                 <div class="modal-header border-0 bg-light">
                     <h5 class="modal-title fw-bold text-success" id="importarModalLabel">
                         <i class="fa-solid fa-cloud-arrow-up me-2"></i>Carga Masiva de Productos
