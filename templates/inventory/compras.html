@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .search-result-item {
+        cursor: pointer;
+        transition: background-color 0.15s ease-in-out;
+    }
+    .search-result-item:hover {
+        background-color: #fdf2f2 !important;
+    }
+    .badge-variant-pill {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .badge-variant-pill:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(255, 23, 68, 0.2);
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="fw-bold text-brand-black m-0 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-cart-flatbed text-primary" style="color: #FF1744;"></i> Ingreso de Mercancía (Compras)
+        </h2>
+        <small class="text-muted">Aumenta el stock del inventario Tienda seleccionando el producto mediante búsqueda dinámica</small>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('inventory_bp.index') }}" class="btn btn-outline-secondary rounded-pill px-4 fw-bold shadow-sm">
+            <i class="fa-solid fa-box-open me-1"></i> Ver Inventario Tienda
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Panel Izquierdo: Formulario de Ingreso de Mercancía -->
+    <div class="col-lg-7">
+        <div class="card card-custom p-4 border-0 shadow-sm bg-white" style="border-radius: 16px;">
+            <div class="border-bottom pb-3 mb-4">
+                <h5 class="fw-bold text-brand-black mb-1">
+                    <i class="fa-solid fa-plus-circle text-primary me-2" style="color: #FF1744;"></i>
+                    Registrar Entrada de Productos
+                </h5>
+                <span class="text-muted small">Escribe en el buscador el nombre o SKU del producto para cargarlo automáticamente.</span>
+            </div>
+
+            <!-- BUSCADOR DINÁMICO EN TIEMPO REAL -->
+            <div class="position-relative mb-4">
+                <label class="form-label fw-bold text-brand-black mb-1">
+                    1. Buscar Producto en Inventario Tienda <span class="text-danger">*</span>
+                </label>
+                <div class="input-group input-group-lg shadow-sm rounded-pill border bg-white overflow-hidden">
+                    <span class="input-group-text bg-white border-0 ps-3 text-muted">
+                        <i class="fa-solid fa-magnifying-glass" id="comprasSearchIcon" style="color: #FF1744;"></i>
+                        <span class="spinner-border spinner-border-sm text-primary d-none" id="comprasSpinner" role="status"></span>
+                    </span>
+                    <input type="text" 
+                           id="comprasSearchInput" 
+                           class="form-control border-0 bg-white shadow-none ps-2" 
+                           placeholder="Escribe SKU o Nombre (ej: Cases, iPhone 14, Cargador)..." 
+                           autocomplete="off">
+                    <button class="btn btn-light border-0 px-3 text-muted d-none" type="button" id="comprasClearSearch" title="Limpiar">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <!-- Dropdown de resultados dinámicos -->
+                <div id="comprasDropdown" class="dropdown-menu shadow-lg border-0 w-100 p-0 mt-2 d-none" style="max-height: 380px; overflow-y: auto; z-index: 1050; border-radius: 16px;">
+                </div>
+            </div>
+
+            <!-- FICHA DE PRODUCTO SELECCIONADO -->
+            <div id="selectedProductCard" class="card border border-2 p-3 mb-4 bg-light rounded-4 d-none" style="border-color: #FDE8E8 !important;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="badge bg-success rounded-pill px-3 py-1 mb-2 fw-semibold">
+                            <i class="fa-solid fa-check me-1"></i> Producto Seleccionado
+                        </span>
+                        <h5 class="fw-bold text-brand-black mb-1" id="selProdNombre">-</h5>
+                        <div class="text-muted small">
+                            <span class="badge bg-white text-dark border me-1">SKU: <strong id="selProdSku">-</strong></span>
+                            <span>Stock actual: <strong id="selProdStock" class="text-primary">-</strong> uds.</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center" id="btnQuitarSeleccion" style="width: 32px; height: 32px;" title="Cambiar producto">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Contenedor para selector de Subcategorías/Variantes si aplica -->
+                <div id="variantsSelectionSection" class="mt-3 pt-3 border-top d-none">
+                    <label class="form-label small fw-bold text-brand-black mb-1">
+                        Subcategoría / Variante a ingresar:
+                    </label>
+                    <select id="variantSelect" class="form-select border shadow-none bg-white">
+                    </select>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE ENVÍO -->
+            <form method="POST" action="{{ url_for('inventory_bp.registrar_compra') }}" id="formRegistrarCompra">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="producto_id" id="hiddenProductoId" value="">
+                <input type="hidden" name="variante_id" id="hiddenVarianteId" value="">
+
+                <div class="row g-3">
+                    <!-- Cantidad a Ingresar -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-brand-black mb-1">
+                            2. Cantidad a Ingresar <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-boxes-stacked" style="color: #FF1744;"></i></span>
+                            <input type="number" 
+                                   name="cantidad" 
+                                   id="inputCantidad" 
+                                   min="1" 
+                                   value="1" 
+                                   class="form-control form-control-lg fw-bold" 
+                                   placeholder="0" 
+                                   required>
+                        </div>
+                        <small class="text-muted">Unidades que se sumarán al stock de tienda.</small>
+                    </div>
+
+                    <!-- Costo Unitario de Compra (Opcional) -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-brand-black mb-1">
+                            Nuevo Costo Unitario (Opcional)
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">$</span>
+                            <input type="number" 
+                                   step="1" 
+                                   name="nuevo_costo" 
+                                   id="inputNuevoCosto" 
+                                   class="form-control form-control-lg" 
+                                   placeholder="Dejar vacío si no cambia">
+                        </div>
+                        <small class="text-muted">Actualiza el precio de costo si varió.</small>
+                    </div>
+
+                    <!-- Proveedor -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-brand-black mb-1">
+                            Proveedor (Opcional)
+                        </label>
+                        <select name="proveedor_id" class="form-select bg-light border-0 shadow-none">
+                            <option value="">-- Sin especificar --</option>
+                            {% for prov in proveedores %}
+                                <option value="{{ prov.id }}">{{ prov.nombre }}{% if prov.empresa %} ({{ prov.empresa }}){% endif %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Número de Factura o Remisión -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-brand-black mb-1">
+                            N° Factura / Remisión (Opcional)
+                        </label>
+                        <input type="text" 
+                               name="numero_factura" 
+                               class="form-control bg-light border-0 shadow-none" 
+                               placeholder="Ej: FAC-9823">
+                    </div>
+
+                    <!-- Observaciones -->
+                    <div class="col-12">
+                        <label class="form-label fw-bold text-brand-black mb-1">
+                            Observación o Nota (Opcional)
+                        </label>
+                        <textarea name="observaciones" 
+                                  rows="2" 
+                                  class="form-control bg-light border-0 shadow-none" 
+                                  placeholder="Detalle adicional de la compra..."></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top text-end">
+                    <button type="submit" 
+                            id="btnConfirmarIngreso" 
+                            class="btn btn-blue px-5 py-3 rounded-pill fw-bold shadow-sm" 
+                            disabled>
+                        <i class="fa-solid fa-arrow-down-to-bracket me-2"></i> Confirmar Ingreso a Tienda
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Panel Derecho: Historial de Entradas Recientes -->
+    <div class="col-lg-5">
+        <div class="card card-custom p-4 border-0 shadow-sm bg-white h-100" style="border-radius: 16px;">
+            <div class="border-bottom pb-3 mb-3 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold text-brand-black mb-0">
+                    <i class="fa-solid fa-clock-rotate-left text-primary me-2" style="color: #FF1744;"></i>
+                    Entradas Recientes
+                </h5>
+                <span class="badge bg-light text-dark border rounded-pill px-3 py-1 small">Kardex Tienda</span>
+            </div>
+
+            <div class="table-responsive" style="max-height: 580px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-3">FECHA</th>
+                            <th>MOVIMIENTO</th>
+                            <th class="text-center">ST. ANT</th>
+                            <th class="text-center pe-3">ST. NUEVO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ingreso in ultimos_ingresos %}
+                        <tr>
+                            <td class="ps-3 text-muted text-nowrap">
+                                <small>{{ ingreso.fecha_ajuste.strftime('%d/%m %H:%M') }}</small>
+                            </td>
+                            <td>
+                                <div class="fw-semibold text-brand-black lh-sm">
+                                    {{ ingreso.tipo_movimiento }}
+                                </div>
+                                <small class="text-muted"><i class="fa-solid fa-user me-1"></i>{{ ingreso.admin.nombre }}</small>
+                            </td>
+                            <td class="text-center text-muted fw-bold">{{ ingreso.stock_anterior }}</td>
+                            <td class="text-center pe-3 text-success fw-bold">
+                                {{ ingreso.stock_nuevo }}
+                                <small class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-1">
+                                    +{{ ingreso.stock_nuevo - ingreso.stock_anterior }}
+                                </small>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="fa-solid fa-box-archive fs-2 mb-2 text-brand-pink"></i>
+                                <p class="mb-0 small">Aún no se han registrado ingresos de compras.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('comprasSearchInput');
+    const clearBtn = document.getElementById('comprasClearSearch');
+    const dropdown = document.getElementById('comprasDropdown');
+    const spinner = document.getElementById('comprasSpinner');
+    const icon = document.getElementById('comprasSearchIcon');
+    
+    const selectedCard = document.getElementById('selectedProductCard');
+    const selProdNombre = document.getElementById('selProdNombre');
+    const selProdSku = document.getElementById('selProdSku');
+    const selProdStock = document.getElementById('selProdStock');
+    const btnQuitar = document.getElementById('btnQuitarSeleccion');
+
+    const variantsSection = document.getElementById('variantsSelectionSection');
+    const variantSelect = document.getElementById('variantSelect');
+
+    const hiddenProductoId = document.getElementById('hiddenProductoId');
+    const hiddenVarianteId = document.getElementById('hiddenVarianteId');
+    const btnConfirmar = document.getElementById('btnConfirmarIngreso');
+    const inputNuevoCosto = document.getElementById('inputNuevoCosto');
+
+    let debounceTimer;
+    let currentSelectedProduct = null;
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Búsqueda en API con dropdown dinámico
+    function searchProducts(query) {
+        clearTimeout(debounceTimer);
+        if (!query || query.length < 1) {
+            dropdown.classList.add('d-none');
+            dropdown.classList.remove('show');
+            spinner.classList.add('d-none');
+            icon.classList.remove('d-none');
+            return;
+        }
+
+        spinner.classList.remove('d-none');
+        icon.classList.add('d-none');
+
+        debounceTimer = setTimeout(() => {
+            fetch(`/inventory/api/search?tipo=tienda&q=${encodeURIComponent(query)}`)
+                .then(r => r.json())
+                .then(data => {
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                    dropdown.innerHTML = '';
+
+                    if (data && data.length > 0) {
+                        data.forEach(item => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'dropdown-item p-3 border-bottom search-result-item';
+                            itemDiv.style.whiteSpace = 'normal';
+
+                            let variantesBadges = '';
+                            if (item.variantes && item.variantes.length > 0) {
+                                variantesBadges = '<div class="mt-2 d-flex flex-wrap gap-1">';
+                                item.variantes.forEach(v => {
+                                    variantesBadges += `<span class="badge bg-light text-dark border badge-variant-pill" style="font-size: 0.75rem;">${escapeHtml(v.nombre)} (${v.stock} uds)</span>`;
+                                });
+                                variantesBadges += '</div>';
+                            }
+
+                            itemDiv.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold text-brand-black" style="font-size: 0.96rem;">${escapeHtml(item.nombre)}</div>
+                                        <div class="small text-muted">
+                                            <span class="badge bg-light text-dark border me-1">SKU: ${escapeHtml(item.sku)}</span>
+                                            Costo actual: <strong>$${Number(item.precio_costo || 0).toLocaleString('es-CO')}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-light text-dark border rounded-pill px-3 py-1 fw-bold">
+                                            ${item.stock} uds en tienda
+                                        </span>
+                                    </div>
+                                </div>
+                                ${variantesBadges}
+                            `;
+
+                            itemDiv.addEventListener('click', function() {
+                                selectProduct(item);
+                            });
+
+                            dropdown.appendChild(itemDiv);
+                        });
+
+                        dropdown.classList.remove('d-none');
+                        dropdown.classList.add('show');
+                    } else {
+                        dropdown.innerHTML = `
+                            <div class="p-4 text-center text-muted">
+                                <i class="fa-solid fa-box-open text-brand-pink fs-3 mb-2"></i>
+                                <p class="mb-0 small fw-semibold">No se encontraron productos en Tienda para "<strong>${escapeHtml(query)}</strong>".</p>
+                            </div>
+                        `;
+                        dropdown.classList.remove('d-none');
+                        dropdown.classList.add('show');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error buscando:', err);
+                    spinner.classList.add('d-none');
+                    icon.classList.remove('d-none');
+                });
+        }, 220);
+    }
+
+    function selectProduct(product) {
+        currentSelectedProduct = product;
+        hiddenProductoId.value = product.id;
+
+        selProdNombre.textContent = product.nombre;
+        selProdSku.textContent = product.sku;
+        selProdStock.textContent = product.stock;
+
+        if (product.precio_costo > 0) {
+            inputNuevoCosto.placeholder = Number(product.precio_costo).toLocaleString('es-CO');
+        }
+
+        // Variantes
+        if (product.variantes && product.variantes.length > 0) {
+            variantsSection.classList.remove('d-none');
+            variantSelect.innerHTML = '';
+            product.variantes.forEach((v, idx) => {
+                const opt = document.createElement('option');
+                opt.value = v.id;
+                opt.textContent = `${v.nombre} (Stock actual: ${v.stock} uds | Costo: $${Number(v.precio_costo || product.precio_costo).toLocaleString('es-CO')})`;
+                if (idx === 0) {
+                    opt.selected = true;
+                    hiddenVarianteId.value = v.id;
+                }
+                variantSelect.appendChild(opt);
+            });
+        } else {
+            variantsSection.classList.add('d-none');
+            variantSelect.innerHTML = '';
+            hiddenVarianteId.value = '';
+        }
+
+        selectedCard.classList.remove('d-none');
+        btnConfirmar.disabled = false;
+
+        // Limpiar y cerrar buscador
+        searchInput.value = '';
+        clearBtn.classList.add('d-none');
+        dropdown.classList.add('d-none');
+        dropdown.classList.remove('show');
+    }
+
+    variantSelect.addEventListener('change', function() {
+        hiddenVarianteId.value = variantSelect.value;
+    });
+
+    btnQuitar.addEventListener('click', function() {
+        currentSelectedProduct = null;
+        hiddenProductoId.value = '';
+        hiddenVarianteId.value = '';
+        selectedCard.classList.add('d-none');
+        btnConfirmar.disabled = true;
+        searchInput.value = '';
+        searchInput.focus();
+    });
+
+    searchInput.addEventListener('input', function() {
+        const val = searchInput.value.trim();
+        if (val.length > 0) {
+            clearBtn.classList.remove('d-none');
+        } else {
+            clearBtn.classList.add('d-none');
+        }
+        searchProducts(val);
+    });
+
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        clearBtn.classList.add('d-none');
+        dropdown.classList.add('d-none');
+        dropdown.classList.remove('show');
+        searchInput.focus();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('d-none');
+            dropdown.classList.remove('show');
+        }
+    });
+});
+</script>
+{% endblock %}

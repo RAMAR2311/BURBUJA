@@ -276,6 +276,120 @@ def transferir_a_tienda():
 
     return redirect(url_for('inventory_bp.bodega_index'))
 
+@inventory_bp.route('/compras', methods=['GET'])
+@login_required
+@admin_or_bodega_required
+def compras_index():
+    from models import Provider
+    proveedores = Provider.query.order_by(Provider.nombre).all()
+    # Últimos 20 ingresos registrados en Kardex
+    ultimos_ingresos = StockAdjustment.query.join(Product).filter(
+        Product.tipo_inventario == 'tienda',
+        StockAdjustment.tipo_movimiento.ilike('%Ingreso de Mercancía%')
+    ).order_by(StockAdjustment.fecha_ajuste.desc()).limit(20).all()
+    
+    return render_template(
+        'inventory/compras.html',
+        proveedores=proveedores,
+        ultimos_ingresos=ultimos_ingresos
+    )
+
+@inventory_bp.route('/compras/registrar', methods=['POST'])
+@login_required
+@admin_or_bodega_required
+def registrar_compra():
+    try:
+        def parse_int(val):
+            try:
+                return int(val) if val not in [None, ''] else None
+            except (ValueError, TypeError):
+                return None
+
+        def parse_float(val):
+            try:
+                return float(val) if val not in [None, ''] else None
+            except (ValueError, TypeError):
+                return None
+
+        producto_id = parse_int(request.form.get('producto_id'))
+        variante_id = parse_int(request.form.get('variante_id'))
+        cantidad = parse_int(request.form.get('cantidad'))
+        nuevo_costo = parse_float(request.form.get('nuevo_costo'))
+        nuevo_sugerido = parse_float(request.form.get('nuevo_sugerido'))
+        proveedor_id = parse_int(request.form.get('proveedor_id'))
+        numero_factura = (request.form.get('numero_factura') or '').strip()
+        observaciones = (request.form.get('observaciones') or '').strip()
+
+        if not producto_id or not cantidad or cantidad <= 0:
+            flash('Debes seleccionar un producto válido e ingresar una cantidad mayor a 0.', 'warning')
+            return redirect(url_for('inventory_bp.compras_index'))
+
+        producto = Product.query.get_or_404(producto_id)
+        if producto.tipo_inventario != 'tienda':
+            flash('Solo se pueden ingresar compras al inventario de tienda mediante este módulo.', 'danger')
+            return redirect(url_for('inventory_bp.compras_index'))
+
+        variante = None
+        if variante_id:
+            variante = ProductVariant.query.get(variante_id)
+            if not variante or variante.product_id != producto.id:
+                flash('Variante seleccionada no válida.', 'danger')
+                return redirect(url_for('inventory_bp.compras_index'))
+
+        # Actualizar stock
+        stock_anterior = producto.total_stock
+        item_nombre = producto.nombre
+
+        if variante:
+            variante.cantidad_stock += cantidad
+            item_nombre = f"{producto.nombre} ({variante.nombre_variante})"
+            if nuevo_costo is not None and nuevo_costo > 0:
+                variante.precio_costo = nuevo_costo
+            if nuevo_sugerido is not None and nuevo_sugerido > 0:
+                variante.precio_sugerido = nuevo_sugerido
+            producto.cantidad_stock = 0
+        else:
+            producto.cantidad_stock += cantidad
+            if nuevo_costo is not None and nuevo_costo > 0:
+                producto.precio_costo = nuevo_costo
+            if nuevo_sugerido is not None and nuevo_sugerido > 0:
+                producto.precio_sugerido = nuevo_sugerido
+
+        stock_nuevo = producto.total_stock
+
+        # Armar detalle de movimiento para Kardex
+        detalles_doc = []
+        if numero_factura:
+            detalles_doc.append(f"Factura #{numero_factura}")
+        if proveedor_id:
+            from models import Provider
+            prov = Provider.query.get(proveedor_id)
+            if prov:
+                detalles_doc.append(f"Proveedor: {prov.nombre}")
+        if observaciones:
+            detalles_doc.append(f"Nota: {observaciones}")
+
+        str_detalles = f" [{', '.join(detalles_doc)}]" if detalles_doc else ""
+        mov_desc = f"Ingreso de Mercancía / Compra: +{cantidad} uds de {item_nombre}{str_detalles}"
+
+        ajuste = StockAdjustment(
+            product_id=producto.id,
+            admin_id=current_user.id,
+            tipo_movimiento=mov_desc,
+            stock_anterior=stock_anterior,
+            stock_nuevo=stock_nuevo
+        )
+        db.session.add(ajuste)
+        db.session.commit()
+
+        flash(f'¡Mercancía ingresada con éxito! Se sumaron +{cantidad} uds a "{item_nombre}" en Tienda (Stock actual: {stock_nuevo}).', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al registrar el ingreso de mercancía: {str(e)}', 'danger')
+
+    return redirect(url_for('inventory_bp.compras_index'))
+
 @inventory_bp.route('/nuevo', methods=['GET', 'POST'])
 @login_required
 @admin_or_bodega_required
@@ -984,6 +1098,8 @@ def api_search():
                     'id': v.id,
                     'nombre': v.nombre_variante,
                     'stock': v.cantidad_stock or 0,
+                    'precio_costo': float(v.precio_costo or p.precio_costo or 0),
+                    'precio_sugerido': float(v.precio_sugerido or p.precio_sugerido or 0),
                     'matches': q_lower in v.nombre_variante.lower()
                 })
         results.append({
@@ -991,6 +1107,7 @@ def api_search():
             'sku': p.sku,
             'nombre': p.nombre,
             'stock': p.total_stock,
+            'precio_costo': float(p.precio_costo or 0),
             'precio_sugerido': float(p.precio_sugerido or 0),
             'variantes': variantes_list,
             'url_ver': url_for('inventory_bp.ver_producto', id=p.id),
